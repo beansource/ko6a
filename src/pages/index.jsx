@@ -1,5 +1,5 @@
 import { Avatar, Box, Flex, Heading, Stack, useColorModeValue as mode } from '@chakra-ui/react'
-import { BsFillBookmarksFill, BsFillInboxFill, BsPencilSquare, BsSearch } from 'react-icons/bs'
+import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 import { data } from '../_data'
 import { MobileMenuButton } from '../components/MobileMenuButton'
 import { NavBreadcrumb } from '../components/NavBreadcrumb'
@@ -59,18 +59,11 @@ export default function App() {
               Search
             </SidebarLink>
             <Stack pb="6">
-              <SidebarLink icon={<BsFillInboxFill />}>Inbox</SidebarLink>
-              <SidebarLink icon={<BsFillBookmarksFill />}>Bookmarks</SidebarLink>
-              <SidebarLink icon={<BsPencilSquare />}>Drafts</SidebarLink>
+              <SidebarLink icon={<BsFillFolderFill />}>Projects</SidebarLink>
+              <SidebarLink icon={<BsTerminalFill />}>Console</SidebarLink>
             </Stack>
             <Stack pb="6">
-              <NavSectionTitle>Chats</NavSectionTitle>
-              <SidebarLink>🎉 Inbox</SidebarLink>
-              <SidebarLink>👍 Personal</SidebarLink>
-              <SidebarLink>🦋 Work</SidebarLink>
-            </Stack>
-            <Stack>
-              <NavSectionTitle>Members</NavSectionTitle>
+              <NavSectionTitle>Team</NavSectionTitle>
               {data.users.map((user, index) => (
                 <SidebarLink
                   key={index}
@@ -79,6 +72,13 @@ export default function App() {
                   {user.name}
                 </SidebarLink>
               ))}
+            </Stack>
+            <Stack>
+              <NavSectionTitle>Resources</NavSectionTitle>
+              <SidebarLink>Documentation</SidebarLink>
+              <SidebarLink href={data.github} target="_blank">
+                GitHub
+              </SidebarLink>
             </Stack>
           </ScrollArea>
         </Box>

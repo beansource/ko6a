@@ -1,4 +1,5 @@
 export const data = {
+  github: 'https://github.com/moncke/ko6a',
   users: [
     {
       name: 'Melinda Jones',
