@@ -1,5 +1,53 @@
 export const data = {
+  title: 'Ko6a',
   github: 'https://github.com/moncke/ko6a',
+  projects: [
+    {
+      org: 'Optum Engineer',
+      slug: 'oe',
+      repos: [
+        {
+          name: 'Overflow',
+          files: [
+            {
+              name: 'main.js'
+            },
+            {
+              name: 'dataio.js'
+            }
+          ]
+        },
+        {
+          name: 'Optum Tech University',
+          files: [
+            {
+              name: 'main.js'
+            },
+            {
+              name: 'learnsource.js'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      org: 'Ko6a',
+      slug: 'ko6a',
+      repos: [
+        {
+          name: 'Overflow',
+          files: [
+            {
+              name: 'main.js'
+            },
+            {
+              name: 'dataio.js'
+            }
+          ]
+        }
+      ]
+    }
+  ],
   users: [
     {
       name: 'Melinda Jones',
