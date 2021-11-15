@@ -1,5 +1,53 @@
 export const data = {
+  title: 'Ko6a',
   github: 'https://github.com/moncke/ko6a',
+  projects: [
+    {
+      org: 'Raycast',
+      slug: 'rc',
+      repos: [
+        {
+          name: 'App',
+          files: [
+            {
+              name: 'main.js'
+            },
+            {
+              name: 'search.js'
+            }
+          ]
+        },
+        {
+          name: 'Extensions',
+          files: [
+            {
+              name: 'main.js'
+            },
+            {
+              name: 'gitmoji.js'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      org: 'Ko6a',
+      slug: 'ko6a',
+      repos: [
+        {
+          name: 'Overflow',
+          files: [
+            {
+              name: 'main.js'
+            },
+            {
+              name: 'dataio.js'
+            }
+          ]
+        }
+      ]
+    }
+  ],
   users: [
     {
       name: 'Melinda Jones',
