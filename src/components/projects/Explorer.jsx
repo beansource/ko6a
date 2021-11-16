@@ -1,6 +1,11 @@
 import { Box, useColorModeValue as mode, SimpleGrid } from '@chakra-ui/react'
 import useSWR from 'swr'
 
+/**
+ * Explore a repository and its contents
+ * @param {*} props 
+ * @returns 
+ */
 export const Explorer = props => {
   const { org, repo, children } = props
   try {
@@ -12,9 +17,6 @@ export const Explorer = props => {
 
   return (
     <Box position="relative" p="8">
-      <Box fontWeight="bold" maxW="xl">
-        {`${org}/${repo}`} 
-      </Box>
       <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>
         {children}
       </Box>

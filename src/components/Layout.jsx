@@ -11,7 +11,10 @@ import { SidebarLink } from '../components/SidebarLink'
 import { useMobileMenuState } from '../components/useMobileMenuState'
 import { UserInfo } from '../components/UserInfo'
 
+import { useRouter } from 'next/router'
+
 export default function Layout({ children }) {
+  const router = useRouter()
   const { isOpen, toggle } = useMobileMenuState()
   return (
     <Flex
@@ -112,7 +115,7 @@ export default function Layout({ children }) {
             <Flex w="full" py="4" justify="space-between" align="center" px="10">
               <Flex align="center" minH="8">
                 <MobileMenuButton onClick={toggle} isOpen={isOpen} />
-                <NavBreadcrumb />
+                <NavBreadcrumb slug={router?.query?.slug} />
               </Flex>
               <SearchInput />
             </Flex>

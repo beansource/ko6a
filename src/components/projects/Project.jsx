@@ -3,6 +3,11 @@ import { HiCollection, HiPencilAlt, HiTrash } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import plur from 'plur'
 
+/**
+ * Deisgn used to list a user's Projects & its Repositories
+ * @param {*} props 
+ * @returns 
+ */
 export const Project = props => {
   const router = useRouter()
   const { title, children, repos, href } = props
