@@ -106,7 +106,12 @@ export const Repo = props => {
   const router = useRouter()
 
   return (
-    <Box position="relative" as="a" href={`${router.asPath}/${href}`}>
+    <Box position="relative" as="a" href={`${router.asPath}/${href}`} transition="ease-in-out"
+      _hover={{
+        transform: 'scale(1.01)',
+        transition: '0.3s'
+      }}
+    >
       <Box fontWeight="bold" maxW="xl">
         {repo}
       </Box>

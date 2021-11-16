@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import plur from 'plur'
 
 /**
- * Deisgn used to list a user's Projects & its Repositories
+ * Deisgn used to list a user's Projects
  * @param {*} props 
  * @returns 
  */
@@ -13,7 +13,12 @@ export const Project = props => {
   const { title, children, repos, href } = props
 
   return (
-    <Box position="relative" as="a" href={`${router.asPath}/${href}`}>
+    <Box position="relative" as="a" href={`${router.asPath}/${href}`} transition="ease-in-out"
+      _hover={{
+        transform: 'scale(1.01)',
+        transition: '0.3s'
+      }}
+    >
       <Box fontWeight="bold" maxW="xl">
         {title}
       </Box>
