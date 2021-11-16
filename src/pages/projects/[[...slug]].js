@@ -1,11 +1,11 @@
 import { data } from '../../_data'
 import { Project } from '../../components/projects/Project'
 import { useRouter } from 'next/router'
+import { Explorer } from '../../components/projects/Explorer'
 
 export default function Projects() {
   const router = useRouter()
   let { slug } = router?.query
-  
   return (
     <Box
       maxW={{
@@ -27,24 +27,25 @@ export default function Projects() {
         shadow="base"
         overflow="hidden"
       >
-        <Flex align="center" justify="space-between" px="6" py="4">
-          <Text as="h3" fontWeight="bold" fontSize="lg">
-            Projects
-          </Text>
-          <Button minW="20" leftIcon={<HiPlus />}>
-            Add
-          </Button>
-        </Flex>
-        <Divider />
-        <Explorer slug={slug} />
+        <ProjectExplorer slug={slug} />
       </Box>
     </Box>
   )
 }
 
-export const Explorer = props => {
-  if (props.slug) {
-    const repos = data?.projects?.find(({ slug }) => slug === props.slug.toString()).repos
+export const ProjectExplorer = props => {
+  const { slug } = props
+  if (slug) {
+    // shows contents of repo
+    if (slug[1]) {
+      return (
+        <Explorer org={slug[0]} repo={slug[1]} />
+      )
+    }
+
+    const repos = data?.projects?.find(({ org }) => org.toLowerCase() == slug).repos
+
+    // shows list of repos
     return (
       <Stack spacing="6" py="5" px="8" divider={<StackDivider />}>
         {repos?.map(repo => {
@@ -62,6 +63,8 @@ export const Explorer = props => {
       </Stack>
     )
   }
+
+  // shows projects
   return (
     <Stack spacing="6" py="5" px="8" divider={<StackDivider />}>
       {data?.projects.map(project => {
@@ -125,12 +128,10 @@ export const Repo = props => {
 }
 
 import {
-  Button, Box, HStack,
-  Divider, IconButton,
-  Flex,
+  Box, HStack,
+  IconButton,
   Stack,
   StackDivider,
   Text,
   useColorModeValue as mode,
 } from '@chakra-ui/react'
-import { HiPlus } from 'react-icons/hi'
