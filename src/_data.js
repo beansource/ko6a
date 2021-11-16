@@ -3,49 +3,44 @@ export const data = {
   github: 'https://github.com/moncke/ko6a',
   projects: [
     {
-      org: 'Optum Engineer',
-      slug: 'oe',
+      org: 'Moncke',
+      slug: 'moncke',
       repos: [
         {
-          name: 'Overflow',
-          files: [
-            {
-              name: 'main.js'
-            },
-            {
-              name: 'dataio.js'
-            }
-          ]
+          org: 'moncke',
+          repo: 'ko6a'
         },
         {
-          name: 'Optum Tech University',
-          files: [
-            {
-              name: 'main.js'
-            },
-            {
-              name: 'learnsource.js'
-            }
-          ]
-        }
-      ]
+          org: 'moncke',
+          repo: 'ko6a-site'
+        },
+      ],
     },
     {
-      org: 'Ko6a',
-      slug: 'ko6a',
+      org: 'Grafana',
+      slug: 'grafana',
       repos: [
         {
-          name: 'Overflow',
-          files: [
-            {
-              name: 'main.js'
-            },
-            {
-              name: 'dataio.js'
-            }
-          ]
-        }
-      ]
+          org: 'grafana',
+          repo: 'k6-template-typescript'
+        },
+        {
+          org: 'grafana',
+          repo: 'k6-example-google-cloud-cicd'
+        },
+        {
+          org: 'grafana',
+          repo: 'k6-example-aws-codebuild'
+        },
+        {
+          org: 'grafana',
+          repo: 'k6-template-es6'
+        },
+        {
+          org: 'grafana',
+          repo: 'k6-example-data-generation'
+        },
+      ],
     }
   ],
   users: [
