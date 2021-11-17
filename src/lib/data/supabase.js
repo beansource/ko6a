@@ -1,8 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_HOST, process.env.NEXT_PUBLIC_SUPABASE_KEY);
+
 const debug = () => {
-  const supabase = createClient('https://mhepvlfgizfzqprpayne.supabase.co', process.env.NEXT_PUBLIC_SUPABASE_KEY);
   supabase.from('repos').select().then(console.log)
+}
+
+const getAllRepos = () => {
+
 }
 
 export {

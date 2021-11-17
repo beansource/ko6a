@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { Project } from '@projects/Project'
 import { Repo } from '@projects/Repo'
 import { Explorer } from '@projects/Explorer'
-import { debug } from '@util/supabase'
+import { debug } from '@data/supabase'
 
 export default function Projects() {
 
