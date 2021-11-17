@@ -7,7 +7,7 @@ const debug = () => {
 }
 
 const getAllRepos = async () => {
-  return supabase.from('repos').select()
+  return supabase.from('projects').select()
 }
 
 export {
