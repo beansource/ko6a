@@ -1,8 +1,8 @@
 import { data } from '../../_data'
 import { useRouter } from 'next/router'
-import { Project } from '@/projects/Project'
-import { Repo } from '@/projects/Repo'
-import { Explorer } from '@/projects/Explorer'
+import { Project } from '@projects/Project'
+import { Repo } from '@projects/Repo'
+import { Explorer } from '@projects/Explorer'
 
 export default function Projects() {
   const router = useRouter()
