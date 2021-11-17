@@ -79,7 +79,7 @@ export default function Projects() {
         shadow="base"
         overflow="hidden"
       >
-        <Stack spacing="6" py="5" px="8" divider={<StackDivider />}>
+        <Stack spacing="4" py="5" px="8" divider={<StackDivider />}>
           {data?.projects.map(project => {
             return (
               <Project
@@ -100,30 +100,33 @@ export default function Projects() {
 
 import { FaGithubAlt } from 'react-icons/fa'
 import { BsFillFileEarmarkBinaryFill } from 'react-icons/bs'
+import { LinkBox, LinkOverlay } from '@chakra-ui/react'
 
 export const Repo = props => {
   const { repo, org, children, href } = props
   const router = useRouter()
 
   return (
-    <Box position="relative" as="a" href={`${router.asPath}/${href}`} transition="ease-in-out"
+    <LinkBox position="relative" transition="ease-in-out"
       _hover={{
         transform: 'scale(1.01)',
         transition: '0.3s'
       }}
     >
-      <Box fontWeight="bold" maxW="xl">
-        {repo}
-      </Box>
-      <HStack fontSize="sm" fontWeight="medium" color={mode('gray.500', 'white')} mt="1">
-        <Box as={BsFillFileEarmarkBinaryFill} fontSize="md" color="gray.400" />
-        <Text>
-          7b
-        </Text>
-      </HStack>
-      <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>
-        {children}
-      </Box>
+      <LinkOverlay as="a" href={`${router.asPath}/${href}`}>
+        <Box fontWeight="bold" maxW="xl">
+          {repo}
+        </Box>
+        <HStack fontSize="sm" fontWeight="medium" color={mode('gray.500', 'white')} mt="1">
+          <Box as={BsFillFileEarmarkBinaryFill} fontSize="md" color="gray.400" />
+          <Text>
+            7b
+          </Text>
+        </HStack>
+        <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>
+          {children}
+        </Box>
+      </LinkOverlay>
       <HStack
         position={{
           sm: 'absolute',
@@ -140,10 +143,10 @@ export const Repo = props => {
         }}
       >
         <IconButton aria-label="Git" icon={<FaGithubAlt />} rounded="full" size="sm" 
-          href={`https://github.com/${org}/${repo}`} isExternal
+          as="a" href={`https://github.com/${org}/${repo}`} target="_blank"
         />
       </HStack>
-    </Box>
+    </LinkBox>
   )
 }
 
