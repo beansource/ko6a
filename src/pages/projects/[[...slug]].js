@@ -1,10 +1,14 @@
 import { data } from '../../_data'
 import { useRouter } from 'next/router'
-import { Project } from '../../components/projects/Project'
-import { Repo } from '../../components/projects/Repo'
-import { Explorer } from '../../components/projects/Explorer'
+import { Project } from '@projects/Project'
+import { Repo } from '@projects/Repo'
+import { Explorer } from '@projects/Explorer'
+import { debug } from '@util/supabase'
 
 export default function Projects() {
+
+  debug()
+
   const router = useRouter()
   let { slug } = router?.query
   if (slug) {
