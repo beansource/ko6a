@@ -14,7 +14,7 @@ export const Project = props => {
   const { title, children, repos, href } = props
 
   return (
-    <LinkBox position="relative" as="a" transition="ease-in-out"
+    <LinkBox position="relative" transition="ease-in-out"
       _hover={{
         transform: 'scale(1.01)',
         transition: '0.3s'

@@ -20,7 +20,7 @@ export const Repo = props => {
         transition: '0.3s'
       }}
     >
-      <LinkOverlay as="a" href={`${router.asPath}/${href}`}>
+      <LinkOverlay href={`${router.asPath}/${href}`}>
         <Box fontWeight="bold" maxW="xl">
           {repo}
         </Box>
