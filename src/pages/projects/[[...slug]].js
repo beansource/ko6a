@@ -3,8 +3,12 @@ import { useRouter } from 'next/router'
 import { Project } from '@projects/Project'
 import { Repo } from '@projects/Repo'
 import { Explorer } from '@projects/Explorer'
+import { debug } from '@util/supabase'
 
 export default function Projects() {
+
+  debug()
+
   const router = useRouter()
   let { slug } = router?.query
   if (slug) {
