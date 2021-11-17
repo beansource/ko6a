@@ -2,7 +2,7 @@ import { Box, useColorModeValue as mode, SimpleGrid } from '@chakra-ui/react'
 import useSWR from 'swr'
 
 /**
- * Explore a repository and its contents
+ * Explore a Repository and its contents
  * @param {*} props 
  * @returns 
  */

@@ -1,6 +1,7 @@
 import { data } from '../../_data'
-import { Project } from '../../components/projects/Project'
 import { useRouter } from 'next/router'
+import { Project } from '../../components/projects/Project'
+import { Repo } from '../../components/projects/Repo'
 import { Explorer } from '../../components/projects/Explorer'
 
 export default function Projects() {
@@ -98,63 +99,9 @@ export default function Projects() {
   )
 }
 
-import { FaGithubAlt } from 'react-icons/fa'
-import { BsFillFileEarmarkBinaryFill } from 'react-icons/bs'
-import { LinkBox, LinkOverlay } from '@chakra-ui/react'
-
-export const Repo = props => {
-  const { repo, org, children, href } = props
-  const router = useRouter()
-
-  return (
-    <LinkBox position="relative" transition="ease-in-out"
-      _hover={{
-        transform: 'scale(1.01)',
-        transition: '0.3s'
-      }}
-    >
-      <LinkOverlay as="a" href={`${router.asPath}/${href}`}>
-        <Box fontWeight="bold" maxW="xl">
-          {repo}
-        </Box>
-        <HStack fontSize="sm" fontWeight="medium" color={mode('gray.500', 'white')} mt="1">
-          <Box as={BsFillFileEarmarkBinaryFill} fontSize="md" color="gray.400" />
-          <Text>
-            7b
-          </Text>
-        </HStack>
-        <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>
-          {children}
-        </Box>
-      </LinkOverlay>
-      <HStack
-        position={{
-          sm: 'absolute',
-        }}
-        top={{
-          sm: '0',
-        }}
-        insetEnd={{
-          sm: '0',
-        }}
-        mt={{
-          base: '4',
-          sm: '0',
-        }}
-      >
-        <IconButton aria-label="Git" icon={<FaGithubAlt />} rounded="full" size="sm" 
-          as="a" href={`https://github.com/${org}/${repo}`} target="_blank"
-        />
-      </HStack>
-    </LinkBox>
-  )
-}
-
 import {
-  Box, HStack,
-  IconButton,
+  Box,
   Stack,
   StackDivider,
-  Text,
   useColorModeValue as mode,
 } from '@chakra-ui/react'
