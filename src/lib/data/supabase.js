@@ -6,10 +6,11 @@ const debug = () => {
   supabase.from('repos').select().then(console.log)
 }
 
-const getAllRepos = () => {
-
+const getAllRepos = async () => {
+  return supabase.from('repos').select()
 }
 
 export {
-  debug
+  debug,
+  getAllRepos
 }
