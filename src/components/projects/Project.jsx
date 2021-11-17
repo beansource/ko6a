@@ -11,7 +11,7 @@ import plur from 'plur'
  */
 export const Project = props => {
   const router = useRouter()
-  const { title, children, repos, href } = props
+  const { title, children, repos, href, description } = props
 
   return (
     <LinkBox position="relative" transition="ease-in-out"

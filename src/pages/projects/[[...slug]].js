@@ -26,10 +26,8 @@ export default function Projects() {
               org={repo.org}
               repo={repo.repo}
               href={repo.repo}
-            >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, totam at
-              reprehenderit maxime aut beatae ad.
-            </Repo>
+              description={repo.description}
+            />
           )
         })}
       </Stack>
@@ -46,8 +44,7 @@ export default function Projects() {
             repos={project?.repos?.length ?? 0}
             href={project.slug}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, totam at
-            reprehenderit maxime aut beatae ad.
+            {project.description}
           </Project>
         )
       })}
@@ -56,8 +53,6 @@ export default function Projects() {
 }
 
 import {
-  Box,
   Stack,
-  StackDivider,
-  useColorModeValue as mode,
+  StackDivider
 } from '@chakra-ui/react'

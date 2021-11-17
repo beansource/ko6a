@@ -5,6 +5,7 @@ export const data = {
     {
       org: 'Moncke',
       slug: 'moncke',
+      description: 'Consectetur do quis in proident do aute ad exercitation. Dolor nostrud consectetur cillum officia officia culpa dolore mollit dolore nostrud deserunt id dolore duis enim.',
       repos: [
         {
           org: 'moncke',
@@ -19,6 +20,7 @@ export const data = {
     {
       org: 'Grafana',
       slug: 'grafana',
+      description: 'Grafana Labs is behind leading open source projects Grafana and Loki, and the creator of the first open & composable observability platform.',
       repos: [
         {
           org: 'grafana',
