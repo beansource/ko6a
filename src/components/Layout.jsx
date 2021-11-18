@@ -2,14 +2,14 @@ import { Avatar, Box, Flex, Stack, useColorModeValue as mode } from '@chakra-ui/
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 
 import { data } from '../_data'
-import { MobileMenuButton } from './MobileMenuButton'
-import { NavBreadcrumb } from './NavBreadcrumb'
-import { NavSectionTitle } from './NavSectionTitle'
-import { ScrollArea } from './ScrollArea'
-import { SearchInput } from './SearchInput'
-import { SidebarLink } from './SidebarLink'
-import { useMobileMenuState } from './useMobileMenuState'
-import { UserInfo } from './UserInfo'
+import { MobileMenuButton } from '../components/MobileMenuButton'
+import { NavBreadcrumb } from '../components/NavBreadcrumb'
+import { NavSectionTitle } from '../components/NavSectionTitle'
+import { ScrollArea } from '../components/ScrollArea'
+import { SearchInput } from '../components/SearchInput'
+import { SidebarLink } from '../components/SidebarLink'
+import { useMobileMenuState } from '../components/useMobileMenuState'
+import { UserInfo } from '../components/UserInfo'
 
 import { useRouter } from 'next/router'
 
