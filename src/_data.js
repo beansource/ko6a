@@ -42,8 +42,12 @@ export const data = {
           org: 'grafana',
           repo: 'k6-example-data-generation'
         },
+        {
+          org: 'grafana',
+          repo: 'k6'
+        },
       ],
-    }
+    },
   ],
   users: [
     {
