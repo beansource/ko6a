@@ -13,14 +13,7 @@ import { UserInfo } from '../components/UserInfo'
 export default function App() {
   const { isOpen, toggle } = useMobileMenuState()
   return (
-    <Flex
-      height="100vh"
-      bg={mode('blue.800', 'gray.800')}
-      overflow="hidden"
-      sx={{
-        '--sidebar-width': '16rem',
-      }}
-    >
+    <Flex height="100vh" bg={mode('blue.800', 'gray.800')} overflow="hidden" sx={{ '--sidebar-width': '16rem' }}>
       <Box
         as="nav"
         display="block"
