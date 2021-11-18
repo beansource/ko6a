@@ -1,14 +1,12 @@
+import { data } from '../../_data'
+import { useRouter } from 'next/router'
+import { Project } from '../../components/projects/Project'
+import { Repo } from '../../components/projects/Repo'
+import { Explorer } from '../../components/projects/Explorer'
+
 export default function Projects() {
   const router = useRouter()
-  const [projects, setProjects] = useState([])
   let { slug } = router?.query
-
-  useEffect(() => {
-    getAllRepos().then(({ data, error }) => {
-      setProjects(data)
-    })
-  }, [])
-
   if (slug) {
     // shows contents of repo
     if (slug[1]) {
@@ -39,12 +37,12 @@ export default function Projects() {
   // shows projects
   return (
     <Stack spacing="8" py="5" px="8" divider={<StackDivider />}>
-      {projects.map(project => {
+      {data?.projects.map(project => {
         return (
           <Project
-            title={project.name}
+            title={project.org}
             repos={project?.repos?.length ?? 0}
-            href={project.name}
+            href={project.slug}
           >
             {project.description}
           </Project>
@@ -54,15 +52,7 @@ export default function Projects() {
   )
 }
 
-import { data } from '../../_data'
-import { useRouter } from 'next/router'
-import { Project } from '@projects/Project'
-import { Repo } from '@projects/Repo'
-import { Explorer } from '@projects/Explorer'
-import { getAllRepos } from '@data/supabase'
-
 import {
   Stack,
   StackDivider
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'

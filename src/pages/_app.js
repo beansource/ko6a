@@ -8,7 +8,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <ColorModeProvider
-        options={{ useSystemColorMode: false }}
+        options={{
+          useSystemColorMode: true,
+        }}
       >
         <Head>
           <title>
