@@ -15,6 +15,8 @@ export default function Projects() {
     })
   }, [])
 
+  // pls deploy
+
   if (slug) {
     // shows contents of repo
     if (slug[1]) {
