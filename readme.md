@@ -13,3 +13,17 @@ other attributes:
 we want your app to be this strong, so we want to bring you a dashboard for managing your [k6](https://k6.io) performance tests
 
 see how to [contribute](contributing.md)
+
+- **framework**: [next.js](https://nextjs.org)
+- **styling**: [chakra ui](http://chakra-ui.com)
+
+```bash
+git clone https://github.com/moncke/ko6a
+cd ko6a
+yarn
+yarn dev
+```
+
+create a `.env.local` file similar to [`.env.example`](./.env.example)
+
+expects a github [personal access token](https://github.com/settings/tokens) with `repo` access

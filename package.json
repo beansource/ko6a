@@ -1,21 +1,26 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 1968",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^1.0.0",
-    "@chakra-ui/react": "^1.6.12",
+    "@chakra-ui/icons": "^1.1.0",
+    "@chakra-ui/react": "^1.7.0",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
+    "@octokit/rest": "^18.12.0",
     "framer-motion": "^4.0.3",
-    "next": "latest",
+    "next": "12.0.3",
+    "ohmyfetch": "^0.4.6",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "swr": "^1.0.1",
+    "titleize": "^3.0.0"
   },
   "devDependencies": {
+    "plur": "^5.0.0",
     "react-icons": "^4.3.1"
   }
 }

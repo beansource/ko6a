@@ -1,7 +1,6 @@
 import { Avatar, Box, HStack, Text, useColorModeValue as mode } from '@chakra-ui/react'
-import * as React from 'react'
 
-export const UserInfo = (props) => {
+export const UserInfo = props => {
   const { name, image, email } = props
   return (
     <HStack display="inline-flex">

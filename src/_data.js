@@ -1,30 +1,69 @@
 export const data = {
+  title: 'Ko6a',
   github: 'https://github.com/moncke/ko6a',
+  projects: [
+    {
+      org: 'Moncke',
+      slug: 'moncke',
+      description: 'Consectetur do quis in proident do aute ad exercitation. Dolor nostrud consectetur cillum officia officia culpa dolore mollit dolore nostrud deserunt id dolore duis enim.',
+      repos: [
+        {
+          org: 'moncke',
+          repo: 'ko6a'
+        },
+        {
+          org: 'moncke',
+          repo: 'ko6a-site'
+        },
+      ],
+    },
+    {
+      org: 'Grafana',
+      slug: 'grafana',
+      description: 'Grafana Labs is behind leading open source projects Grafana and Loki, and the creator of the first open & composable observability platform.',
+      repos: [
+        {
+          org: 'grafana',
+          repo: 'k6-template-typescript'
+        },
+        {
+          org: 'grafana',
+          repo: 'k6-example-google-cloud-cicd'
+        },
+        {
+          org: 'grafana',
+          repo: 'k6-example-aws-codebuild'
+        },
+        {
+          org: 'grafana',
+          repo: 'k6-template-es6'
+        },
+        {
+          org: 'grafana',
+          repo: 'k6-example-data-generation'
+        },
+        {
+          org: 'grafana',
+          repo: 'k6'
+        },
+      ],
+    },
+  ],
   users: [
     {
-      name: 'Melinda Jones',
+      name: 'Eric Carboni',
       image:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8aGVhZHNob3R8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
+        'https://images.unsplash.com/photo-1636992835279-3b6f34c2a385?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2071&q=80',
     },
     {
-      name: 'Ram Prakash',
+      name: 'Alex Swanson',
       image:
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhZHNob3R8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
+        'https://images.unsplash.com/photo-1627456060889-f8f5e8f65197?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=654&q=80',
     },
     {
-      name: 'Gernald Hawkins',
+      name: 'Former Contributor Kara',
       image:
         'https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mjd8fGhlYWRzaG90fGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      name: 'Jessie Munday',
-      image:
-        'https://images.unsplash.com/photo-1595875708571-854a3492c245?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NTZ8fGhlYWRzaG90fGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      name: 'Diana Fisher 🏳️‍🌈',
-      image:
-        'https://images.unsplash.com/photo-1531078215167-91fcfe45b39e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjF8fGhlYWRzaG90fGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60',
     },
   ],
 }
