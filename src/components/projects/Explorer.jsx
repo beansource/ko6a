@@ -2,6 +2,7 @@ import { Box, useColorModeValue as mode,
   Icon, Stack, Flex, Circle, Heading, Text } from '@chakra-ui/react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
+const prettyBytes = require('pretty-bytes')
 
 /**
  * Explore a Repository and its contents
@@ -24,7 +25,7 @@ export const Explorer = props => {
               return (
                 <ListItem
                   title={JSON.stringify(item.name).replaceAll('"', '')}
-                  subTitle={item.type === 'blob' ? `${item.object.byteSize}b` : null}
+                  subTitle={item.type === 'blob' ? `${prettyBytes(item.object.byteSize)}` : null}
                   icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
                     boxSize="4" />
                   }
