@@ -11,11 +11,11 @@ export default function Projects() {
     // shows contents of repo
     if (slug[1]) {
       return (
-        <Explorer org={slug[0]} repo={slug[1]} />
+        <Explorer slug={slug} org={slug[0]} repo={slug[1]} />
       )
     }
 
-    const repos = data?.projects?.find(({ org }) => org.toLowerCase() == slug).repos
+    const repos = data?.projects?.find(({ org }) => org.toLowerCase().replace(' ', '-') == slug).repos
 
     // shows list of repos
     return (

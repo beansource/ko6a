@@ -2,12 +2,12 @@ import { graphql } from '@octokit/graphql'
 
 export default async function handler(req, res) {
   const { repository } = await graphql({query: `
-    query repository($owner: String!, $repo: String!) {
+    query repository($owner: String!, $repo: String!, $path: String) {
       repository(owner:$owner, name:$repo) {
         description
         stargazerCount
         updatedAt
-        object(expression: "HEAD:") {
+        object(expression: $path) {
           ...on Tree {
             entries {
               name
@@ -15,6 +15,11 @@ export default async function handler(req, res) {
               object {
                 ... on Blob {
                   byteSize
+                }
+                ... on Tree {
+                  entries {
+                    name
+                  }
                 }
               }
             }
@@ -24,6 +29,7 @@ export default async function handler(req, res) {
     }`,
     owner: req.body.owner,
     repo: req.body.repo,
+    path: req.body.path,
     headers: {
       authorization: `token ${process.env.GITHUB_AUTH_TOKEN}`
     }

@@ -1,18 +1,47 @@
 import { Box, useColorModeValue as mode,
-  Icon, Stack, Flex, Circle, Heading, Text } from '@chakra-ui/react'
+  Icon, Stack, Flex, Circle, Heading, Text,
+  LinkBox, LinkOverlay } from '@chakra-ui/react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
 const prettyBytes = require('pretty-bytes')
-
+import { useRouter } from 'next/router'
 /**
  * Explore a Repository and its contents
  * @param {*} props 
  * @returns 
  */
 export const Explorer = props => {
-  const { org, repo, children } = props
-  const { data } = useSWR(['/api/github', org, repo], fetcher)
+  const router = useRouter()
+  const { org, repo, slug, children } = props
+  slug.splice(0, 2) // remove repo and org
+  const path = `HEAD:${slug.join('/')}`
+  const { data } = useSWR(['/api/github', org, repo, path], fetcher, {
+    refreshInterval: 0
+  })
 
+  const contents = data?.repository?.object?.entries?.map(item => {
+    let byteSize, treeSize
+    if (item?.type === 'blob') {
+      byteSize = item.object.byteSize
+    } else if (item?.type === 'tree') {
+      treeSize = item.object?.entries?.length
+    }
+    return (
+      <LinkBox>
+        <LinkOverlay href={`${router.asPath}/${item.name}`}>
+          <ListItem
+            title={JSON.stringify(item.name).replaceAll('"', '')}
+            subTitle={item.type === 'blob' ? `${prettyBytes(byteSize)}` : `${treeSize} items`}
+            icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
+              boxSize="4" />
+            }
+          >
+            <Placeholder />
+          </ListItem>
+        </LinkOverlay>
+      </LinkBox>
+    )
+  })
   return (
     <Box position="relative" p="8">
       <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>
@@ -21,19 +50,7 @@ export const Explorer = props => {
       <Box as="section">
         <Box maxW="4xl" mx="auto" p={{ base: '4', md: '8' }}>
           <List spacing="4">
-            {data?.repository?.object?.entries?.map(item => {
-              return (
-                <ListItem
-                  title={JSON.stringify(item.name).replaceAll('"', '')}
-                  subTitle={item.type === 'blob' ? `${prettyBytes(item.object.byteSize)}` : null}
-                  icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
-                    boxSize="4" />
-                  }
-                >
-                  <Placeholder />
-                </ListItem>
-              )
-            })}
+            {contents}
           </List>
         </Box>
       </Box>
@@ -106,11 +123,12 @@ export const Placeholder = props => (
   />
 )
 
-const fetcher = (url, owner, repo) => fetch(url, {
+const fetcher = (url, owner, repo, path) => fetch(url, {
   method: 'POST',
   body: JSON.stringify({
     owner,
-    repo
+    repo,
+    path
   }),
   headers: {
     'Content-Type': 'application/json'

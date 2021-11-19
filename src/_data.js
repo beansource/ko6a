@@ -1,18 +1,18 @@
 export const data = {
   title: 'Ko6a',
-  github: 'https://github.com/moncke/ko6a',
+  github: 'https://github.com/goo-lagoon/ko6a',
   projects: [
     {
-      org: 'Moncke',
-      slug: 'moncke',
-      description: 'Consectetur do quis in proident do aute ad exercitation. Dolor nostrud consectetur cillum officia officia culpa dolore mollit dolore nostrud deserunt id dolore duis enim.',
+      org: 'Goo Lagoon',
+      slug: 'goo-lagoon',
+      description: 'Ahh goo lagoon, a stinky mud puddle for you and me...but to the inhabitants of bikini bottom, a wonderful stinky mud puddle',
       repos: [
         {
-          org: 'moncke',
+          org: 'goo-lagoon',
           repo: 'ko6a'
         },
         {
-          org: 'moncke',
+          org: 'goo-lagoon',
           repo: 'ko6a-site'
         },
       ],
