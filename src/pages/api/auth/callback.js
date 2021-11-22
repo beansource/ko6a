@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
-  const { query } = req;
-  const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;
+  const { query } = req
+  const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env
 
   if (query?.code) {
     const response = await fetch('https://github.com/login/oauth/access_token', {
@@ -14,12 +14,12 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
-    });
-    const token = await response.json();
-    res.redirect(`/?token=${token.access_token}`);
+    })
+    const token = await response.json()
+    res.redirect(`/?token=${token.access_token}`)
   }
   else {
-    res.status(500);
+    res.status(500)
   }
   
 }

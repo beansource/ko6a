@@ -7,7 +7,7 @@ export const getViewerQuery = `
       bio
       login
     }
-  }`;
+  }`
 
 export const getFollowersQuery = `
   query { 
@@ -20,7 +20,7 @@ export const getFollowersQuery = `
         }
       }
     }
-  }`;
+  }`
 
 export const getRepoQuery = `
   query repository($owner: String!, $repo: String!) {
@@ -42,4 +42,4 @@ export const getRepoQuery = `
         }
       }
     }
-  }`;
+  }`

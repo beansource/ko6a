@@ -1,11 +1,11 @@
 import { Box, useColorModeValue as mode,
   Icon, Stack, Flex, Circle, Heading, Text } from '@chakra-ui/react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
-import useSWR from 'swr';
-const prettyBytes = require('pretty-bytes');
-import { getRepoQuery } from '../../utils/queries';
-import { useToken } from '../../utils/hooks';
-import React from 'react';
+import useSWR from 'swr'
+const prettyBytes = require('pretty-bytes')
+import { getRepoQuery } from '../../utils/queries'
+import { useToken } from '../../utils/hooks'
+import React from 'react'
 
 /**
  * Explore a Repository and its contents
@@ -13,9 +13,9 @@ import React from 'react';
  * @returns 
  */
 export const Explorer = props => {
-  const { org, repo, children } = props;
-  const token = useToken();
-  const { data } = useSWR(['/api/github', getRepoQuery, { org, repo }, token], fetcher);
+  const { org, repo, children } = props
+  const token = useToken()
+  const { data } = useSWR(['/api/github', getRepoQuery, { org, repo }, token], fetcher)
 
   return (
     <Box position="relative" p="8">
