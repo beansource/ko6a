@@ -5,6 +5,7 @@ import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
 const prettyBytes = require('pretty-bytes')
 import { useRouter } from 'next/router'
+
 /**
  * Explore a Repository and its contents
  * @param {*} props 
@@ -14,10 +15,8 @@ export const Explorer = props => {
   const router = useRouter()
   const { org, repo, slug, children } = props
   slug.splice(0, 2) // remove repo and org
-  const path = `HEAD:${slug.join('/')}`
-  const { data } = useSWR(['/api/github', org, repo, path], fetcher, {
-    refreshInterval: 0
-  })
+  const path = `HEAD:${slug?.join('/')}`
+  const { data } = useSWR(['/api/github', org, repo, path], fetcher)
 
   const contents = data?.repository?.object?.entries?.map(item => {
     let byteSize, treeSize
