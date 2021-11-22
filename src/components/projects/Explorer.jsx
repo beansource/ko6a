@@ -3,6 +3,9 @@ import { Box, useColorModeValue as mode,
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
 const prettyBytes = require('pretty-bytes')
+import { getRepoQuery } from '../../utils/queries'
+import { useToken } from '../../utils/hooks'
+import React from 'react'
 
 /**
  * Explore a Repository and its contents
@@ -11,7 +14,8 @@ const prettyBytes = require('pretty-bytes')
  */
 export const Explorer = props => {
   const { org, repo, children } = props
-  const { data } = useSWR(['/api/github', org, repo], fetcher)
+  const token = useToken()
+  const { data } = useSWR(['/api/github', getRepoQuery, { org, repo }, token], fetcher)
 
   return (
     <Box position="relative" p="8">
@@ -21,7 +25,7 @@ export const Explorer = props => {
       <Box as="section">
         <Box maxW="4xl" mx="auto" p={{ base: '4', md: '8' }}>
           <List spacing="4">
-            {data?.repository?.object?.entries?.map(item => {
+            {data?.data?.repository?.object?.entries?.map(item => {
               return (
                 <ListItem
                   title={JSON.stringify(item.name).replaceAll('"', '')}
@@ -72,8 +76,6 @@ export const ListItem = props => {
   )
 }
 
-import * as React from 'react'
-
 export const List = props => {
   const { children, ...stackProps } = props
   const items = React.useMemo(
@@ -106,11 +108,12 @@ export const Placeholder = props => (
   />
 )
 
-const fetcher = (url, owner, repo) => fetch(url, {
+const fetcher = (url, query, variables, token) => fetch(url, {
   method: 'POST',
   body: JSON.stringify({
-    owner,
-    repo
+    query,
+    variables,
+    token
   }),
   headers: {
     'Content-Type': 'application/json'

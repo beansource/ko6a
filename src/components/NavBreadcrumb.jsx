@@ -17,7 +17,7 @@ export const NavBreadcrumb = props => {
           name: path,
           href: '/' + linkPath.slice(0, i + 1).join('/')
         }
-      });
+      })
 
       setBreadcrumbs(routerPath)
     }
