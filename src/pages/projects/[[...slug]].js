@@ -3,11 +3,15 @@ export default function Projects() {
   const [projects, setProjects] = useState([])
   let { slug } = router?.query
 
-  useEffect(() => {
-    getAllRepos().then(({ data, error }) => {
-      setProjects(data)
-    })
-  }, [])
+  const { data, error } = useSWR('/api/projects', $fetch)
+
+  if (data) {
+    console.log(data)
+  }
+
+  if (error) {
+    console.log(error)
+  }
 
   // pls deploy
 
@@ -56,15 +60,16 @@ export default function Projects() {
   )
 }
 
-import { data } from '../../_data'
 import { useRouter } from 'next/router'
 import { Project } from '@projects/Project'
 import { Repo } from '@projects/Repo'
 import { Explorer } from '@projects/Explorer'
-import { getAllRepos } from '@data/supabase'
+import useSWR from 'swr'
+import { $fetch } from 'ohmyfetch'
 
 import {
   Stack,
   StackDivider
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+

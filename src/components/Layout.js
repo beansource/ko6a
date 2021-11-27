@@ -163,7 +163,7 @@ export default function Layout({ children }) {
   ) : (
     <Flex direction="row" width="100vw" height="100vh" align="center" justify="center" 
       bg={mode('blue.800', 'gray.800')}>
-      <Link href={process.env.GITHUB_AUTH_URL}>
+      <Link href={process.env.NEXT_PUBLIC_GITHUB_AUTH_URL}>
         <Button>Login</Button>
       </Link>
     </Flex>
