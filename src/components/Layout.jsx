@@ -2,14 +2,14 @@ import { Avatar, Box, Flex, Stack, Button, Link, useColorModeValue as mode } fro
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 
 import { data } from '../_data'
-import { MobileMenuButton } from '../components/MobileMenuButton'
-import { NavBreadcrumb } from '../components/NavBreadcrumb'
-import { NavSectionTitle } from '../components/NavSectionTitle'
-import { ScrollArea } from '../components/ScrollArea'
-import { SearchInput } from '../components/SearchInput'
-import { SidebarLink } from '../components/SidebarLink'
-import { useMobileMenuState } from '../components/useMobileMenuState'
-import { UserInfo } from '../components/UserInfo'
+import { MobileMenuButton } from './MobileMenuButton'
+import { NavBreadcrumb } from './NavBreadcrumb'
+import { NavSectionTitle } from './NavSectionTitle'
+import { ScrollArea } from './ScrollArea'
+import { SearchInput } from './SearchInput'
+import { SidebarLink } from './SidebarLink'
+import { useMobileMenuState } from './useMobileMenuState'
+import { UserInfo } from './UserInfo'
 
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -23,8 +23,6 @@ export default function Layout({ children }) {
   const token = useToken()
   const [user, setUser] = useState()
   const [followers, setFollowers] = useState()
-
-  const githubLogin = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=user%20repo`
 
   useEffect(async () => {
     if (router?.query?.token) {
@@ -165,7 +163,7 @@ export default function Layout({ children }) {
   ) : (
     <Flex direction="row" width="100vw" height="100vh" align="center" justify="center" 
       bg={mode('blue.800', 'gray.800')}>
-      <Link href={githubLogin}>
+      <Link href={process.env.NEXT_PUBLIC_GITHUB_AUTH_URL}>
         <Button>Login</Button>
       </Link>
     </Flex>
