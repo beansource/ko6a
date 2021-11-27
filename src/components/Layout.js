@@ -24,8 +24,6 @@ export default function Layout({ children }) {
   const [user, setUser] = useState()
   const [followers, setFollowers] = useState()
 
-  const githubLogin = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=user%20repo`
-
   useEffect(async () => {
     if (router?.query?.token) {
       window.localStorage.setItem('ko6aToken', router.query.token)
@@ -165,7 +163,7 @@ export default function Layout({ children }) {
   ) : (
     <Flex direction="row" width="100vw" height="100vh" align="center" justify="center" 
       bg={mode('blue.800', 'gray.800')}>
-      <Link href={githubLogin}>
+      <Link href={process.env.GITHUB_AUTH_URL}>
         <Button>Login</Button>
       </Link>
     </Flex>
