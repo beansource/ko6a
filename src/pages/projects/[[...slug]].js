@@ -3,18 +3,6 @@ export default function Projects() {
   const [projects, setProjects] = useState([])
   let { slug } = router?.query
 
-  const { data, error } = useSWR('/api/projects', $fetch)
-
-  if (data) {
-    console.log(data)
-  }
-
-  if (error) {
-    console.log(error)
-  }
-
-  // pls deploy
-
   if (slug) {
     // shows contents of repo
     if (slug[1]) {
@@ -64,8 +52,6 @@ import { useRouter } from 'next/router'
 import { Project } from '@projects/Project'
 import { Repo } from '@projects/Repo'
 import { Explorer } from '@projects/Explorer'
-import useSWR from 'swr'
-import { $fetch } from 'ohmyfetch'
 
 import {
   Stack,
