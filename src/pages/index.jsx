@@ -1,6 +1,6 @@
 import { Box, Heading, Stack, SimpleGrid, Text } from '@chakra-ui/react'
 import { GiGorilla } from 'react-icons/gi'
-import { FcTimeline, FcInTransit, FcFactory, FcDeployment, FcElectronics } from 'react-icons/fc';
+import { FcTimeline, FcInTransit, FcFactory, FcDeployment, FcElectronics } from 'react-icons/fc'
 
 export default function Home() {
   return (
