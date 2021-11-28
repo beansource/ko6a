@@ -23,6 +23,7 @@ model repo {
   createdAt     DateTime? @default(now()) @db.Timestamptz(6)
   owner         String
   repo          String
+  description   String?
   parentProject String?   @db.VarChar
   project       project?  @relation(fields: [parentProject], references: [name], onDelete: NoAction, onUpdate: NoAction)
 

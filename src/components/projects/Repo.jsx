@@ -10,7 +10,7 @@ import { BsFillFileEarmarkBinaryFill } from 'react-icons/bs'
  * @returns 
  */
 export const Repo = props => {
-  const { repo, org, children, href } = props
+  const { name, owner, children, href } = props
   const router = useRouter()
 
   return (
@@ -22,7 +22,7 @@ export const Repo = props => {
     >
       <LinkOverlay href={`${router.asPath}/${href}`}>
         <Box fontWeight="bold" maxW="xl">
-          {repo}
+          {name}
         </Box>
         <HStack fontSize="sm" fontWeight="medium" color={mode('gray.500', 'white')} mt="1">
           <Box as={BsFillFileEarmarkBinaryFill} fontSize="md" color="gray.400" />
@@ -50,7 +50,7 @@ export const Repo = props => {
         }}
       >
         <IconButton aria-label="Git" icon={<FaGithubAlt />} rounded="full" size="sm" 
-          as="a" href={`https://github.com/${org}/${repo}`} target="_blank"
+          as="a" href={`https://github.com/${owner}/${name}`} target="_blank"
         />
       </HStack>
     </LinkBox>
