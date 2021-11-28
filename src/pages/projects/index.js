@@ -10,7 +10,7 @@ export default function Projects() {
       {projects?.map(project => {
         return (
           <Project
-            title={project.org}
+            title={project.name}
             repos={project?.repos?.length ?? 0}
             href={project.name}
           >

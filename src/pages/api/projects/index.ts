@@ -6,7 +6,7 @@ export default async function handler(_req, res) {
 
   if (projects) {
     res.json(projects)
+  } else {
+    return res.status(404).json({ error: 'No projects found :(' })
   }
-
-  return res.status(404).json({ error: 'No projects found :(' })
 }

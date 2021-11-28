@@ -1,10 +1,9 @@
-import { Box, useColorModeValue as mode,
-  Icon, Stack, Flex, Circle, Heading, Text,
-  LinkBox, LinkOverlay } from '@chakra-ui/react'
+import { Box, useColorModeValue as mode, Icon, Stack, Flex, Circle, Heading, Text, LinkBox, LinkOverlay } from '@chakra-ui/react'
+import React from 'react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
-const prettyBytes = require('pretty-bytes')
 import { useRouter } from 'next/router'
+const prettyBytes = require('pretty-bytes')
 
 /**
  * Explore a Repository and its contents
@@ -12,13 +11,16 @@ import { useRouter } from 'next/router'
  * @returns 
  */
 export const Explorer = props => {
+  const { owner, repo, children } = props
+  
   const router = useRouter()
-  const { org, repo, slug, children } = props
-  slug.splice(0, 2) // remove repo and org
-  const path = `HEAD:${slug?.join('/')}`
-  const { data } = useSWR(['/api/github', org, repo, path], fetcher)
+  const { slug } = router.query
+  const newSlugs = slug?.slice(2, slug.length + 1)
+  
+  const path = `HEAD:${newSlugs?.join('/')}`
+  const { data } = useSWR(['/api/github', owner, repo, path], fetcher)
 
-  const contents = data?.repository?.object?.entries?.map(item => {
+  const contents = data?.repository?.object?.entries?.map((item, idx) => {
     let byteSize, treeSize
     if (item?.type === 'blob') {
       byteSize = item.object.byteSize
@@ -29,7 +31,7 @@ export const Explorer = props => {
       <LinkBox>
         <LinkOverlay href={`${router.asPath}/${item.name}`}>
           <ListItem
-            title={JSON.stringify(item.name).replaceAll('"', '')}
+            title={JSON.stringify(item.name).replaceAll('"', '')} id={idx}
             subTitle={item.type === 'blob' ? `${prettyBytes(byteSize)}` : `${treeSize} items`}
             icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
               boxSize="4" />
@@ -41,6 +43,7 @@ export const Explorer = props => {
       </LinkBox>
     )
   })
+
   return (
     <Box position="relative" p="8">
       <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>
@@ -120,14 +123,17 @@ export const Placeholder = props => (
   />
 )
 
-const fetcher = (url, owner, repo, path) => fetch(url, {
-  method: 'POST',
-  body: JSON.stringify({
-    owner,
-    repo,
-    path
-  }),
-  headers: {
-    'Content-Type': 'application/json'
-  }
-}).then(res => res.json())
+const fetcher = (url, owner, repo, path) => {
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      owner,
+      repo,
+      path,
+      token: window.localStorage.getItem('ko6aToken')
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json())
+}

@@ -1,7 +1,8 @@
 import { graphql } from '@octokit/graphql'
+import { NextApiRequest } from 'next'
 
-export default async function handler(req, res) {
-  const { repository } = await graphql({query: `
+export default async function handler(req: NextApiRequest, res) {
+  const { repository } = await graphql({ query: `
     query repository($owner: String!, $repo: String!, $path: String) {
       repository(owner:$owner, name:$repo) {
         description
@@ -31,9 +32,9 @@ export default async function handler(req, res) {
     repo: req.body.repo,
     path: req.body.path,
     headers: {
-      authorization: `token ${body.token}`
+      authorization: `token ${req.body.token}`
     }
   })
 
-  res.status(200).json({ data })
+  res.status(200).json({ repository })
 }

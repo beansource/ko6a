@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (projectData) {
     res.json(projectData)
+  } else {
+    res.status(404).json({ message: 'Project not found :(' })
   }
-
-  res.status(404).json({ message: 'Project not found :(' })
 }
