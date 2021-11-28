@@ -25,7 +25,7 @@ yarn
 
 create a `.env.local` file similar to [`.env.example`](./.env.example)
 
-expects a github [personal access token](https://github.com/settings/tokens) with `repo` access
+expects a github [personal access token](https://github.com/settings/tokens) with `repo` and `read:user` access
 
 ```bash
 yarn dev
