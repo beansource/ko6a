@@ -13,8 +13,8 @@ import { UserInfo } from './UserInfo'
 
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { getViewer, getFollowers } from '../utils/githubApi'
-import { useToken } from '../utils/hooks'
+import { getViewer, getFollowers } from '../util/githubApi'
+import { useToken } from '../util/hooks'
 
 export default function Layout({ children }) {
   const router = useRouter()

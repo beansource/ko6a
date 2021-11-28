@@ -3,6 +3,8 @@ import { data } from '../_data'
 import Head from 'next/head'
 import theme from '../theme'
 import Layout from '../components/Layout'
+import { SWRConfig } from 'swr'
+import { $fetch } from 'ohmyfetch'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -10,14 +12,16 @@ function MyApp({ Component, pageProps }) {
       <ColorModeProvider
         options={{ useSystemColorMode: false }}
       >
-        <Head>
-          <title>
-            {data.title}
-          </title>
-        </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <SWRConfig value={{ fetcher: $fetch }}>
+          <Head>
+            <title>
+              {data.title}
+            </title>
+          </Head>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SWRConfig>
       </ColorModeProvider>
     </ChakraProvider>
   )

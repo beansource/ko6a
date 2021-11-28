@@ -3,8 +3,8 @@ import { Box, useColorModeValue as mode,
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
 const prettyBytes = require('pretty-bytes')
-import { getRepoQuery } from '../../utils/queries'
-import { useToken } from '../../utils/hooks'
+import { getRepoQuery } from '../../util/queries'
+import { useToken } from '../../util/hooks'
 import React from 'react'
 
 /**
