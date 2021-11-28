@@ -1,21 +1,18 @@
-import { data } from '../../_data'
-import { useRouter } from 'next/router'
 import { Project } from '@projects/Project'
-import { Repo } from '@projects/Repo'
-import { Explorer } from '@projects/Explorer'
+import { Stack, StackDivider } from '@chakra-ui/react'
 import useSWR from 'swr'
 
-export default function Projects(props) {
-  const router = useRouter()
-  let { slug } = router?.query
+export default function Projects() {
+  const { data: projects } = useSWR('/api/projects')
+
   return (
     <Stack spacing="8" py="5" px="8" divider={<StackDivider />}>
-      {data?.projects.map(project => {
+      {projects?.map(project => {
         return (
           <Project
             title={project.org}
             repos={project?.repos?.length ?? 0}
-            href={project.slug}
+            href={project.name}
           >
             {project.description}
           </Project>
@@ -24,8 +21,3 @@ export default function Projects(props) {
     </Stack>
   )
 }
-
-import {
-  Stack,
-  StackDivider
-} from '@chakra-ui/react'

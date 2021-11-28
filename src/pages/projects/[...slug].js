@@ -7,15 +7,14 @@ import useSWR from 'swr'
 export default function Project(props) {
   const router = useRouter()
   const slug = router?.query?.slug
+
   if (router?.query) {
     // shows contents of repo
-    if (slug[1]) {
+    if (slug && slug[1]) {
       return (
         <Explorer slug={slug} org={slug[0]} repo={slug[1]} />
       )
     }
-
-    const repos = data?.projects?.find(({ org }) => org.toLowerCase().replace(' ', '-') == slug).repos
 
     // shows list of repos
     // todo: fix this it's borked cause of new prisma stuff
@@ -35,11 +34,6 @@ export default function Project(props) {
     )
   }
 }
-
-import {
-  Stack,
-  StackDivider
-} from '@chakra-ui/react'
 
 const fetcher = (url, owner, repo, path) => fetch(url, {
   method: 'POST',
