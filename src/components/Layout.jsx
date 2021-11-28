@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Stack, Button, Link, useColorModeValue as mode } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Stack, Button, Link, useColorModeValue as mode, Spacer, HStack } from '@chakra-ui/react'
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 
 import { data } from '../_data'
@@ -15,6 +15,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { getViewer, getFollowers } from '../util/githubApi'
 import { useToken } from '../util/hooks'
+import Menu from './Menu'
 
 export default function Layout({ children }) {
   const router = useRouter()
@@ -151,7 +152,11 @@ export default function Layout({ children }) {
                 <MobileMenuButton onClick={toggle} isOpen={isOpen} />
                 <NavBreadcrumb slug={router?.query?.slug} />
               </Flex>
-              <SearchInput />
+              <Spacer />
+              <HStack spacing="2">
+                <SearchInput />
+                <Menu />
+              </HStack>
             </Flex>
             <Flex direction="column" flex="1" overflow="auto" px="10" pt="8">
               {children}
@@ -167,4 +172,5 @@ export default function Layout({ children }) {
         <Button>Login</Button>
       </Link>
     </Flex>
-  )}
+  )
+}
