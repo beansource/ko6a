@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model project {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
+  name          String    @unique(map: "projects_name_key") @db.VarChar
+  description   String?
+  owner         String
+  repos         repo[]
+
+  @@map("Project")
+}
+
+model repo {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
+  owner         String
+  repo          String
+  parentProject String?   @db.VarChar
+  project       project?  @relation(fields: [parentProject], references: [name], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("Repo")
+}

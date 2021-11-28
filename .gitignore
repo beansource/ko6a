@@ -33,5 +33,8 @@ yarn.lock
 .env.test.local
 .env.production.local
 
+# debug
+debug.ts
+
 # vercel
 .vercel

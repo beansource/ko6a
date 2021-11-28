@@ -31,8 +31,9 @@ export default async function handler(req, res) {
     repo: req.body.repo,
     path: req.body.path,
     headers: {
-      authorization: `token ${process.env.GITHUB_AUTH_TOKEN}`
+      authorization: `token ${body.token}`
     }
   })
-  res.status(200).json({ repository })
+
+  res.status(200).json({ data })
 }

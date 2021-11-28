@@ -1,7 +1,8 @@
-import { data } from '../../_data'
 import { useRouter } from 'next/router'
 import { Repo } from '@projects/Repo'
 import { Explorer } from '@projects/Explorer'
+import { Stack, StackDivider } from '@chakra-ui/react'
+import useSWR from 'swr'
 
 export default function Project(props) {
   const router = useRouter()
@@ -17,6 +18,7 @@ export default function Project(props) {
     const repos = data?.projects?.find(({ org }) => org.toLowerCase().replace(' ', '-') == slug).repos
 
     // shows list of repos
+    // todo: fix this it's borked cause of new prisma stuff
     return (
       <Stack spacing="8" py="5" px="8" divider={<StackDivider />}>
         {repos?.map(repo => {

@@ -1,22 +1,56 @@
-import { Avatar, Box, Flex, Stack, useColorModeValue as mode } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Stack, Button, Link, useColorModeValue as mode } from '@chakra-ui/react'
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 
 import { data } from '../_data'
-import { MobileMenuButton } from '../components/MobileMenuButton'
-import { NavBreadcrumb } from '../components/NavBreadcrumb'
-import { NavSectionTitle } from '../components/NavSectionTitle'
-import { ScrollArea } from '../components/ScrollArea'
-import { SearchInput } from '../components/SearchInput'
-import { SidebarLink } from '../components/SidebarLink'
-import { useMobileMenuState } from '../components/useMobileMenuState'
-import { UserInfo } from '../components/UserInfo'
+import { MobileMenuButton } from './MobileMenuButton'
+import { NavBreadcrumb } from './NavBreadcrumb'
+import { NavSectionTitle } from './NavSectionTitle'
+import { ScrollArea } from './ScrollArea'
+import { SearchInput } from './SearchInput'
+import { SidebarLink } from './SidebarLink'
+import { useMobileMenuState } from './useMobileMenuState'
+import { UserInfo } from './UserInfo'
 
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { getViewer, getFollowers } from '../util/githubApi'
+import { useToken } from '../util/hooks'
 
 export default function Layout({ children }) {
   const router = useRouter()
+
   const { isOpen, toggle } = useMobileMenuState()
-  return (
+  const token = useToken()
+  const [user, setUser] = useState()
+  const [followers, setFollowers] = useState()
+
+  useEffect(async () => {
+    if (router?.query?.token) {
+      window.localStorage.setItem('ko6aToken', router.query.token)
+      router.push('/')
+    }
+    getViewerData()
+    if (token && !followers) {
+      const { viewer } = await getFollowers(token)
+      setFollowers(viewer.followers.nodes)
+    }
+  })
+
+  const getViewerData = async () => {
+    if (window.localStorage.getItem('ko6aToken') && !user) {
+      if (!window.localStorage.getItem('ko6aViewer')) {
+        const { viewer } = await getViewer(window.localStorage.getItem('ko6aToken'))
+        window.localStorage.setItem('ko6aViewer', JSON.stringify(viewer))
+        setUser(viewer)
+      }
+      else {
+        const viewer = JSON.parse(window.localStorage.getItem('ko6aViewer'))
+        setUser(viewer)
+      }
+    }
+  }
+
+  return token ? (
     <Flex
       height="100vh"
       bg={mode('blue.800', 'gray.800')}
@@ -49,7 +83,7 @@ export default function Layout({ children }) {
             }}
             whiteSpace="nowrap"
           >
-            <UserInfo name="Esther Collins" email="esther-colls@chakra.com" />
+            <UserInfo name={user ? user.name : 'Loading...'} email={user ? user.email : ''} image={user ? user.avatarUrl : null} />
           </Box>
           <ScrollArea pt="5" pb="6">
             <SidebarLink
@@ -70,12 +104,12 @@ export default function Layout({ children }) {
             </Stack>
             <Stack pb="6">
               <NavSectionTitle>Team</NavSectionTitle>
-              {data.users.map((user, index) => (
+              {followers?.map((follower, index) => (
                 <SidebarLink
                   key={index}
-                  avatar={<Avatar size="xs" name={user.name} src={user.image} />}
+                  avatar={<Avatar size="xs" name={follower.name} src={follower.avatarUrl} />}
                 >
-                  {user.name}
+                  {follower.name}
                 </SidebarLink>
               ))}
             </Stack>
@@ -126,5 +160,11 @@ export default function Layout({ children }) {
         </Box>
       </Box>
     </Flex>
-  )
-}
+  ) : (
+    <Flex direction="row" width="100vw" height="100vh" align="center" justify="center" 
+      bg={mode('blue.800', 'gray.800')}>
+      <Link href={process.env.NEXT_PUBLIC_GITHUB_AUTH_URL}>
+        <Button>Login</Button>
+      </Link>
+    </Flex>
+  )}

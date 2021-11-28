@@ -88,8 +88,6 @@ export const ListItem = props => {
   )
 }
 
-import * as React from 'react'
-
 export const List = props => {
   const { children, ...stackProps } = props
   const items = React.useMemo(
