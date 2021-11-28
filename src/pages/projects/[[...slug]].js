@@ -1,7 +1,15 @@
+import { useRouter } from 'next/router'
+import { Project } from '@projects/Project'
+import { Repo } from '@projects/Repo'
+import { Explorer } from '@projects/Explorer'
+import { Stack, StackDivider } from '@chakra-ui/react'
+import useSWR from 'swr'
+
 export default function Projects() {
   const router = useRouter()
-  const [projects, setProjects] = useState([])
   let { slug } = router?.query
+
+  const { data: projects, error } = useSWR('/api/projects')
 
   if (slug) {
     // shows contents of repo
@@ -14,6 +22,7 @@ export default function Projects() {
     const repos = data?.projects?.find(({ org }) => org.toLowerCase() == slug).repos
 
     // shows list of repos
+    // todo: fix this it's borked cause of new prisma stuff
     return (
       <Stack spacing="8" py="5" px="8" divider={<StackDivider />}>
         {repos?.map(repo => {
@@ -33,7 +42,7 @@ export default function Projects() {
   // shows projects
   return (
     <Stack spacing="8" py="5" px="8" divider={<StackDivider />}>
-      {projects.map(project => {
+      {projects?.map(project => {
         return (
           <Project
             title={project.name}
@@ -47,15 +56,3 @@ export default function Projects() {
     </Stack>
   )
 }
-
-import { useRouter } from 'next/router'
-import { Project } from '@projects/Project'
-import { Repo } from '@projects/Repo'
-import { Explorer } from '@projects/Explorer'
-
-import {
-  Stack,
-  StackDivider
-} from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-
