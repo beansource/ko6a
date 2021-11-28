@@ -1,76 +1,86 @@
-import {
-  Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
-  ModalCloseButton, Stack, InputGroup, InputLeftElement, Input, InputRightElement,
-  FormControl, FormLabel, FormErrorMessage, FormHelperText
-} from '@chakra-ui/react'
-import { CheckIcon, PhoneIcon } from '@chakra-ui/icons'
-import { useDisclosure } from '@chakra-ui/hooks'
 import { Formik, Form, Field } from 'formik'
+import { $fetch } from 'ohmyfetch'
+import { useToast } from "@chakra-ui/react"
+import {
+  Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
+  Stack, Input, FormControl, FormLabel, FormErrorMessage, HStack, Spacer
+} from '@chakra-ui/react'
 
 export default function NewProject({ isOpen, onOpen, onClose }) {
+  const toast = useToast()
+  
+  const onSubmit = (values, { setSubmitting }) => {
+    $fetch('/api/projects', {
+      method: 'POST',
+      body: JSON.stringify(values),
+    })
+      .then(r => {
+        console.log("🚀 ~ file: NewProject.jsx ~ line 16 ~ onSubmit ~ r", r)
+        setSubmitting(false)
+        onClose()
+        toast({
+          title: "Project created 🚀",
+          description: "Your project has been successfully created!",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right"
+        })
+      })
+      .catch(() => {
+        setSubmitting(false)
+        console.log('Issue creating project :(')
+      })
+  }
+
+  const stringIsNotEmpty = (value) => {
+    if (!value?.length > 0) {
+      return 'Value must not be empty!'
+    }
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>New Project</ModalHeader>
         <ModalCloseButton />
+        
         <ModalBody>
-          <FormikExample />
+          <Formik initialValues={{}} onSubmit={onSubmit}>
+            {(props) => (
+              <Form>
+                <Stack spacing='2'>
+                  <FormikField name="name" label="Project name" validation={stringIsNotEmpty} />
+                  <FormikField name="description" label="Description" validation={stringIsNotEmpty} />
+                  <FormikField name="owner" label="Org or User" validation={stringIsNotEmpty} />
+                  <HStack>
+                    <Spacer />
+                    <Button isLoading={props.isSubmitting} type="submit" colorScheme="blue">
+                      Submit
+                    </Button>
+                  </HStack>
+                </Stack>
+              </Form>
+            )}
+          </Formik>
         </ModalBody>
 
-        {/* <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Close
-          </Button>
-          <Button variant="ghost">Create</Button>
-        </ModalFooter> */}
       </ModalContent>
     </Modal>
   )
 }
 
-function FormikExample() {
-  function validateName(value) {
-    let error
-    if (!value) {
-      error = "Name is required"
-    } else if (value.toLowerCase() !== "naruto") {
-      error = "Jeez! You're not a fan 😱"
-    }
-    return error
-  }
-
+function FormikField({ name, label, placeholder, validation }) {
   return (
-    <Formik
-      initialValues={{ name: "Sasuke" }}
-      onSubmit={(values, actions) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2))
-          actions.setSubmitting(false)
-        }, 1000)
-      }}
-    >
-      {(props) => (
-        <Form>
-          <Field name="name" validate={validateName}>
-            {({ field, form }) => (
-              <FormControl isInvalid={form.errors.name && form.touched.name}>
-                <FormLabel htmlFor="name">First name</FormLabel>
-                <Input {...field} id="name" placeholder="name" />
-                <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Button
-            mt={4}
-            colorScheme="teal"
-            isLoading={props.isSubmitting}
-            type="submit"
-          >
-            Submit
-          </Button>
-        </Form>
+    <Field name={name} validate={validation}>
+      {({ field, form }) => (
+        <FormControl isInvalid={form.errors[field.name] && form.touched[field.name]}>
+          <FormLabel htmlFor={field.name}>{label}</FormLabel>
+          <Input {...field} id={field.name} placeholder={placeholder} />
+          <FormErrorMessage>{form.errors[field.name]}</FormErrorMessage>
+        </FormControl>
       )}
-    </Formik>
+    </Field>
   )
 }
