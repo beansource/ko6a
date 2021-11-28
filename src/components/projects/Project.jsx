@@ -1,17 +1,35 @@
-import { Box, HStack, IconButton, useColorModeValue as mode,
-  LinkBox, LinkOverlay } from '@chakra-ui/react'
+import { Box, HStack, IconButton, useColorModeValue as mode, LinkBox, LinkOverlay } from '@chakra-ui/react'
 import { HiCollection, HiPencilAlt, HiTrash } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import plur from 'plur'
+import { $fetch } from 'ohmyfetch'
+import { useToast } from '@chakra-ui/toast'
+import { useSWRConfig } from 'swr'
 
 /**
  * Deisgn used to list a user's Projects
- * @param {*} props 
- * @returns 
+ * 
+ * !todo: change 'title' to 'name'
+ * !todo: add confirm dialog for deleting a project
  */
 export const Project = props => {
   const router = useRouter()
+  const toast = useToast()
+  const { mutate } = useSWRConfig()
   const { title, children, repos, href, description } = props
+
+  const deleteProject = async () => {
+    await $fetch(`/api/projects/${title}`, { method: 'DELETE' })
+    mutate('/api/projects')
+    toast({
+      title: "Project deleted ☠️",
+      description: `${title} has been successfully deleted!`,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+      position: "top-right"
+    })
+  }
 
   return (
     <LinkBox position="relative" transition="ease-in-out"
@@ -47,8 +65,8 @@ export const Project = props => {
           sm: '0',
         }}
       >
-        <IconButton as="a" aria-label="Edit" icon={<HiPencilAlt />} rounded="full" size="sm" />
-        <IconButton as="a" aria-label="Delete" icon={<HiTrash />} rounded="full" size="sm" />
+        <IconButton as="a" aria-label="Edit" icon={<HiPencilAlt />} rounded="full" size="sm" cursor="pointer" />
+        <IconButton as="a" aria-label="Delete" icon={<HiTrash />} rounded="full" size="sm" cursor="pointer" onClick={deleteProject} />
       </HStack>
     </LinkBox>
   )

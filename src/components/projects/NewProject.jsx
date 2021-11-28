@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from 'formik'
 import { $fetch } from 'ohmyfetch'
-import { useToast } from "@chakra-ui/react"
+import { useToast } from '@chakra-ui/react'
+import { useSWRConfig } from 'swr'
 import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
   Stack, Input, FormControl, FormLabel, FormErrorMessage, HStack, Spacer
@@ -8,6 +9,7 @@ import {
 
 export default function NewProject({ isOpen, onOpen, onClose }) {
   const toast = useToast()
+  const { mutate } = useSWRConfig()
   
   const onSubmit = (values, { setSubmitting }) => {
     $fetch('/api/projects', {
@@ -15,12 +17,12 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
       body: JSON.stringify(values),
     })
       .then(r => {
-        console.log("🚀 ~ file: NewProject.jsx ~ line 16 ~ onSubmit ~ r", r)
         setSubmitting(false)
         onClose()
+        mutate('/api/projects')
         toast({
           title: "Project created 🚀",
-          description: "Your project has been successfully created!",
+          description: `${values.name} has been successfully created!`,
           status: "success",
           duration: 9000,
           isClosable: true,
