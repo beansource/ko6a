@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       include: { repos: true }
     })
     if (projects) {
-      res.json(projects)
+      res.json(projects[0])
     } else {
       return res.status(404).json({ error: 'Project not found :(' })
     }
