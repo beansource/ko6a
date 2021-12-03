@@ -23,7 +23,6 @@ export default async function repos(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).json(repos)
   } else if (req.method === 'POST') {
     const { owner, repo, description, parentProject }: Repo = JSON.parse(req.body)
-    console.log("🚀 ~ file: repos.ts ~ line 26 ~ repos ~ req.body", JSON.parse(req.body))
     const newRepo = await prisma.repo.create({ data: {
       owner, 
       repo,
