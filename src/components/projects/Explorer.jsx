@@ -1,5 +1,4 @@
-import { Box, useColorModeValue as mode, Icon, Stack, Flex, Circle, Heading, Text, LinkBox, LinkOverlay,
-  PseudoBox } from '@chakra-ui/react'
+import { Box, useColorModeValue as mode, Icon, Stack, Flex, Circle, Heading, Text } from '@chakra-ui/react'
 import React from 'react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
@@ -7,7 +6,6 @@ import { useRouter } from 'next/router'
 const prettyBytes = require('pretty-bytes')
 import { File } from './File'
 import isScriptFile from '@util/isScriptFile'
-import Link from 'next/link'
 
 /**
  * Explore a Repository and its contents
@@ -71,7 +69,10 @@ export const Explorer = props => {
 export const ListItem = props => {
   const { title, subTitle, icon, isLastItem, children, ...stackProps } = props
   return (
-    <Stack as="li" direction="row" spacing="4" _hover={{ background: 'red' }}>
+    <Stack as="li" direction="row" spacing="4" hover={{
+      bg: mode('gray.50', 'gray.700'),
+      rounded: "xl"
+    }}>
       <Flex direction="column" alignItems="center" aria-hidden="true">
         <Circle
           bg={mode('blue.500', 'blue.300')}
@@ -82,14 +83,13 @@ export const ListItem = props => {
         >
           {icon}
         </Circle>
-        {!isLastItem && <Flex flex="1" borderRightWidth="1px" mb="-12" />}
       </Flex>
       <Stack spacing="4" pt="1" flex="1">
         <Flex direction="column">
-          <Heading fontSize="md" fontWeight="semibold" fontFamily="mono" _hover={{ background: "green.500" }}>
+          <Heading fontSize="md" fontWeight="semibold" fontFamily="mono">
             {title}
           </Heading>
-          <Text fontSize="sm" _hover={{ color: "red.500" }}>
+          <Text fontSize="sm">
             {subTitle}
           </Text>
         </Flex>
@@ -120,16 +120,6 @@ export const List = props => {
     </Stack>
   )
 }
-
-export const Placeholder = props => (
-  <Box
-    bg={mode('gray.50', 'gray.700')}
-    width="full"
-    height="8"
-    rounded="xl"
-    {...props}
-  />
-)
 
 const fetcher = (url, owner, repo, path) => {
   return fetch(url, {
