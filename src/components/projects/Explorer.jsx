@@ -1,9 +1,12 @@
-import { Box, useColorModeValue as mode, Icon, Stack, Flex, Circle, Heading, Text, LinkBox, LinkOverlay } from '@chakra-ui/react'
+import { Box, useColorModeValue as mode, Icon, Stack, Flex, Circle, Heading, Text, LinkBox, LinkOverlay,
+  PseudoBox } from '@chakra-ui/react'
 import React from 'react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 const prettyBytes = require('pretty-bytes')
+import { File } from './File'
+import isScriptFile from '@util/isScriptFile'
 
 /**
  * Explore a Repository and its contents
@@ -16,6 +19,13 @@ export const Explorer = props => {
   const router = useRouter()
   const { slug } = router.query
   const newSlugs = slug?.slice(2, slug.length + 1)
+
+  // if url is a blob, show file
+  if (isScriptFile(newSlugs[newSlugs.length - 1])) {
+    return (
+      <File />
+    )
+  }
   
   const path = `HEAD:${newSlugs?.join('/')}`
   const { data } = useSWR(['/api/github', owner, repo, path], fetcher)
@@ -27,6 +37,7 @@ export const Explorer = props => {
     } else if (item?.type === 'tree') {
       treeSize = item.object?.entries?.length
     }
+
     return (
       <LinkBox>
         <LinkOverlay href={`${router.asPath}/${item.name}`}>
@@ -36,9 +47,7 @@ export const Explorer = props => {
             icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
               boxSize="4" />
             }
-          >
-            <Placeholder />
-          </ListItem>
+          />
         </LinkOverlay>
       </LinkBox>
     )
@@ -78,7 +87,7 @@ export const ListItem = props => {
       </Flex>
       <Stack spacing="4" pt="1" flex="1">
         <Flex direction="column">
-          <Heading fontSize="md" fontWeight="semibold" fontFamily="mono">
+          <Heading fontSize="md" fontWeight="semibold" fontFamily="mono" _hover={{ bg: "green.500" }}>
             {title}
           </Heading>
           <Text fontSize="sm" color={mode('gray.600', 'gray.400')}>
@@ -117,7 +126,7 @@ export const Placeholder = props => (
   <Box
     bg={mode('gray.50', 'gray.700')}
     width="full"
-    height="16"
+    height="8"
     rounded="xl"
     {...props}
   />
