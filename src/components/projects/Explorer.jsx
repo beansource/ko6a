@@ -69,10 +69,7 @@ export const Explorer = props => {
 export const ListItem = props => {
   const { title, subTitle, icon, isLastItem, children, ...stackProps } = props
   return (
-    <Stack as="li" direction="row" spacing="4" hover={{
-      bg: mode('gray.50', 'gray.700'),
-      rounded: "xl"
-    }}>
+    <Stack direction="row" spacing="4">
       <Flex direction="column" alignItems="center" aria-hidden="true">
         <Circle
           bg={mode('blue.500', 'blue.300')}
@@ -84,7 +81,10 @@ export const ListItem = props => {
           {icon}
         </Circle>
       </Flex>
-      <Stack spacing="4" pt="1" flex="1">
+      <Stack spacing="4" pt="1" flex="1" transition="0.3s" _hover={{
+          transform: 'translateX(0.3em)'
+        }}
+      >
         <Flex direction="column">
           <Heading fontSize="md" fontWeight="semibold" fontFamily="mono">
             {title}
