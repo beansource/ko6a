@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 const prettyBytes = require('pretty-bytes')
 import { File } from './File'
 import isScriptFile from '@util/isScriptFile'
+import Link from 'next/link'
 
 /**
  * Explore a Repository and its contents
@@ -39,17 +40,15 @@ export const Explorer = props => {
     }
 
     return (
-      <LinkBox>
-        <LinkOverlay href={`${router.asPath}/${item.name}`}>
-          <ListItem
-            title={JSON.stringify(item.name).replaceAll('"', '')} id={idx}
-            subTitle={item.type === 'blob' ? `${prettyBytes(byteSize)}` : `${treeSize} items`}
-            icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
-              boxSize="4" />
-            }
-          />
-        </LinkOverlay>
-      </LinkBox>
+      <Box onClick={() => window.location.href = `${router.asPath}/${item.name}`} cursor='pointer'>
+        <ListItem
+          title={JSON.stringify(item.name).replaceAll('"', '')} id={idx}
+          subTitle={item.type === 'blob' ? `${prettyBytes(byteSize)}` : `${treeSize} items`}
+          icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
+            boxSize="4" />
+          }
+        />
+      </Box>
     )
   })
 
@@ -72,7 +71,7 @@ export const Explorer = props => {
 export const ListItem = props => {
   const { title, subTitle, icon, isLastItem, children, ...stackProps } = props
   return (
-    <Stack as="li" direction="row" spacing="4" {...stackProps}>
+    <Stack as="li" direction="row" spacing="4" _hover={{ background: 'red' }}>
       <Flex direction="column" alignItems="center" aria-hidden="true">
         <Circle
           bg={mode('blue.500', 'blue.300')}
@@ -87,10 +86,10 @@ export const ListItem = props => {
       </Flex>
       <Stack spacing="4" pt="1" flex="1">
         <Flex direction="column">
-          <Heading fontSize="md" fontWeight="semibold" fontFamily="mono" _hover={{ bg: "green.500" }}>
+          <Heading fontSize="md" fontWeight="semibold" fontFamily="mono" _hover={{ background: "green.500" }}>
             {title}
           </Heading>
-          <Text fontSize="sm" color={mode('gray.600', 'gray.400')}>
+          <Text fontSize="sm" _hover={{ color: "red.500" }}>
             {subTitle}
           </Text>
         </Flex>
