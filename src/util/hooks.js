@@ -1,19 +1,33 @@
-import { useState, useEffect } from 'react'
+import useSWR from 'swr'
 
-export const useToken = () => {
-  const [token, setToken] = useState(null)
+const fetcher = (...args) => fetch(...args).then(res => res.json())
 
-  useEffect(() => {
-    setToken(window.localStorage.getItem('ko6aToken'))
-  })
-  return token
+export const useTeammates = name => {
+  const { data, error } = useSWR(`/api/teams/${name}/members`, fetcher)
+
+  return {
+    teammates: data,
+    isLoading: !error && !data,
+    isError: error
+  }
 }
 
-export const useViewer = () => {
-  const [viewer, setViewer] = useState(null)
+export const useTeam = id => {
+  const { data, error } = useSWR(`/api/teams/${id}`, fetcher)
 
-  useEffect(() => {
-    setViewer(window.localStorage.getItem('ko6aToken'))
-  })
-  return viewer
+  return {
+    team: data,
+    isLoading: !error && !data,
+    isError: error
+  }
+}
+
+export const useUser = id => {
+  const { data, error } = useSWR(`/api/users/${id}`, fetcher)
+
+  return {
+    user: data,
+    isLoading: !error && !data,
+    isError: error
+  }
 }

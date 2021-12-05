@@ -7,6 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model user {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
+  name          String
+  ghLogin       String    @unique
+  team          team?     @relation("TeamMembers", fields: [teamName], references: [name])
+  teamName      String?
+
+  @@map("User")
+}
+
+model team {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
+  name          String    @unique
+  members       user[]    @relation("TeamMembers")
+
+  @@map("Team")
+}
+
 model project {
   id            Int       @id @default(autoincrement())
   createdAt     DateTime? @default(now()) @db.Timestamptz(6)

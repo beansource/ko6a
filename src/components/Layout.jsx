@@ -1,176 +1,40 @@
-import { Avatar, Box, Flex, Stack, Button, Link, useColorModeValue as mode, Spacer, HStack } from '@chakra-ui/react'
-import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
+import { Flex, Button, Link, useColorModeValue as mode } from '@chakra-ui/react'
 
-import { data } from '../_data'
-import { MobileMenuButton } from './MobileMenuButton'
-import { NavBreadcrumb } from './NavBreadcrumb'
-import { NavSectionTitle } from './NavSectionTitle'
-import { ScrollArea } from './ScrollArea'
-import { SearchInput } from './SearchInput'
-import { SidebarLink } from './SidebarLink'
+import Sidebar from './Sidebar'
+import PageSpinner from '@components/PageSpinner'
+
 import { useMobileMenuState } from './useMobileMenuState'
-import { UserInfo } from './UserInfo'
-
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { getViewer, getFollowers } from '../util/githubApi'
-import { useToken } from '../util/hooks'
-import Menu from './Menu'
+import { useUser } from '@hooks'
+
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 export default function Layout({ children }) {
-  const router = useRouter()
+  const { data: session } = useSession()
 
-  const { isOpen, toggle } = useMobileMenuState()
-  const token = useToken()
-  const [user, setUser] = useState()
-  const [followers, setFollowers] = useState()
+  const { user, isLoading, isError } = useUser(session?.user?.login)
 
-  useEffect(async () => {
-    if (router?.query?.token) {
-      window.localStorage.setItem('ko6aToken', router.query.token)
-      router.push('/')
-    }
-    getViewerData()
-    if (token && !followers) {
-      const { viewer } = await getFollowers(token)
-      setFollowers(viewer.followers.nodes)
-    }
-  })
-
-  const getViewerData = async () => {
-    if (window.localStorage.getItem('ko6aToken') && !user) {
-      if (!window.localStorage.getItem('ko6aViewer')) {
-        const { viewer } = await getViewer(window.localStorage.getItem('ko6aToken'))
-        window.localStorage.setItem('ko6aViewer', JSON.stringify(viewer))
-        setUser(viewer)
-      }
-      else {
-        const viewer = JSON.parse(window.localStorage.getItem('ko6aViewer'))
-        setUser(viewer)
-      }
-    }
+  if (!session) {
+    return (
+      <Flex direction="row" width="100vw" height="100vh" align="center" justify="center" 
+        bg={mode('blue.800', 'gray.800')}>
+        <Link href={process.env.NEXT_PUBLIC_GITHUB_AUTH_URL}>
+          <Button onClick={() => signIn()}>Login</Button>
+        </Link>
+      </Flex>
+    )
+  }
+  
+  if (isLoading) {
+    return (
+      <PageSpinner w="100vw" h="100vh"/>
+    )
   }
 
-  return token ? (
-    <Flex
-      height="100vh"
-      bg={mode('blue.800', 'gray.800')}
-      overflow="hidden"
-      sx={{
-        '--sidebar-width': '16rem',
-      }}
-    >
-      <Box
-        as="nav"
-        display="block"
-        flex="1"
-        width="var(--sidebar-width)"
-        left="0"
-        py="5"
-        px="3"
-        color="gray.200"
-        position="fixed"
-      >
-        <Box fontSize="sm" lineHeight="tall">
-          <Box
-            as="a"
-            href="#"
-            p="3"
-            display="block"
-            transition="background 0.1s"
-            rounded="xl"
-            _hover={{
-              bg: 'whiteAlpha.200',
-            }}
-            whiteSpace="nowrap"
-          >
-            <UserInfo name={user ? user.name : 'Loading...'} email={user ? user.email : ''} image={user ? user.avatarUrl : null} />
-          </Box>
-          <ScrollArea pt="5" pb="6">
-            <SidebarLink
-              display={{
-                base: 'block',
-                lg: 'none',
-              }}
-              mb="2"
-              icon={<BsSearch />}
-            >
-              Search
-            </SidebarLink>
-            <Stack pb="6">
-              <SidebarLink icon={<BsFillFolderFill />} href="/projects">
-                Projects
-              </SidebarLink>
-              <SidebarLink icon={<BsTerminalFill />}>Console</SidebarLink>
-            </Stack>
-            <Stack pb="6">
-              <NavSectionTitle>Team</NavSectionTitle>
-              {followers?.map((follower, index) => (
-                <SidebarLink
-                  key={index}
-                  avatar={<Avatar size="xs" name={follower.name} src={follower.avatarUrl} />}
-                >
-                  {follower.name}
-                </SidebarLink>
-              ))}
-            </Stack>
-            <Stack>
-              <NavSectionTitle>Resources</NavSectionTitle>
-              <SidebarLink>Documentation</SidebarLink>
-              <SidebarLink href={data.github} target="_blank">
-                GitHub
-              </SidebarLink>
-            </Stack>
-          </ScrollArea>
-        </Box>
-      </Box>
-      <Box
-        flex="1"
-        p={{
-          base: '0',
-          md: '6',
-        }}
-        marginStart={{
-          md: 'var(--sidebar-width)',
-        }}
-        position="relative"
-        left={isOpen ? 'var(--sidebar-width)' : '0'}
-        transition="left 0.2s"
-      >
-        <Box
-          maxW="2560px"
-          bg={mode('white', 'gray.700')}
-          height="100%"
-          pb="6"
-          rounded={{
-            md: 'lg',
-          }}
-        >
-          <Flex direction="column" height="full">
-            <Flex w="full" py="4" justify="space-between" align="center" px="10">
-              <Flex align="center" minH="8">
-                <MobileMenuButton onClick={toggle} isOpen={isOpen} />
-                <NavBreadcrumb slug={router?.query?.slug} />
-              </Flex>
-              <Spacer />
-              <HStack spacing="2">
-                <SearchInput />
-                <Menu />
-              </HStack>
-            </Flex>
-            <Flex direction="column" flex="1" overflow="auto" px="10" pt="8">
-              {children}
-            </Flex>
-          </Flex>
-        </Box>
-      </Box>
-    </Flex>
-  ) : (
-    <Flex direction="row" width="100vw" height="100vh" align="center" justify="center" 
-      bg={mode('blue.800', 'gray.800')}>
-      <Link href={process.env.NEXT_PUBLIC_GITHUB_AUTH_URL}>
-        <Button>Login</Button>
-      </Link>
-    </Flex>
-  )
+  if (isError) {
+    console.log("🚀 ~ file: Layout.jsx ~ line 48 ~ Layout ~ isError", isError)
+    return 'scawy :('
+  }
+
+  return <Sidebar user={user}>{children}</Sidebar>
 }
