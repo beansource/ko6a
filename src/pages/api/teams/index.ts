@@ -25,8 +25,8 @@ export default async function handler(req: NextApiRequest, res) {
 
   } else if (req.method === 'POST') {
     try {
-      const { name, memberId } = JSON.parse(req.body)
-      const team = await prisma.team.create({ data: { name, members: { create: [{ member: { connect: { memberId }}}]} }})
+      const { name, ghLogin } = JSON.parse(req.body)
+      const team = await prisma.team.create({ data: { name, members: { create: [{ member: { connect: { ghLogin }}}]} }})
       if (team) {
         res.json(team)
       } else {

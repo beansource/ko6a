@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { VStack, Box, Text, Flex, Input, Button, Spacer, Link, Divider,
-  FormControl, FormLabel, FormErrorMessage, Stack, StackDivider, Select } from '@chakra-ui/react'
+  FormControl, FormLabel, FormErrorMessage, Stack, StackDivider, Select, useToast } from '@chakra-ui/react'
 import PageSpinner from '@components/PageSpinner'
 import { Formik, Form, Field } from 'formik'
 import { useTeammates, useTeam, useUser, useTeams } from '@hooks'
@@ -11,8 +11,10 @@ import { useRouter } from 'next/router'
 
 export const Team = ({ teamName }) => {
   const router = useRouter()
+  const toast = useToast()
   const { mutate } = useSWRConfig()
   const { data:session } = useSession()
+
   const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(teamName)
   const { team, isLoading: isTeamLoading, isError: isTeamError } = useTeam(teamName)
   const { user, isLoading: isUserLoading, isError: isUserError } = useUser(session.user.login)
@@ -57,18 +59,33 @@ export const Team = ({ teamName }) => {
   else {
     if (name === null) setName(team.name)
     if (defaultTeam === null) setDefaultTeam(user.defaultTeam)
+    
     const onSubmit = (values, { setSubmitting, resetForm }) => {
         $fetch(`/api/teams/${team.name}/members`, {
           method: 'PUT',
           body: JSON.stringify(values)
         })
         .then(res => {
-          // TODO: success toast
+          toast({
+            title: "Team updated 🚀",
+            description: `${values.ghLogin} has been successfully added to ${team.name}!`,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right"
+          })
           setSubmitting(false)
           mutate(`/api/teams/${team.name}/members`)
         })
         .catch(e => {
-          // TODO: error toast
+          toast({
+            title: "Could not update team 🚀",
+            description: `Failed to add ${values.ghLogin} to ${team.name}!`,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right"
+          })
           console.log("🚀 ~ file: Team.jsx ~ line 30 ~ onSubmit ~ e", e)
           setSubmitting(false)
         })
@@ -80,12 +97,26 @@ export const Team = ({ teamName }) => {
         body: JSON.stringify({ ghLogin: member.ghLogin })
       })
       .then(res => {
-        // TODO: success toast
+        toast({
+          title: "Team updated 🚀",
+          description: `${member.ghLogin} has been successfully removed from ${team.name}!`,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right"
+        })
         console.log("🚀 ~ file: Team.jsx ~ line 25 ~ onSubmit ~ res", res)
         mutate(`/api/teams/${team.name}/members`)
       })
       .catch(e => {
-        // TODO: error toast
+        toast({
+          title: "Could not update team 🚀",
+          description: `Failed to remove ${member.ghLogin} from ${team.name}!`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right"
+        })
         console.log("🚀 ~ file: Team.jsx ~ line 52 ~ e", e)
       })
     }

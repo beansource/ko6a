@@ -3,11 +3,9 @@ import { Flex, Button, Link, useColorModeValue as mode } from '@chakra-ui/react'
 import Sidebar from './Sidebar'
 import PageSpinner from '@components/PageSpinner'
 
-import { useMobileMenuState } from './useMobileMenuState'
-import { useRouter } from 'next/router'
 import { useUser } from '@hooks'
 
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 
 export default function Layout({ children }) {
   const { data: session } = useSession()

@@ -6,30 +6,41 @@ import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
   Stack, Input, FormControl, FormLabel, FormErrorMessage, HStack, Spacer
 } from '@chakra-ui/react'
+import { useSession } from 'next-auth/react'
 
 export default function NewTeam({ isOpen, onOpen, onClose }) {
   const toast = useToast()
   const { mutate } = useSWRConfig()
+  const { data: session } = useSession()
   
   const onSubmit = (values, { setSubmitting }) => {
     $fetch('/api/teams', {
       method: 'POST',
-      body: JSON.stringify(values),
+      body: JSON.stringify({ ...values, ghLogin: session.user.login }),
     })
       .then(r => {
-        setSubmitting(false)
-        onClose()
-        mutate('/api/teams')
         toast({
-          title: "Project created 🚀",
+          title: "Team created 🚀",
           description: `${values.name} has been successfully created!`,
           status: "success",
           duration: 9000,
           isClosable: true,
           position: "top-right"
         })
+        setSubmitting(false)
+        onClose()
+        mutate('/api/teams')
+        mutate(`/api/users/${session.user.login}/teams`)
       })
       .catch(() => {
+        toast({
+          title: "Could not create team 🚀",
+          description: `Failed to create ${values.name}`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right"
+        })
         setSubmitting(false)
         console.log('Issue creating team :(')
       })
@@ -45,7 +56,7 @@ export default function NewTeam({ isOpen, onOpen, onClose }) {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>New Project</ModalHeader>
+        <ModalHeader>New Team</ModalHeader>
         <ModalCloseButton />
         
         <ModalBody>
@@ -54,7 +65,6 @@ export default function NewTeam({ isOpen, onOpen, onClose }) {
               <Form>
                 <Stack spacing='2'>
                   <FormikField name="name" label="Team name" validation={stringIsNotEmpty} />
-                  <FormikField name="memberId" label="Team members" validation={stringIsNotEmpty} />
                   <HStack>
                     <Spacer />
                     <Button isLoading={props.isSubmitting} type="submit" colorScheme="blue">
@@ -72,9 +82,9 @@ export default function NewTeam({ isOpen, onOpen, onClose }) {
   )
 }
 
-function FormikField({ name, label, placeholder, validation }) {
+function FormikField({ name, label, placeholder, validation, hidden }) {
   return (
-    <Field name={name} validate={validation}>
+    <Field name={name} validate={validation} type={hidden ? 'hidden' : null}>
       {({ field, form }) => (
         <FormControl isInvalid={form.errors[field.name] && form.touched[field.name]}>
           <FormLabel htmlFor={field.name}>{label}</FormLabel>

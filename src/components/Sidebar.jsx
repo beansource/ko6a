@@ -2,7 +2,9 @@ import { useRouter } from 'next/router'
 
 import { Avatar, Box, Flex, Stack, useColorModeValue as mode, Spacer, HStack, 
   Menu as ChakraMenu, MenuButton, MenuList, MenuItem, Spinner, Image, Text } from '@chakra-ui/react'
+import { useDisclosure } from '@chakra-ui/hooks'
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
+
 import { FiPlusCircle } from 'react-icons/fi'
 
 import { data } from '../_data'
@@ -15,6 +17,7 @@ import { SidebarLink } from './SidebarLink'
 import { UserInfo } from './UserInfo'
 import { useMobileMenuState } from './useMobileMenuState'
 import Menu from './Menu'
+import NewTeam from '@teams/NewTeam'
 
 import { useTeammates, useTeam, useTeams } from '@hooks'
 
@@ -25,7 +28,8 @@ export default function Sidebar({ user, children }) {
   const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(user.defaultTeam)
   const { team, isLoading: isTeamLoading, isError: isTeamError } = useTeam(user.defaultTeam)
   const { teams, isLoading: isTeamsLoading, isError: isTeamsError } = useTeams(user.ghLogin)
-  
+
+  const { isOpen: isNewTeamOpen, onOpen, onClose } = useDisclosure()
 
   if (isTeammatesError || isTeamError || isTeamsError) {
     console.log("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError, isTeamError, isTeamsError}", {isTeammatesError, isTeamError, isTeamsError})
@@ -68,24 +72,33 @@ export default function Sidebar({ user, children }) {
           </MenuButton>
           <MenuList p="2" borderRadius="base">
             { isTeamsLoading ? <Spinner /> : (
-            <>
-              <Text p="0 8px 4px 8px" color="gray.600">Teams</Text>
-              {teams.map(teamItem => (
-                <MenuItem as="a" href={`/team/${teamItem.name}`} color="gray.700" borderRadius="base" p="8px">
-                  <Image
-                    boxSize='20px'
-                    borderRadius='full'
-                    src={teamItem.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${teamItem.name}.svg`}
-                    alt={teamItem.name}
-                    mr='12px'
-                  />
-                  <Text fontWeight={teamItem.name === user.defaultTeam ? 'bold' : 'normal'}>{teamItem.name}</Text>
+              <>
+                <Text p="0 8px 4px 8px" color="gray.600">Teams</Text>
+                {teams.map(teamItem => (
+                  <MenuItem as="a" href={`/team/${teamItem.name}`} color="gray.700" borderRadius="base" p="8px">
+                    <Image
+                      boxSize='20px'
+                      borderRadius='full'
+                      src={teamItem.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${teamItem.name}.svg`}
+                      alt={teamItem.name}
+                      mr='12px'
+                    />
+                    <Text fontWeight={teamItem.name === user.defaultTeam ? 'bold' : 'normal'}>{teamItem.name}</Text>
+                  </MenuItem>
+                ))}
+                <MenuItem
+                  p="8px" 
+                  color="gray.700" 
+                  borderRadius="base" 
+                  onClick={onOpen} 
+                  icon={<FiPlusCircle size="20px" color="#2780ce"/>}
+                >
+                  Create Team
                 </MenuItem>
-              ))}
-              <MenuItem  p="8px" color="gray.700" borderRadius="base" onClick={() => alert('wee')} icon={<FiPlusCircle size="20px" color="#2780ce"/>}>Create Team</MenuItem>
               </>
             )}
           </MenuList>
+          <NewTeam isOpen={isNewTeamOpen} onOpen={onOpen} onClose={onClose}/>
         </ChakraMenu>
         <ScrollArea pt="5" pb="6">
           <SidebarLink
