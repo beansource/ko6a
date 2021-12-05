@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { VStack, Box, Text, Flex, Input, Button, Spacer, Link, Divider,
-  FormControl, FormLabel, FormErrorMessage, Stack, StackDivider } from '@chakra-ui/react'
+  FormControl, FormLabel, FormErrorMessage, Stack, StackDivider, Select } from '@chakra-ui/react'
 import PageSpinner from '@components/PageSpinner'
 import { Formik, Form, Field } from 'formik'
-import { useTeammates, useTeam } from '@hooks'
+import { useTeammates, useTeam, useUser, useTeams } from '@hooks'
 import { $fetch } from 'ohmyfetch'
 import { useSWRConfig } from 'swr'
 import { useSession } from 'next-auth/react'
@@ -15,11 +15,15 @@ export const Team = ({ teamName }) => {
   const { data:session } = useSession()
   const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(teamName)
   const { team, isLoading: isTeamLoading, isError: isTeamError } = useTeam(teamName)
+  const { user, isLoading: isUserLoading, isError: isUserError } = useUser(session.user.login)
+  const { teams, isLoading: isTeamsLoading, isError: isTeamsError } = useTeams(session.user.login)
 
   const [name, setName] = useState(null)
+  const [defaultTeam, setDefaultTeam] = useState(null)
   const handleNameChange = event => setName(event.target.value)
+  const handleDefaultChange = event => setDefaultTeam(event.target.value)
 
-  const onSave = event => {
+  const onNameSave = event => {
     if (name && name != team.name) {
       $fetch(`/api/teams/${team.name}`, {
         method: 'PUT',
@@ -31,15 +35,28 @@ export const Team = ({ teamName }) => {
     }
   }
 
-  if (isTeammatesLoading || isTeamLoading) {
+  const onDefaultSave = event => {
+    if (defaultTeam && defaultTeam != user.defaultTeam) {
+      $fetch(`/api/users/${session.user.login}`, {
+        method: 'PUT',
+        body: JSON.stringify({ defaultTeam })
+      }).then(res => {
+        mutate(`/api/users/${session.user.login}`)
+        router.push(`/team/${defaultTeam}`)
+      })
+    }
+  }
+
+  if (isTeammatesLoading || isTeamLoading || isUserLoading || isTeamsLoading) {
     return <PageSpinner />
   }
-  else if (isTeammatesError || isTeamError) {
-    console.log("🚀 ~ file: Team.jsx ~ line 22 ~ Team ~ {isTeammatesError,isTeamError}", {isTeammatesError,isTeamError})
+  else if (isTeammatesError || isTeamError || isUserError || isTeamsError) {
+    console.log("🚀 ~ file: Team.jsx ~ line 22 ~ Team ~ {isTeammatesError,isTeamError,isUserError}", JSON.stringify({isTeammatesError,isTeamError, isUserError}))
     return 'scawy'
   }
   else {
     if (name === null) setName(team.name)
+    if (defaultTeam === null) setDefaultTeam(user.defaultTeam)
     const onSubmit = (values, { setSubmitting, resetForm }) => {
         $fetch(`/api/teams/${team.name}/members`, {
           method: 'PUT',
@@ -76,13 +93,13 @@ export const Team = ({ teamName }) => {
     return (
       <Stack spacing="8" py="5" px="8" divider={<StackDivider />}>
         <VStack w="full" align="left">
-          <SettingsCard onSave={onSave}>
+          <SettingsCard onSave={onNameSave}>
             <Text fontWeight="bold" fontSize="1.25rem" mb="1rem">Team Name</Text>
             <Text mb=".75rem" color="gray.700">Used to identify your Team on the ko6a Dashboard</Text>
             <Input value={name} onChange={handleNameChange}/>
           </SettingsCard>
           <SettingsCard>
-          <Text fontWeight="bold" fontSize="1.25rem" mb="1rem">Team Members</Text>
+            <Text fontWeight="bold" fontSize="1.25rem" mb="1rem">Team Members</Text>
             <Text mb=".75rem" color="gray.700">Registered members of your team</Text>
             {teammates && teammates.map(teammate => (
               <Flex
@@ -145,6 +162,13 @@ export const Team = ({ teamName }) => {
                 </Box>
               </Flex>
           </SettingsCard>
+          <SettingsCard onSave={onDefaultSave}>
+            <Text fontWeight="bold" fontSize="1.25rem" mb="1rem">Default Team</Text>
+            <Text mb=".75rem" color="gray.700">The team that will be selected by default when you log in</Text>
+            <Select value={defaultTeam} onChange={handleDefaultChange}>
+              { teams.map(teamItem => <option value={teamItem.name}>{teamItem.name}</option>)}
+            </Select>
+          </SettingsCard>
         </VStack> 
       </Stack>
     )
@@ -164,7 +188,6 @@ const SettingsCard = ({ onSave, children }) => {
         border="1px"
         borderColor="gray.200"
         borderRadius="md"
-        mb="2.5rem"
       >
         <Box
           p="6"
@@ -175,6 +198,7 @@ const SettingsCard = ({ onSave, children }) => {
           py="2"
           px="6"
           w="full"
+          h="3.5rem"
           bg="gray.50"
           align="right"
           borderTop="1px"

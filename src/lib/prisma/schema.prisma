@@ -8,12 +8,12 @@ datasource db {
 }
 
 model user {
-  id            Int       @id @default(autoincrement())
-  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
-  name          String
-  ghLogin       String    @unique
-  defaultTeam   String
-  teams         teamMembers[]
+  id               Int       @id @default(autoincrement())
+  createdAt        DateTime? @default(now()) @db.Timestamptz(6)
+  name             String
+  ghLogin          String    @unique
+  defaultTeam      String
+  teams            teamMembers[]
 
   @@map("User")
 }

@@ -27,7 +27,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           name: newName
         }
       })
-      if (team) {
+      const members = await prisma.user.updateMany({ where: { defaultTeam: name }, data: { defaultTeam: newName }})
+      if (team && members) {
         res.json(team)
       } else {
         return res.status(500).json({ error: 'Error updating team' })
