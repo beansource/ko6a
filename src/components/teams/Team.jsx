@@ -6,14 +6,30 @@ import { Formik, Form, Field } from 'formik'
 import { useTeammates, useTeam } from '@hooks'
 import { $fetch } from 'ohmyfetch'
 import { useSWRConfig } from 'swr'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 export const Team = ({ teamName }) => {
+  const router = useRouter()
   const { mutate } = useSWRConfig()
+  const { data:session } = useSession()
   const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(teamName)
   const { team, isLoading: isTeamLoading, isError: isTeamError } = useTeam(teamName)
 
-  const [name, setName] = useState(team?.name)
+  const [name, setName] = useState(null)
   const handleNameChange = event => setName(event.target.value)
+
+  const onSave = event => {
+    if (name && name != team.name) {
+      $fetch(`/api/teams/${team.name}`, {
+        method: 'PUT',
+        body: JSON.stringify({ name })
+      }).then(res => {
+        mutate(`/api/users/${session.user.login}`)
+        router.push(`/team/${name}`)
+      })
+    }
+  }
 
   if (isTeammatesLoading || isTeamLoading) {
     return <PageSpinner />
@@ -23,7 +39,7 @@ export const Team = ({ teamName }) => {
     return 'scawy'
   }
   else {
-    if (name != team.name) setName(team.name)
+    if (name === null) setName(team.name)
     const onSubmit = (values, { setSubmitting, resetForm }) => {
         $fetch(`/api/teams/${team.name}/members`, {
           method: 'PUT',
@@ -60,10 +76,10 @@ export const Team = ({ teamName }) => {
     return (
       <Stack spacing="8" py="5" px="8" divider={<StackDivider />}>
         <VStack w="full" align="left">
-          <SettingsCard>
+          <SettingsCard onSave={onSave}>
             <Text fontWeight="bold" fontSize="1.25rem" mb="1rem">Team Name</Text>
             <Text mb=".75rem" color="gray.700">Used to identify your Team on the ko6a Dashboard</Text>
-            <Input value={name} onChange={handleNameChange}></Input>
+            <Input value={name} onChange={handleNameChange}/>
           </SettingsCard>
           <SettingsCard>
           <Text fontWeight="bold" fontSize="1.25rem" mb="1rem">Team Members</Text>
@@ -112,21 +128,21 @@ export const Team = ({ teamName }) => {
                 <Divider />
                 <Box w="full" align="left" mt=".5rem">
                   <Formik initialValues={{}} onSubmit={onSubmit}>
-                  {(props) => (
-                    <Form w="full">
-                      <Flex w="full" flexDirection="row" align="end">
-                        <Box w="83%">
-                          <FormikField name="ghLogin" label="Github Login" validation={stringIsNotEmpty} />
-                        </Box>
-                        <Spacer />
-                        <Button isLoading={props.isSubmitting} type="submit" colorScheme="blue">
-                          Add Member
-                        </Button>
-                      </Flex>
-                    </Form>
-                  )}
-                </Formik>
-              </Box>
+                    {(props) => (
+                      <Form w="full">
+                        <Flex w="full" flexDirection="row" align="end">
+                          <Box w="83%">
+                            <FormikField name="ghLogin" label="Github Login" validation={stringIsNotEmpty} />
+                          </Box>
+                          <Spacer />
+                          <Button isLoading={props.isSubmitting} type="submit" colorScheme="blue">
+                            Add Member
+                          </Button>
+                        </Flex>
+                      </Form>
+                    )}
+                  </Formik>
+                </Box>
               </Flex>
           </SettingsCard>
         </VStack> 
@@ -141,7 +157,7 @@ const stringIsNotEmpty = (value) => {
   }
 }
 
-const SettingsCard = ({ children }) => {
+const SettingsCard = ({ onSave, children }) => {
   return (
     <Flex
         flexDirection="column"
@@ -164,7 +180,7 @@ const SettingsCard = ({ children }) => {
           borderTop="1px"
           borderColor="gray.200"
         >
-          <Button bg="none" border="1px" borderColor="gray.300" fontWeight="normal">Save</Button>
+          {onSave && <Button bg="none" border="1px" borderColor="gray.300" fontWeight="normal" onClick={onSave}>Save</Button>}
         </Box>
       </Flex>
   )

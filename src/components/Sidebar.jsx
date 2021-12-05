@@ -14,17 +14,16 @@ import { UserInfo } from './UserInfo'
 import { useMobileMenuState } from './useMobileMenuState'
 import Menu from './Menu'
 
-import { useTeammates, useTeam } from '@hooks'
+import { useTeammates } from '@hooks'
 
 export default function Sidebar({ user, children }) {
   const router = useRouter()
   const { isOpen, toggle } = useMobileMenuState()
 
   const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(user.teamName)
-  const { team, isLoading: isTeamLoading, isError: isTeamError } = useTeam(user.teamName)
 
-  if (isTeammatesError || isTeamError) {
-    console.log("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError, isTeamError}", {isTeammatesError, isTeamError})
+  if (isTeammatesError) {
+    console.log("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError}", {isTeammatesError})
     return 'scawy!!!'
   }
   return (

@@ -19,4 +19,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(500).json({ error: 'Error retrieving team' })
     }
   }
+  else if (req.method === 'PUT') {
+    try {
+      const { name: newName } = JSON.parse(req.body)
+      const team = await prisma.team.update({ where: { name },
+        data: {
+          name: newName
+        }
+      })
+      const teammates = await prisma.user.updateMany({ where: { teamName: name },
+        data: {
+          teamName: newName
+        }
+      })
+      if (team && teammates) {
+        res.json(team)
+      } else {
+        return res.status(500).json({ error: 'Error updating team' })
+      }
+    }
+    catch (e) {
+      console.log("🚀 ~ file: index.ts ~ line 37 ~ handler ~ e", e)
+      return res.status(500).json({ error: 'Error updating team' })
+    }
+  }
 }
