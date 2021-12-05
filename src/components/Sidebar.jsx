@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router'
 
-import { Avatar, Box, Flex, Stack, useColorModeValue as mode, Spacer, HStack } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Stack, useColorModeValue as mode, Spacer, HStack, 
+  Menu as ChakraMenu, MenuButton, MenuList, MenuItem, Spinner, Image, Text } from '@chakra-ui/react'
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
+import { FiPlusCircle } from 'react-icons/fi'
 
 import { data } from '../_data'
 import { MobileMenuButton } from './MobileMenuButton'
@@ -14,16 +16,19 @@ import { UserInfo } from './UserInfo'
 import { useMobileMenuState } from './useMobileMenuState'
 import Menu from './Menu'
 
-import { useTeammates } from '@hooks'
+import { useTeammates, useTeam, useTeams } from '@hooks'
 
 export default function Sidebar({ user, children }) {
   const router = useRouter()
   const { isOpen, toggle } = useMobileMenuState()
 
-  const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(user.teamName)
+  const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(user.defaultTeam)
+  const { team, isLoading: isTeamLoading, isError: isTeamError } = useTeam(user.defaultTeam)
+  const { teams, isLoading: isTeamsLoading, isError: isTeamsError } = useTeams(user.ghLogin)
+  
 
-  if (isTeammatesError) {
-    console.log("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError}", {isTeammatesError})
+  if (isTeammatesError || isTeamError || isTeamsError) {
+    console.log("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError, isTeamError, isTeamsError}", {isTeammatesError, isTeamError, isTeamsError})
     return 'scawy!!!'
   }
   return (
@@ -47,22 +52,41 @@ export default function Sidebar({ user, children }) {
       position="fixed"
     >
       <Box fontSize="sm" lineHeight="tall">
-      <Box
-          as="a"
-          href={`/team/${user.teamName}`}
-          textAlign="left"
-          p={0}
-          w="full"
-          display="block"
-          transition="background 0.1s"
-          rounded="xl"
-          _hover={{
-            bg: 'whiteAlpha.200',
-          }}
-          whiteSpace="nowrap"
-        >
-          <UserInfo name={user.name} email={user.email} image={user.avatarUrl} />
-      </Box>
+        <ChakraMenu>
+          <MenuButton textAlign="left"
+            p={0}
+            w="full"
+            display="block"
+            transition="background 0.1s"
+            rounded="xl"
+            _hover={{
+              bg: 'whiteAlpha.200',
+            }}
+            whiteSpace="nowrap" 
+          >
+            <UserInfo name={user.name} email={user.email} image={user.avatarUrl} />
+          </MenuButton>
+          <MenuList p="2" borderRadius="base">
+            { isTeamsLoading ? <Spinner /> : (
+            <>
+              <Text p="0 8px 4px 8px" color="gray.600">Teams</Text>
+              {teams.map(teamItem => (
+                <MenuItem as="a" href={`/team/${teamItem.name}`} color="gray.700" borderRadius="base" p="8px">
+                  <Image
+                    boxSize='20px'
+                    borderRadius='full'
+                    src={teamItem.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${teamItem.name}.svg`}
+                    alt={teamItem.name}
+                    mr='12px'
+                  />
+                  <Text fontWeight={teamItem.name === user.defaultTeam ? 'bold' : 'normal'}>{teamItem.name}</Text>
+                </MenuItem>
+              ))}
+              <MenuItem  p="8px" color="gray.700" borderRadius="base" onClick={() => alert('wee')} icon={<FiPlusCircle size="20px" color="#2780ce"/>}>Create Team</MenuItem>
+              </>
+            )}
+          </MenuList>
+        </ChakraMenu>
         <ScrollArea pt="5" pb="6">
           <SidebarLink
             display={{
@@ -81,8 +105,8 @@ export default function Sidebar({ user, children }) {
             <SidebarLink icon={<BsTerminalFill />}>Console</SidebarLink>
           </Stack>
           <Stack pb="6">
-            <NavSectionTitle>Team</NavSectionTitle>
-            {isTeammatesLoading ? null : teammates.map((teammate, index) => {
+            <NavSectionTitle>{user.defaultTeam}</NavSectionTitle>
+            {teammates ? teammates.map((teammate, index) => {
               return ( teammate.login != user.ghLogin ?
               <SidebarLink
                 key={index}
@@ -90,7 +114,7 @@ export default function Sidebar({ user, children }) {
               >
                 {teammate.name}
               </SidebarLink>
-            : null)})}
+            : null)}) : null}
           </Stack>
           <Stack>
             <NavSectionTitle>Resources</NavSectionTitle>

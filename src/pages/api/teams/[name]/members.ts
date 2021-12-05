@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'GET') {
     try {
-      const teammates = await prisma.user.findMany({ where: { teamName: name } })
+      const teammates = await prisma.user.findMany({ where: { teams: { some: { team: { name }}}}})
       if (teammates) {
         const members = []
         for await (const member of teammates) {
@@ -24,23 +24,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
     catch (e) {
+      console.log("🚀 ~ file: members.ts ~ line 27 ~ handler ~ e", e)
       return res.status(500).json({ error: 'Error retrieving team members' })
     }
   }
   else if (req.method === 'PUT') {
     try {
       const { ghLogin } = JSON.parse(req.body)
-      const team = await prisma.team.update({ where: { name },
-        data: {
-          members: {
-            connect: {
-              ghLogin
-            }
-          }
-        }
-      })
-      const members = await prisma.user.findMany({ where: { teamName: name } })
-      if (team && members) {
+      const membership = await prisma.team.update({ where: { name }, data: { members: { create: [{ member: { connect: { ghLogin }}}] } }})
+      const members = await prisma.user.findMany({ where: { teams: { some: { team: { name }}}}})
+      if (membership && members) {
         res.json(members)
       } else {
         return res.status(500).json({ error: 'Error updating team members' })
@@ -54,16 +47,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   else if (req.method === 'DELETE') {
     try {
       const { ghLogin } = JSON.parse(req.body)
-      const team = await prisma.team.update({ where: { name },
-        data: {
-          members: {
-            disconnect: {
-              ghLogin
-            }
-          }
-        }
-      })
-      if (team) {
+      const user = await prisma.user.findUnique({ where: { ghLogin }})
+      const team = await prisma.team.findUnique({ where: { name }})
+      const membership = await prisma.teamMembers.delete({ where: { userId_teamId: { userId: user.id, teamId: team.id }}})
+      if (membership) {
         res.json(team)
       } else {
         return res.status(404).json({ error: 'User does not belong to this team' })

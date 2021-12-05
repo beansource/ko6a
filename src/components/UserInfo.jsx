@@ -1,4 +1,5 @@
-import { Avatar, Box, HStack, Text, useColorModeValue as mode } from '@chakra-ui/react'
+import { Avatar, Box, HStack, Text, useColorModeValue as mode, Spacer } from '@chakra-ui/react'
+import { UpDownIcon } from '@chakra-ui/icons'
 
 export const UserInfo = props => {
   const { name, image, email } = props
@@ -11,6 +12,8 @@ export const UserInfo = props => {
           {email}
         </Text>
       </Box>
+      <Spacer />
+      <UpDownIcon />
     </HStack>
   )
 }

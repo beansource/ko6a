@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res) {
   
   if (req.method === 'GET') {
     try {
-      const teams = await prisma.team.findMany({ include: { members: true } })
+      const teams = await prisma.team.findMany({ include: { name: true } })
       if (teams) {
         res.json(teams)
       } else {
@@ -26,18 +26,7 @@ export default async function handler(req: NextApiRequest, res) {
   } else if (req.method === 'POST') {
     try {
       const { name, memberId } = JSON.parse(req.body)
-      const user = await prisma.user.findUnique({ where: { ghLogin: memberId }})
-      const team = await prisma.team.findUnique({ where: { name }})
-      const wee = await prisma.team.update({
-        where: { id: team.id },
-        data: {
-          members: {
-            connect: {
-              id: user.id
-            }
-          }
-        }
-      })
+      const team = await prisma.team.create({ data: { name, members: { create: [{ member: { connect: { memberId }}}]} }})
       if (team) {
         res.json(team)
       } else {
@@ -48,7 +37,6 @@ export default async function handler(req: NextApiRequest, res) {
       console.log("🚀 ~ file: index.ts ~ line 33 ~ handler ~ e", e)
       return res.status(500).json({ error: 'Failed to create team :(' })
     }
-    
     
   } else {
     return res.status(405).json({ error: 'Method not allowed' })

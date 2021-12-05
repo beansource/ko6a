@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { VStack, Box, Text, Flex, Input, Button, Spacer, Link, Divider,
-  FormControl, FormLabel, FormErrorMessage, Spinner, Stack, StackDivider } from '@chakra-ui/react'
+  FormControl, FormLabel, FormErrorMessage, Stack, StackDivider } from '@chakra-ui/react'
 import PageSpinner from '@components/PageSpinner'
 import { Formik, Form, Field } from 'formik'
 import { useTeammates, useTeam } from '@hooks'
