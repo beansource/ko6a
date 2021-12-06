@@ -30,9 +30,21 @@ export const Team = ({ teamName }) => {
       $fetch(`/api/teams/${team.name}`, {
         method: 'PUT',
         body: JSON.stringify({ name })
-      }).then(res => {
+      })
+      .then(res => {
         mutate(`/api/users/${session.user.login}`)
+        mutate(`/api/users/${session.user.login}/teams`)
         router.push(`/team/${name}`)
+      })
+      .catch(e => {
+        toast({
+          title: "Could not update team",
+          description: `Failed to change team name`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right"
+        })
       })
     }
   }
@@ -42,9 +54,21 @@ export const Team = ({ teamName }) => {
       $fetch(`/api/users/${session.user.login}`, {
         method: 'PUT',
         body: JSON.stringify({ defaultTeam })
-      }).then(res => {
+      })
+      .then(res => {
         mutate(`/api/users/${session.user.login}`)
         router.push(`/team/${defaultTeam}`)
+        setName(defaultTeam)
+      })
+      .catch(e => {
+        toast({
+          title: "Could not update team",
+          description: `Failed to update default team`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right"
+        })
       })
     }
   }
@@ -79,7 +103,7 @@ export const Team = ({ teamName }) => {
         })
         .catch(e => {
           toast({
-            title: "Could not update team 🚀",
+            title: "Could not update team",
             description: `Failed to add ${values.ghLogin} to ${team.name}!`,
             status: "error",
             duration: 9000,
@@ -110,7 +134,7 @@ export const Team = ({ teamName }) => {
       })
       .catch(e => {
         toast({
-          title: "Could not update team 🚀",
+          title: "Could not update team",
           description: `Failed to remove ${member.ghLogin} from ${team.name}!`,
           status: "error",
           duration: 9000,

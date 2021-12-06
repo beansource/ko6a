@@ -34,7 +34,7 @@ export default function NewTeam({ isOpen, onOpen, onClose }) {
       })
       .catch(() => {
         toast({
-          title: "Could not create team 🚀",
+          title: "Could not create team",
           description: `Failed to create ${values.name}`,
           status: "error",
           duration: 9000,

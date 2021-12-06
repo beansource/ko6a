@@ -71,10 +71,21 @@ export default function Sidebar({ user, children }) {
             <UserInfo name={user.name} email={user.email} image={user.avatarUrl} />
           </MenuButton>
           <MenuList p="2" borderRadius="base">
-            { isTeamsLoading ? <Spinner /> : (
+            {isTeamsLoading ? <Spinner /> : (
               <>
+                <Text p="0 8px 4px 8px" color="gray.600">Personal</Text>
+                <MenuItem as="a" href={`/team/${user.ghLogin}`} color="gray.700" borderRadius="base" p="8px">
+                    <Image
+                      boxSize='20px'
+                      borderRadius='full'
+                      src={user.avatarUrl}
+                      alt={user.ghLogin}
+                      mr='12px'
+                    />
+                    <Text fontWeight={user.ghLogin === user.defaultTeam ? 'bold' : 'normal'}>{user.ghLogin}</Text>
+                  </MenuItem>
                 <Text p="0 8px 4px 8px" color="gray.600">Teams</Text>
-                {teams.map(teamItem => (
+                {teams.map(teamItem => (user.ghLogin != teamItem.name ? 
                   <MenuItem as="a" href={`/team/${teamItem.name}`} color="gray.700" borderRadius="base" p="8px">
                     <Image
                       boxSize='20px'
@@ -85,7 +96,7 @@ export default function Sidebar({ user, children }) {
                     />
                     <Text fontWeight={teamItem.name === user.defaultTeam ? 'bold' : 'normal'}>{teamItem.name}</Text>
                   </MenuItem>
-                ))}
+                : null))}
                 <MenuItem
                   p="8px" 
                   color="gray.700" 
