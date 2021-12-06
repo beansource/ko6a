@@ -2,28 +2,31 @@ import { Formik, Form } from 'formik'
 import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/react'
 import { useSWRConfig } from 'swr'
+import { useRouter } from 'next/router'
 import FormikField from '@components/forms/formik-field'
 import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
   Stack, HStack, Spacer
 } from '@chakra-ui/react'
 
-export default function NewProject({ isOpen, onOpen, onClose }) {
+export default function NewRepo({ isOpen, onClose }) {
   const toast = useToast()
   const { mutate } = useSWRConfig()
+  const router = useRouter()
+  const project = router?.query?.slug && router.query.slug[0]
   
   const onSubmit = (values, { setSubmitting }) => {
-    $fetch('/api/projects', {
+    $fetch(`/api/projects/${project}/repos`, {
       method: 'POST',
-      body: JSON.stringify(values),
+      body: JSON.stringify({ ...values, parentProject: project }),
     })
-      .then(r => {
+      .then(() => {
         setSubmitting(false)
         onClose()
-        mutate('/api/projects')
+        mutate(`/api/projects/${project}`)
         toast({
-          title: "Project created 🚀",
-          description: `${values.name} has been successfully created!`,
+          title: "Repo added 🚀",
+          description: `${values.repo} has been successfully added to ${project}!`,
           status: "success",
           duration: 9000,
           isClosable: true,
@@ -32,7 +35,7 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
       })
       .catch(() => {
         setSubmitting(false)
-        console.log('Issue creating project :(')
+        console.log('Issue adding repo to project :(')
       })
   }
 
@@ -54,9 +57,9 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
             {(props) => (
               <Form>
                 <Stack spacing='2'>
-                  <FormikField name="name" label="Project name" validation={stringIsNotEmpty} />
+                  <FormikField name="owner" label="Repo owner (user/org)" validation={stringIsNotEmpty} />
+                  <FormikField name="repo" label="The repo name" validation={stringIsNotEmpty} />
                   <FormikField name="description" label="Description" validation={stringIsNotEmpty} />
-                  <FormikField name="owner" label="Org or User" validation={stringIsNotEmpty} />
                   <HStack>
                     <Spacer />
                     <Button isLoading={props.isSubmitting} type="submit" colorScheme="blue">
