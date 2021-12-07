@@ -38,15 +38,3 @@ export default function Project(props) {
     </Box>
   )
 }
-
-const fetcher = (url, owner, repo, path) => fetch(url, {
-  method: 'POST',
-  body: JSON.stringify({
-    owner,
-    repo,
-    path
-  }),
-  headers: {
-    'Content-Type': 'application/json'
-  }
-}).then(res => res.json())

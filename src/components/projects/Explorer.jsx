@@ -1,9 +1,11 @@
-import { Box, useColorModeValue as mode, Icon, Stack, Flex, Circle, Heading, Text, LinkBox, LinkOverlay } from '@chakra-ui/react'
+import { Box, useColorModeValue as mode, Icon, Stack, Flex, Circle, Heading, Text } from '@chakra-ui/react'
 import React from 'react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 const prettyBytes = require('pretty-bytes')
+import { File } from './File'
+import isScriptFile from '@util/isScriptFile'
 
 /**
  * Explore a Repository and its contents
@@ -16,6 +18,13 @@ export const Explorer = props => {
   const router = useRouter()
   const { slug } = router.query
   const newSlugs = slug?.slice(2, slug.length + 1)
+
+  // if url is a blob, show file
+  if (isScriptFile(newSlugs[newSlugs.length - 1])) {
+    return (
+      <File owner={owner} repo={repo} path={newSlugs} />
+    )
+  }
   
   const path = `HEAD:${newSlugs?.join('/')}`
   const { data } = useSWR(['/api/github', owner, repo, path], fetcher)
@@ -27,20 +36,17 @@ export const Explorer = props => {
     } else if (item?.type === 'tree') {
       treeSize = item.object?.entries?.length
     }
+
     return (
-      <LinkBox>
-        <LinkOverlay href={`${router.asPath}/${item.name}`}>
-          <ListItem
-            title={JSON.stringify(item.name).replaceAll('"', '')} id={idx}
-            subTitle={item.type === 'blob' ? `${prettyBytes(byteSize)}` : `${treeSize} items`}
-            icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
-              boxSize="4" />
-            }
-          >
-            <Placeholder />
-          </ListItem>
-        </LinkOverlay>
-      </LinkBox>
+      <Box onClick={() => window.location.href = `${router.asPath}/${item.name}`} cursor='pointer'>
+        <ListItem
+          title={JSON.stringify(item.name).replaceAll('"', '')} id={idx}
+          subTitle={item.type === 'blob' ? `${prettyBytes(byteSize)}` : `${treeSize} items`}
+          icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
+            boxSize="4" />
+          }
+        />
+      </Box>
     )
   })
 
@@ -63,7 +69,7 @@ export const Explorer = props => {
 export const ListItem = props => {
   const { title, subTitle, icon, isLastItem, children, ...stackProps } = props
   return (
-    <Stack as="li" direction="row" spacing="4" {...stackProps}>
+    <Stack direction="row" spacing="4">
       <Flex direction="column" alignItems="center" aria-hidden="true">
         <Circle
           bg={mode('blue.500', 'blue.300')}
@@ -74,14 +80,16 @@ export const ListItem = props => {
         >
           {icon}
         </Circle>
-        {!isLastItem && <Flex flex="1" borderRightWidth="1px" mb="-12" />}
       </Flex>
-      <Stack spacing="4" pt="1" flex="1">
+      <Stack spacing="4" pt="1" flex="1" transition="0.3s" _hover={{
+          transform: 'translateX(0.3em)'
+        }}
+      >
         <Flex direction="column">
           <Heading fontSize="md" fontWeight="semibold" fontFamily="mono">
             {title}
           </Heading>
-          <Text fontSize="sm" color={mode('gray.600', 'gray.400')}>
+          <Text fontSize="sm">
             {subTitle}
           </Text>
         </Flex>
@@ -112,16 +120,6 @@ export const List = props => {
     </Stack>
   )
 }
-
-export const Placeholder = props => (
-  <Box
-    bg={mode('gray.50', 'gray.700')}
-    width="full"
-    height="16"
-    rounded="xl"
-    {...props}
-  />
-)
 
 const fetcher = (url, owner, repo, path) => {
   return fetch(url, {

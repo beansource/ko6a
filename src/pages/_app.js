@@ -7,7 +7,7 @@ import Layout from '../components/Layout'
 import { SWRConfig } from 'swr'
 import { $fetch } from 'ohmyfetch'
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+function Ko6a({ Component, pageProps: { session, ...pageProps }}) {
   return (
     <SessionProvider session={session}>
       <ChakraProvider resetCSS theme={theme}>
@@ -30,4 +30,4 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   )
 }
 
-export default MyApp
+export default Ko6a
