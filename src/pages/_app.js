@@ -6,7 +6,7 @@ import Layout from '../components/Layout'
 import { SWRConfig } from 'swr'
 import { $fetch } from 'ohmyfetch'
 
-function MyApp({ Component, pageProps }) {
+function Ko6a({ Component, pageProps }) {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <ColorModeProvider
@@ -27,4 +27,4 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default Ko6a

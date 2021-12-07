@@ -22,7 +22,7 @@ export const Explorer = props => {
   // if url is a blob, show file
   if (isScriptFile(newSlugs[newSlugs.length - 1])) {
     return (
-      <File />
+      <File owner={owner} repo={repo} path={newSlugs} />
     )
   }
   
