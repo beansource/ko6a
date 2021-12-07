@@ -6,7 +6,12 @@
       "@components/*": ["components/*"],
       "@projects/*": ["components/projects/*"],
       "@util/*": ["util/*"],
-      "@data/*": ["lib/data/*"]
+      "@data/*": ["lib/data/*"],
+      "@hooks": ["util/hooks"],
+      "@prismaClient": ["lib/prisma/prismaClient"],
+      "@teams/*": ["components/teams/*"],
+      "@contexts/*": ["components/contexts/*"],
+      "@lib/*": ["lib/*"]
     },
     "lib": [
       "dom",
