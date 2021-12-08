@@ -10,14 +10,13 @@ import { BsFillFileEarmarkBinaryFill } from 'react-icons/bs'
  * @returns 
  */
 export const Repo = props => {
-  const { name, owner, children, href } = props
+  const { name, owner, children, description, href } = props
   const router = useRouter()
 
   return (
-    <LinkBox position="relative" transition="ease-in-out"
+    <LinkBox position="relative" transition="0.3s"
       _hover={{
-        transform: 'scale(1.01)',
-        transition: '0.3s'
+        transform: 'scale(1.01)'
       }}
     >
       <LinkOverlay href={`${router.asPath}/${href}`}>
@@ -27,7 +26,7 @@ export const Repo = props => {
         <HStack fontSize="sm" fontWeight="medium" color={mode('gray.500', 'white')} mt="1">
           <Box as={BsFillFileEarmarkBinaryFill} fontSize="md" color="gray.400" />
           <Text>
-            7b
+            {description}
           </Text>
         </HStack>
         <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>

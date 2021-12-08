@@ -8,8 +8,7 @@ export const File = props => {
     body: JSON.stringify({
       owner: owner,
       repo: repo,
-      path: path.join('/'),
-      token: window.localStorage.getItem('ko6aToken')
+      path: path.join('/')
     }),
     // headers: {
     //   'Content-Type': 'application/json'

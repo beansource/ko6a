@@ -32,10 +32,9 @@ export const Project = props => {
   }
 
   return (
-    <LinkBox position="relative" transition="ease-in-out"
+    <LinkBox position="relative" transition="0.3s"
       _hover={{
-        transform: 'scale(1.01)',
-        transition: '0.3s'
+        transform: 'scale(1.01)'
       }}
     >
       <LinkOverlay href={`${router.asPath}/${href}`}>

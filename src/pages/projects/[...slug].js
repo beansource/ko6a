@@ -18,7 +18,6 @@ export default function Project(props) {
   const { data: project, error } = useSWR(slug && `/api/projects/${slug[0]}`)
 
   // shows list of repos
-  // todo: fix this it's borked cause of new prisma stuff
   return (
     <Box mt="-8">
       {/* todo: figure out a clean way of making it clear a project contains a list of repos */}

@@ -34,5 +34,9 @@ export default function Layout({ children }) {
     return 'scawy :('
   }
 
-  return <Sidebar user={user}>{children}</Sidebar>
+  return (
+    <Sidebar user={user}>
+      {children}
+    </Sidebar>
+  )
 }

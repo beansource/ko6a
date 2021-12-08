@@ -1,11 +1,15 @@
 import { Octokit } from '@octokit/rest'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-const octokit = new Octokit({
-  baseUrl: 'https://github.com/api/v3'
-})
+import { getSession } from 'next-auth/react'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const session = await getSession({ req })
+
+  const octokit = new Octokit({
+    baseUrl: 'https://github.com/api/v3',
+    auth: session?.accessToken
+  })
+
   const { owner, repo, path }: any = JSON.parse(req.body)
   console.log(req.body)
   console.log(`🤓 ~ file: file.ts ~ line 6 ~ handler ~ owner, repo, path`, owner, repo, path);
