@@ -1,5 +1,5 @@
 import { Box, useColorModeValue as mode, Icon, Stack, Flex, Circle, Heading, Text } from '@chakra-ui/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
@@ -101,7 +101,7 @@ export const ListItem = props => {
 
 export const List = props => {
   const { children, ...stackProps } = props
-  const items = React.useMemo(
+  const items = useMemo(
     () =>
       React.Children.toArray(children)
         .filter(React.isValidElement)
