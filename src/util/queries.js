@@ -12,6 +12,7 @@ export const getViewerQuery = `
 export const getFollowersQuery = `
   query { 
     viewer { 
+      login
       followers(first: 3) {
         nodes {
           name
@@ -19,6 +20,17 @@ export const getFollowersQuery = `
           login
         }
       }
+    }
+  }`
+
+export const getUserQuery = `
+  query user($login: String!) { 
+    user (login: $login) {
+      name
+      email
+      avatarUrl
+      bio
+      login
     }
   }`
 
