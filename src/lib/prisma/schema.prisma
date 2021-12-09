@@ -8,10 +8,10 @@ datasource db {
 }
 
 model user {
-  id               Int       @id @default(autoincrement())
-  createdAt        DateTime? @default(now()) @db.Timestamptz(6)
+  id               Int             @id @default(autoincrement())
+  createdAt        DateTime?       @default(now()) @db.Timestamptz(6)
   name             String
-  ghLogin          String    @unique
+  ghLogin          String          @unique
   defaultTeam      String
   teams            teamMembers[]
 
@@ -19,19 +19,20 @@ model user {
 }
 
 model team {
-  id            Int       @id @default(autoincrement())
-  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
-  name          String    @unique
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
+  name          String          @unique
   members       teamMembers[]
   avatarUrl     String?
+  projects      project[]
 
   @@map("Team")
 }
 
 model teamMembers {
-  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
-  member        user      @relation(fields:[userId], references:[id])
-  team          team      @relation(fields:[teamId], references:[id])
+  createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
+  member        user            @relation(fields:[userId], references:[id])
+  team          team            @relation(fields:[teamId], references:[id])
   userId        Int
   teamId        Int
 
@@ -40,12 +41,14 @@ model teamMembers {
 }
 
 model project {
-  id            Int       @id @default(autoincrement())
-  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
-  name          String    @unique(map: "projects_name_key") @db.VarChar
-  description   String?
-  owner         String
-  repos         repo[]
+  id                   Int       @id @default(autoincrement())
+  createdAt            DateTime? @default(now()) @db.Timestamptz(6)
+  name                 String    @unique(map: "projects_name_key") @db.VarChar
+  description          String?
+  owner                String
+  projectOwner         team      @relation(fields: [projectOwnerId], references: [id])
+  projectOwnerId       Int
+  repos                repo[]
 
   @@map("Project")
 }
