@@ -1,9 +1,11 @@
+import { useContext } from 'react'
 import { useRouter } from 'next/router'
 
 import { Avatar, Box, Flex, Stack, useColorModeValue as mode, Spacer, HStack, 
   Menu as ChakraMenu, MenuButton, MenuList, MenuItem, Spinner, Image, Text } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/hooks'
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
+import { SettingsIcon } from '@chakra-ui/icons'
 
 import { FiPlusCircle } from 'react-icons/fi'
 
@@ -20,13 +22,15 @@ import Menu from './Menu'
 import NewTeam from '@teams/NewTeam'
 
 import { useTeammates, useTeam, useTeams } from '@hooks'
+import { TeamContext } from '@contexts/TeamContext'
 
 export default function Sidebar({ user, children }) {
   const router = useRouter()
   const { isOpen, toggle } = useMobileMenuState()
+  const { currentTeam, handleTeamSwitch } = useContext(TeamContext)
 
-  const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(user.defaultTeam)
-  const { team, isLoading: isTeamLoading, isError: isTeamError } = useTeam(user.defaultTeam)
+  const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(currentTeam)
+  const { team, isLoading: isTeamLoading, isError: isTeamError } = useTeam(currentTeam)
   const { teams, isLoading: isTeamsLoading, isError: isTeamsError } = useTeams(user.ghLogin)
 
   const { isOpen: isNewTeamOpen, onOpen, onClose } = useDisclosure()
@@ -74,7 +78,7 @@ export default function Sidebar({ user, children }) {
             {isTeamsLoading ? <Spinner /> : (
               <>
                 <Text p="0 8px 4px 8px" color="gray.600">Personal</Text>
-                <MenuItem as="a" href={`/team/${user.ghLogin}`} color="gray.700" borderRadius="base" p="8px">
+                <MenuItem as="button" onClick={() => handleTeamSwitch(user.ghLogin)} color="gray.700" borderRadius="base" p="8px">
                     <Image
                       boxSize='20px'
                       borderRadius='full'
@@ -82,11 +86,11 @@ export default function Sidebar({ user, children }) {
                       alt={user.ghLogin}
                       mr='12px'
                     />
-                    <Text fontWeight={user.ghLogin === user.defaultTeam ? 'bold' : 'normal'}>{user.ghLogin}</Text>
+                    <Text fontWeight={user.ghLogin === currentTeam ? 'bold' : 'normal'}>{user.ghLogin}</Text>
                   </MenuItem>
                 <Text p="0 8px 4px 8px" color="gray.600">Teams</Text>
                 {teams.map(teamItem => (user.ghLogin != teamItem.name ? 
-                  <MenuItem as="a" href={`/team/${teamItem.name}`} color="gray.700" borderRadius="base" p="8px">
+                  <MenuItem as="button" onClick={() => handleTeamSwitch(teamItem.name)} color="gray.700" borderRadius="base" p="8px">
                     <Image
                       boxSize='20px'
                       borderRadius='full'
@@ -94,7 +98,7 @@ export default function Sidebar({ user, children }) {
                       alt={teamItem.name}
                       mr='12px'
                     />
-                    <Text fontWeight={teamItem.name === user.defaultTeam ? 'bold' : 'normal'}>{teamItem.name}</Text>
+                    <Text fontWeight={teamItem.name === currentTeam ? 'bold' : 'normal'}>{teamItem.name}</Text>
                   </MenuItem>
                 : null))}
                 <MenuItem
@@ -123,13 +127,16 @@ export default function Sidebar({ user, children }) {
             Search
           </SidebarLink>
           <Stack pb="6">
+            <SidebarLink icon={<SettingsIcon />} href={`/team/${currentTeam}`}>
+              Settings
+            </SidebarLink>
             <SidebarLink icon={<BsFillFolderFill />} href="/projects">
               Projects
             </SidebarLink>
             <SidebarLink icon={<BsTerminalFill />}>Console</SidebarLink>
           </Stack>
           <Stack pb="6">
-            <NavSectionTitle>{user.defaultTeam}</NavSectionTitle>
+            <NavSectionTitle>{currentTeam}</NavSectionTitle>
             {teammates ? teammates.map((teammate, index) => {
               return ( teammate.login != user.ghLogin ?
               <SidebarLink

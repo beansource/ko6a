@@ -57,8 +57,6 @@ export const Team = ({ teamName }) => {
       })
       .then(res => {
         mutate(`/api/users/${session.user.login}`)
-        router.push(`/team/${defaultTeam}`)
-        setName(defaultTeam)
       })
       .catch(e => {
         toast({
@@ -129,7 +127,6 @@ export const Team = ({ teamName }) => {
           isClosable: true,
           position: "top-right"
         })
-        console.log("🚀 ~ file: Team.jsx ~ line 25 ~ onSubmit ~ res", res)
         mutate(`/api/teams/${team.name}/members`)
       })
       .catch(e => {

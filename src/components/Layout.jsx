@@ -4,6 +4,7 @@ import Sidebar from './Sidebar'
 import PageSpinner from '@components/PageSpinner'
 
 import { useUser } from '@hooks'
+import { TeamProvider } from '@contexts/TeamContext'
 
 import { useSession, signIn } from 'next-auth/react'
 
@@ -35,8 +36,10 @@ export default function Layout({ children }) {
   }
 
   return (
-    <Sidebar user={user}>
-      {children}
-    </Sidebar>
+    <TeamProvider defaultTeam={user.defaultTeam}>
+      <Sidebar user={user}>
+        {children}
+      </Sidebar>
+    </TeamProvider>
   )
 }
