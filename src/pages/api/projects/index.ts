@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import getPrismaClient from '@prismaClient'
 import { NextApiRequest } from 'next'
 
 /**
@@ -6,7 +6,7 @@ import { NextApiRequest } from 'next'
  * !todo: add middleware to parse json body cause it's cringe that that is not done for us
  */
 export default async function handler(req: NextApiRequest, res) {
-  const prisma: PrismaClient = new PrismaClient()
+  const prisma = getPrismaClient()
   
   if (req.method === 'GET') {
     const projects = await prisma.project.findMany({ include: { repos: true } })
@@ -15,10 +15,13 @@ export default async function handler(req: NextApiRequest, res) {
     } else {
       return res.status(404).json({ error: 'No projects found :(' })
     }
-
   } else if (req.method === 'POST') {
-    const { name, description, owner } = JSON.parse(req.body)
-    const project = await prisma.project.create({ data: { name, description, owner }})
+    const { name, description, owner, currentTeam } = JSON.parse(req.body)
+    const project = await prisma.project.create({ data: { name, description, owner, projectOwner: { 
+      connect: {
+        name: currentTeam
+      }
+    }}})
 
     if (project) {
       res.json(project)
