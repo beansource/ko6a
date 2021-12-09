@@ -10,7 +10,10 @@ export default async function handler(req: NextApiRequest, res) {
   const { name }: any = req.query
   
   if (req.method === 'GET') {
-    const projects = await prisma.project.findMany({ where: { projectOwner: { name }}, include: { repos: true }})
+    const projects = await prisma.project.findMany({
+      where: { projectOwner: { name }}, 
+      include: { repos: true }
+    })
     if (projects) {
       res.json(projects)
     } else {
