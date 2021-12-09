@@ -201,7 +201,7 @@ export const Team = ({ teamName }) => {
                       <Form w="full">
                         <Flex w="full" flexDirection="row" align="end">
                           <Box w="83%">
-                            <FormikField name="ghLogin" label="Github Login" validation={stringIsNotEmpty} />
+                            <FormikField name="ghLogin" label="Github Username" validation={stringIsNotEmpty} />
                           </Box>
                           <Spacer />
                           <Button isLoading={props.isSubmitting} type="submit" colorScheme="blue">

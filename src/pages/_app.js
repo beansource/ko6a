@@ -6,8 +6,11 @@ import theme from '../theme'
 import Layout from '../components/Layout'
 import { SWRConfig } from 'swr'
 import { $fetch } from 'ohmyfetch'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 function Ko6a({ Component, pageProps: { session, ...pageProps }}) {
+  const queryClient = new QueryClient()
+
   return (
     <SessionProvider session={session}>
       <ChakraProvider resetCSS theme={theme}>
@@ -15,14 +18,16 @@ function Ko6a({ Component, pageProps: { session, ...pageProps }}) {
           options={{ useSystemColorMode: false }}
         >
           <SWRConfig value={{ fetcher: $fetch }}>
-            <Head>
-              <title>
-                {data.title}
-              </title>
-            </Head>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <QueryClientProvider client={queryClient}>
+              <Head>
+                <title>
+                  {data.title}
+                </title>
+              </Head>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </QueryClientProvider>
           </SWRConfig>
         </ColorModeProvider>
       </ChakraProvider>
