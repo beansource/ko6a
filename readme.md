@@ -18,15 +18,9 @@ see how to [contribute](contributing.md)
 - **styling**: [chakra ui](http://chakra-ui.com)
 
 ```bash
-git clone https://github.com/moncke/ko6a
+git clone https://github.com/goo-lagoon/ko6a
 cd ko6a
 yarn
 ```
 
 create a `.env.local` file similar to [`.env.example`](./.env.example)
-
-expects a github [personal access token](https://github.com/settings/tokens) with `repo` and `read:user` access
-
-```bash
-yarn dev
-```
