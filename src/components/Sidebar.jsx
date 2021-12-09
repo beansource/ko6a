@@ -6,9 +6,7 @@ import { Avatar, Box, Flex, Stack, useColorModeValue as mode, Spacer, HStack,
 import { useDisclosure } from '@chakra-ui/hooks'
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 import { SettingsIcon } from '@chakra-ui/icons'
-
 import { FiPlusCircle } from 'react-icons/fi'
-
 import { data } from '../_data'
 import { MobileMenuButton } from './MobileMenuButton'
 import { NavBreadcrumb } from './NavBreadcrumb'
