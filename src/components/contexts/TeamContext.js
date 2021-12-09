@@ -8,7 +8,7 @@ export const TeamProvider = ({ children, defaultTeam }) => {
   const [currentTeam, setCurrentTeam] = useState(defaultTeam)
 
   useEffect(() => {
-    const storedTeam = window.localStorage.getItem('currentTeam')
+    const storedTeam = window.sessionStorage.getItem('currentTeam')
     if (storedTeam && storedTeam != currentTeam) {
       setCurrentTeam(storedTeam)
     }
@@ -17,7 +17,7 @@ export const TeamProvider = ({ children, defaultTeam }) => {
   const handleTeamSwitch = newTeam => {
     const tempTeam = currentTeam
     setCurrentTeam(newTeam)
-    window.localStorage.setItem('currentTeam', newTeam)
+    window.sessionStorage.setItem('currentTeam', newTeam)
     if (newTeam != tempTeam) {
       router.push('/')
     }
