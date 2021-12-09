@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { Formik, Form } from 'formik'
 import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/react'
@@ -7,15 +8,17 @@ import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
   Stack, HStack, Spacer
 } from '@chakra-ui/react'
+import { TeamContext } from '@contexts/TeamContext'
 
 export default function NewProject({ isOpen, onOpen, onClose }) {
   const toast = useToast()
   const { mutate } = useSWRConfig()
+  const { currentTeam } = useContext(TeamContext)
   
   const onSubmit = (values, { setSubmitting }) => {
     $fetch('/api/projects', {
       method: 'POST',
-      body: JSON.stringify(values),
+      body: JSON.stringify({ ...values, currentTeam }),
     })
       .then(r => {
         setSubmitting(false)
@@ -56,7 +59,7 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
                 <Stack spacing='2'>
                   <FormikField name="name" label="Project name" validation={stringIsNotEmpty} />
                   <FormikField name="description" label="Description" validation={stringIsNotEmpty} />
-                  <FormikField name="owner" label="Org or User" validation={stringIsNotEmpty} />
+                  <FormikField name="owner" label="Github Org or User" validation={stringIsNotEmpty} />
                   <HStack>
                     <Spacer />
                     <Button isLoading={props.isSubmitting} type="submit" colorScheme="blue">

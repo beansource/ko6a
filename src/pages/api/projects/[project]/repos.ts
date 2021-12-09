@@ -1,4 +1,4 @@
-import { PrismaClient } from '.prisma/client';
+import getPrismaClient from '@prismaClient'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export interface Repo {
@@ -11,7 +11,7 @@ export interface Repo {
 // endpoint handler that returns a list of repos for a project
 export default async function repos(req: NextApiRequest, res: NextApiResponse) {
   const { project }: any = req.query
-  const prisma: PrismaClient = new PrismaClient()
+  const prisma = getPrismaClient()
 
   const projectData = await prisma.project.findUnique({ where: { name: project } })
   if (!projectData) {
