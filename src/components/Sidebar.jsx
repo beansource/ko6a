@@ -137,15 +137,15 @@ export default function Sidebar({ user, children }) {
           <Stack pb="6">
             <NavSectionTitle>{currentTeam}</NavSectionTitle>
             {teammates ? teammates.map((teammate, index) => {
-              return ( teammate.login != user.ghLogin ?
-              <SidebarLink
-                key={index}
-                avatar={<Avatar bg="none" size="xs" name={teammate.name} src={teammate.avatarUrl} />}
-              >
-                {teammate.name}
+              return (teammate.login != user.ghLogin ?
+                <SidebarLink
+                  key={index}
+                  avatar={<Avatar bg="none" size="xs" name={teammate.name} src={teammate.avatarUrl} />}
+                >
+                  {teammate.name}
               </SidebarLink>
               : null)}) : null}
-            </Stack>
+          </Stack>
             <Stack>
               <NavSectionTitle>Resources</NavSectionTitle>
               <SidebarLink>Documentation</SidebarLink>
