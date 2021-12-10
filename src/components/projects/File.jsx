@@ -61,21 +61,19 @@ export const File = props => {
       const reader = res.body.getReader()
       const chunks = []
 
-      function pump() {
-        return reader.read().then(({ value, done }) => {
-          if (done) {
-            setLoading(false)
-            return chunks
-          }
-          let log = new TextDecoder().decode(value)
-          console.log(log)
-          setConsoleOutput(oldArr => oldArr + log)
-          scrollToBottom('console')
-          chunks.push(value)
-          return pump()
-        })
+      async function stream() {
+        const { value, done } = await reader.read()
+        if (done) {
+          setLoading(false)
+          return chunks
+        }
+        let log = new TextDecoder().decode(value)
+        setConsoleOutput(oldArr => oldArr + log)
+        scrollToBottom('console')
+        chunks.push(value)
+        return stream()
       }
-      return pump()
+      return stream()
     })
   }
 
