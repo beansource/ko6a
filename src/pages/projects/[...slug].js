@@ -19,7 +19,7 @@ export default function Project(props) {
 
   // shows list of repos
   return (
-    <Box mt="-8">
+    <Box p="8">
       {/* todo: figure out a clean way of making it clear a project contains a list of repos */}
       <Heading pb="2">repos</Heading>
       <Stack spacing="8" py="5" px="8" divider={<StackDivider />}>

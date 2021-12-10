@@ -1,10 +1,10 @@
-import { Box, Heading, Stack, SimpleGrid, Text } from '@chakra-ui/react'
+import { Box, Heading, Stack, SimpleGrid, Text, Container } from '@chakra-ui/react'
 import { GiGorilla } from 'react-icons/gi'
 import { FcTimeline, FcInTransit, FcFactory, FcDeployment, FcElectronics } from 'react-icons/fc'
 
 export default function Home() {
   return (
-    <>
+    <Container minW="container.lg">
       <Heading size="md" fontWeight="extrabold" mb="6">
         Vision
       </Heading>
@@ -31,7 +31,7 @@ export default function Home() {
           </Feature>
         </SimpleGrid>
       </Box>
-    </>
+    </Container>
   )
 }
 
