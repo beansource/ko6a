@@ -189,7 +189,7 @@ export default function Sidebar({ user, children }) {
                 <Menu />
               </HStack>
             </Flex>
-            <Flex direction="column" flex="1" overflow="auto" pt="0">
+            <Flex direction="column" flex="1" overflow="auto">
               {children}
             </Flex>
           </Flex>
