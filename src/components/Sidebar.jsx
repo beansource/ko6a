@@ -1,8 +1,5 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
-
-import { Avatar, Box, Flex, Stack, useColorModeValue as mode, Spacer, HStack, 
-  Menu as ChakraMenu, MenuButton, MenuList, MenuItem, Spinner, Image, Text } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/hooks'
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 import { SettingsIcon } from '@chakra-ui/icons'
@@ -18,6 +15,10 @@ import { UserInfo } from './UserInfo'
 import { useMobileMenuState } from './useMobileMenuState'
 import Menu from './Menu'
 import NewTeam from '@teams/NewTeam'
+import {
+  Avatar, Box, Flex, Stack, useColorModeValue as mode, Spacer, HStack, Menu as ChakraMenu, 
+  MenuButton, MenuList, MenuItem, Spinner, Image, Text 
+} from '@chakra-ui/react'
 
 import { useTeammates, useTeam, useTeams } from '@hooks'
 import { TeamContext } from '@contexts/TeamContext'
@@ -88,8 +89,8 @@ export default function Sidebar({ user, children }) {
                     <Text fontWeight={user.ghLogin === currentTeam ? 'bold' : 'normal'}>{user.ghLogin}</Text>
                   </MenuItem>
                   <Text p="0 8px 4px 8px" color="gray.600">Teams</Text>
-                  {teams.map(teamItem => (user.ghLogin != teamItem.name ? 
-                    <MenuItem as="button" onClick={() => handleTeamSwitch(teamItem.name)} color="gray.700" borderRadius="base" p="8px">
+                  {teams.map((teamItem, idx) => (user.ghLogin != teamItem.name ? 
+                    <MenuItem as="button" onClick={() => handleTeamSwitch(teamItem.name)} color="gray.700" borderRadius="base" p="8px" key={idx}>
                       <Image
                         boxSize='20px'
                         borderRadius='full'
