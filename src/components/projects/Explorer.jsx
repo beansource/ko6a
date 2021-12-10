@@ -40,7 +40,7 @@ export const Explorer = props => {
     return (
       <Box onClick={() => window.location.href = `${router.asPath}/${item.name}`} cursor='pointer'>
         <ListItem
-          title={JSON.stringify(item.name).replaceAll('"', '')} id={idx}
+          title={JSON.stringify(item.name).replaceAll('"', '')} id={idx} key={idx}
           subTitle={item.type === 'blob' ? `${prettyBytes(byteSize)}` : `${treeSize} items`}
           icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
             boxSize="4" />
