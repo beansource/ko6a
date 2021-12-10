@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 import { Project } from '@projects/Project'
 import { Stack, StackDivider } from '@chakra-ui/react'
-import useSWR from 'swr'
 import { TeamContext } from '@contexts/TeamContext'
+import useSWR from 'swr'
 
 export default function Projects() {
   const { currentTeam } = useContext(TeamContext)

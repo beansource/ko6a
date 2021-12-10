@@ -5,6 +5,7 @@ import plur from 'plur'
 import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/toast'
 import { useSWRConfig } from 'swr'
+import Link from 'next/link'
 
 /**
  * Deisgn used to list a user's Projects
@@ -37,18 +38,21 @@ export const Project = props => {
         transform: 'scale(1.01)'
       }}
     >
-      <LinkOverlay href={`${router.asPath}/${href}`}>
-        <Box fontWeight="bold" maxW="xl">
-          {title}
-        </Box>
-        <HStack fontSize="sm" fontWeight="medium" color={mode('gray.500', 'white')} mt="1">
-          <Box as={HiCollection} fontSize="md" color="gray.400" />
-          <span>{repos} {plur('repository', repos)}</span>
-        </HStack>
-        <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>
-          {children}
-        </Box>
-      </LinkOverlay>
+      <Link href={`${router.asPath}/${href}`} passHref>
+        <LinkOverlay>
+          <Box fontWeight="bold" maxW="xl">
+            {title}
+          </Box>
+          <HStack fontSize="sm" fontWeight="medium" color={mode('gray.500', 'white')} mt="1">
+            <Box as={HiCollection} fontSize="md" color="gray.400" />
+            <span>{repos} {plur('repository', repos)}</span>
+          </HStack>
+          <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>
+            {children}
+          </Box>
+        </LinkOverlay>
+      </Link>
+
       <HStack
         position={{ sm: 'absolute' }}
         top={{ sm: '0' }}

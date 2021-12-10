@@ -2,6 +2,7 @@ import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/reac
 import { HiChevronRight } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 export const NavBreadcrumb = props => {
   const router = useRouter()
@@ -35,9 +36,11 @@ export const NavBreadcrumb = props => {
       {breadcrumbs?.map((item, idx) => {
         return (
           <BreadcrumbItem color="inherit" isCurrentPage={item.name == breadcrumbs[breadcrumbs.length - 1].name} key={idx}>
-            <BreadcrumbLink href={item.href}>
-              {item.name}
-            </BreadcrumbLink>
+            <Link href={item.href}>
+              <BreadcrumbLink>
+                {item.name}
+              </BreadcrumbLink>
+            </Link>
           </BreadcrumbItem>
         )
       })}
