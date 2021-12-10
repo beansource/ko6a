@@ -11,7 +11,8 @@
       "@prismaClient": ["lib/prisma/prismaClient"],
       "@teams/*": ["components/teams/*"],
       "@contexts/*": ["components/contexts/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@data": ["_data"]
     },
     "lib": [
       "dom",
