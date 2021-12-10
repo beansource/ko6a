@@ -1,10 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 
-let client
-
 export default function getPrismaClient() {
-  if (!client) {
-    client = new PrismaClient()
+  if (!global.prismaClient) {
+    global.prismaClient = new PrismaClient()
   }
-  return client
+  return global.prismaClient
 }

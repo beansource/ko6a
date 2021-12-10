@@ -1,7 +1,7 @@
 import { Box, createIcon, HStack, Text, useColorModeValue as mode } from '@chakra-ui/react'
 import * as React from 'react'
 
-export const SidebarLink = (props) => {
+export default function SidebarLink(props) {
   const { children, icon = <ArrowRight />, avatar, ...rest } = props
   return (
     <Box
