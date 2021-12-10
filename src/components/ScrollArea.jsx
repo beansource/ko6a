@@ -1,7 +1,6 @@
 import { Box, useColorModeValue as mode } from '@chakra-ui/react'
-import * as React from 'react'
 
-export const ScrollArea = (props) => (
+export const ScrollArea = props => (
   <Box
     overflowY="auto"
     height="80vh"

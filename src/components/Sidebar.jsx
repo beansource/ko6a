@@ -173,7 +173,6 @@ export default function Sidebar({ user, children }) {
           maxW="2560px"
           bg={mode('white', 'gray.700')}
           height="100%"
-          pb="6"
           rounded={{
             md: 'lg',
           }}
@@ -190,7 +189,7 @@ export default function Sidebar({ user, children }) {
                 <Menu />
               </HStack>
             </Flex>
-            <Flex direction="column" flex="1" overflow="auto" px="10" pt="8">
+            <Flex direction="column" flex="1" overflow="auto" pt="0">
               {children}
             </Flex>
           </Flex>

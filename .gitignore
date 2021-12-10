@@ -39,3 +39,6 @@ debug.ts
 
 # vercel
 .vercel
+
+# ko6a results
+results/*
