@@ -16,6 +16,7 @@ export default function Projects() {
             title={project.name}
             repos={project?.repos?.length ?? 0}
             href={project.name}
+            key={project.name}
           >
             {project.description}
           </Project>

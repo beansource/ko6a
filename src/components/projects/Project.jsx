@@ -50,19 +50,10 @@ export const Project = props => {
         </Box>
       </LinkOverlay>
       <HStack
-        position={{
-          sm: 'absolute',
-        }}
-        top={{
-          sm: '0',
-        }}
-        insetEnd={{
-          sm: '0',
-        }}
-        mt={{
-          base: '4',
-          sm: '0',
-        }}
+        position={{ sm: 'absolute' }}
+        top={{ sm: '0' }}
+        insetEnd={{ sm: '0' }}
+        mt={{ base: '4', sm: '0' }}
       >
         <IconButton as="a" aria-label="Edit" icon={<HiPencilAlt />} rounded="full" size="sm" cursor="pointer" />
         <IconButton as="a" aria-label="Delete" icon={<HiTrash />} rounded="full" size="sm" cursor="pointer" onClick={deleteProject} />
