@@ -27,7 +27,13 @@ export const File = props => {
     return data
   })
   
-  if (repoContentError) console.log(repoContentError)
+  if (repoContentError) {
+    return (
+      <Text>
+        {repoContentError}
+      </Text>
+    )
+  }
 
   const url = repoContent?.data?.download_url
 
@@ -37,13 +43,24 @@ export const File = props => {
       data = await $fetch(url)
     } catch (error) {
       console.log(error)
+      return (
+        <Text>
+          {error}
+        </Text>
+      )
     }
     return data
   }, {
     enabled: !!url
   })
 
-  if (rawFileError) console.log(rawFileError)
+  if (rawFileError) {
+    return (
+      <Text>
+        {rawFileError}
+      </Text>
+    )
+  }
 
   const runner = () => {
     setLoading(true)

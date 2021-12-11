@@ -27,7 +27,15 @@ export const Explorer = props => {
   }
   
   const path = `HEAD:${newSlugs?.join('/')}`
-  const { data } = useSWR(['/api/github', owner, repo, path], fetcher)
+  const { data, error } = useSWR(['/api/github', owner, repo, path], fetcher)
+
+  if (error) {
+    return (
+      <Text>
+        {JSON.stringify(error)}
+      </Text>
+    )
+  }
 
   const contents = data?.repository?.object?.entries?.map((item, idx) => {
     let byteSize, treeSize
@@ -127,8 +135,7 @@ const fetcher = (url, owner, repo, path) => {
     body: JSON.stringify({
       owner,
       repo,
-      path,
-      token: window.localStorage.getItem('ko6aToken')
+      path
     }),
     headers: {
       'Content-Type': 'application/json'
