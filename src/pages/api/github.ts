@@ -1,7 +1,9 @@
 import { graphql } from '@octokit/graphql'
 import { NextApiRequest } from 'next'
+import { getSession } from 'next-auth/react'
 
 export default async function handler(req: NextApiRequest, res) {
+  const session = await getSession({ req })
   const { repository } = await graphql({ query: `
     query repository($owner: String!, $repo: String!, $path: String) {
       repository(owner:$owner, name:$repo) {
@@ -32,7 +34,7 @@ export default async function handler(req: NextApiRequest, res) {
     repo: req.body.repo,
     path: req.body.path,
     headers: {
-      authorization: `token ${req.body.token}`
+      authorization: `token ${session.accessToken}`
     }
   })
 
