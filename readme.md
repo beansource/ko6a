@@ -19,6 +19,7 @@ see how to [contribute](contributing.md)
 
 ### Requirements
 - [k6](https://github.com/grafana/k6)
+- [yarn](https://yarnpkg.com/getting-started/install)
 
 ### Getting started
 
