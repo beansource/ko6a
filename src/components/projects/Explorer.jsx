@@ -3,9 +3,11 @@ import React, { useMemo } from 'react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
-const prettyBytes = require('pretty-bytes')
 import { File } from './File'
 import isScriptFile from '@util/isScriptFile'
+import Link from 'next/link'
+
+const prettyBytes = require('pretty-bytes')
 
 /**
  * Explore a Repository and its contents
@@ -46,15 +48,17 @@ export const Explorer = props => {
     }
 
     return (
-      <Box onClick={() => window.location.href = `${router.asPath}/${item.name}`} cursor='pointer'>
-        <ListItem
-          title={JSON.stringify(item.name).replaceAll('"', '')} id={idx} key={idx}
-          subTitle={item.type === 'blob' ? `${prettyBytes(byteSize)}` : `${treeSize} items`}
-          icon={<Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}
-            boxSize="4" />
-          }
-        />
-      </Box>
+      <Link href={`${router.asPath}/${item.name}`}>
+        <Box cursor='pointer'>
+          <ListItem
+            title={JSON.stringify(item.name).replaceAll('"', '')} id={idx} key={idx}
+            subTitle={item.type === 'blob' ? `${prettyBytes(byteSize)}` : `${treeSize} items`}
+            icon={
+              <Icon as={item.type === 'blob' ? BsFileEarmarkCodeFill : BsFillFolderFill}  boxSize="4"/>
+            }
+          />
+        </Box>
+      </Link>
     )
   })
 

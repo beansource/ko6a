@@ -1,39 +1,38 @@
 import { Box, createIcon, HStack, Text, useColorModeValue as mode } from '@chakra-ui/react'
 import * as React from 'react'
+import Link from 'next/link'
 
 export default function SidebarLink(props) {
-  const { children, icon = <ArrowRight />, avatar, ...rest } = props
+  const { href, children, icon = <ArrowRight />, avatar } = props
   return (
-    <Box
-      as="a"
-      marginEnd="2"
-      fontSize="sm"
-      display="block"
-      px="3"
-      py="1"
-      rounded="md"
-      cursor="pointer"
-      _hover={{
-        color: 'white',
-        bg: mode('blue.700', 'gray.600'),
-      }}
-      className="group"
-      fontWeight="medium"
-      transition="background .1s ease-out"
-      {...rest}
-    >
-      <HStack>
-        <Box
-          opacity={avatar ? 1 : 0.5}
-          _groupHover={{
-            opacity: 1,
-          }}
-        >
-          {avatar || icon}
-        </Box>
-        <Text>{children}</Text>
-      </HStack>
-    </Box>
+    <Link href={href ?? '/'}>
+      <Box
+        as="a"
+        marginEnd="2"
+        fontSize="sm"
+        display="block"
+        px="3"
+        py="1"
+        rounded="md"
+        cursor="pointer"
+        _hover={{ color: 'white', bg: mode('blue.700', 'gray.600') }}
+        className="group"
+        fontWeight="medium"
+        transition="background .1s ease-out"
+      >
+        <HStack>
+          <Box
+            opacity={avatar ? 1 : 0.5}
+            _groupHover={{
+              opacity: 1,
+            }}
+          >
+            {avatar || icon}
+          </Box>
+          <Text>{children}</Text>
+        </HStack>
+      </Box>
+    </Link>
   )
 }
 const ArrowRight = createIcon({
