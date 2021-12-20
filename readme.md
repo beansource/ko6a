@@ -18,11 +18,11 @@ see how to [contribute](contributing.md)
 - **framework**: [next.js](https://nextjs.org)
 - **styling**: [chakra ui](http://chakra-ui.com)
 
-### Requirements
+## Requirements
 - [k6](https://github.com/grafana/k6)
 - [yarn](https://yarnpkg.com/getting-started/install)
 
-### Getting started
+## Getting started
 
 ```bash
 git clone https://github.com/goo-lagoon/ko6a
