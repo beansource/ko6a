@@ -1,4 +1,4 @@
-## ko6a 🦍
+# ko6a 🦍
 **gorillas are insanely strong, we want your apps to be as well**
 
 [![GitHub Super-Linter](https://github.com/goo-lagoon/ko6a/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
