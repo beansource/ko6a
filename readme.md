@@ -31,3 +31,9 @@ yarn
 ```
 
 create a `.env.local` file similar to [`.env.example`](./.env.example)
+
+```bash
+yarn dev
+```
+
+that will start the app on [`localhost:1968`](http://localhost:1968) ✨
