@@ -1,6 +1,7 @@
 # ko6a 🦍
+**gorillas are insanely strong, we want your apps to be as well**
 
-ko6a (koba) is a monke for k6 things
+[![Lint Code Base](https://github.com/goo-lagoon/ko6a/actions/workflows/linter.yml/badge.svg)](https://github.com/goo-lagoon/ko6a/actions/workflows/linter.yml)
 
 gorillas are stronger than 20 adult humans combined
 
@@ -17,11 +18,11 @@ see how to [contribute](contributing.md)
 - **framework**: [next.js](https://nextjs.org)
 - **styling**: [chakra ui](http://chakra-ui.com)
 
-### Requirements
+## Requirements
 - [k6](https://github.com/grafana/k6)
 - [yarn](https://yarnpkg.com/getting-started/install)
 
-### Getting started
+## Getting started
 
 ```bash
 git clone https://github.com/goo-lagoon/ko6a
@@ -30,3 +31,9 @@ yarn
 ```
 
 create a `.env.local` file similar to [`.env.example`](./.env.example)
+
+```bash
+yarn dev
+```
+
+that will start the app on [`localhost:1968`](http://localhost:1968) ✨
