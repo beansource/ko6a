@@ -13,7 +13,7 @@ export const UserInfo = props => {
           {email}
         </Text>
       </Box>
-      <Spacer ml="auto" />
+      <Spacer />
       <UpDownIcon />
     </HStack>
   )
