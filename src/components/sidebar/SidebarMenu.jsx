@@ -17,7 +17,8 @@ export default function SidebarMenu({ user, teams, isTeamsLoading }) {
   return (
     <ChakraMenu>
       <MenuButton 
-        textAlign="left" p={0} w="full" display="block" transition="background 0.1s" rounded="xl" _hover={{ bg: 'whiteAlpha.200' }} whiteSpace="nowrap"
+        textAlign="left" p={0} w="full" display="block" transition="background 0.1s" rounded="xl"
+        _hover={{ bg: 'whiteAlpha.200' }} whiteSpace="nowrap"
       >
         <UserInfo name={user.name} email={user.email} image={user.avatarUrl} />
       </MenuButton>
@@ -25,7 +26,9 @@ export default function SidebarMenu({ user, teams, isTeamsLoading }) {
         {isTeamsLoading ? <Spinner /> : (
           <>
             <Text p="0 8px 4px 8px" color="gray.600">Personal</Text>
-            <MenuItem as="button" onClick={() => handleTeamSwitch(user.ghLogin)} color="gray.700" borderRadius="base" p="8px">
+            <MenuItem
+              as="button" onClick={() => handleTeamSwitch(user.ghLogin)} color="gray.700" borderRadius="base" p="8px"
+            >
               <Image
                 boxSize='20px'
                 borderRadius='full'
