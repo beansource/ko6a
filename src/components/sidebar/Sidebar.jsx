@@ -28,7 +28,10 @@ export default function Sidebar({ user }) {
   }
 
   return (
-    <Box id="sidebar" as="nav" display="block" flex="1" width="var(--sidebar-width)" left="0" py="5" px="3" color="gray.200" position="fixed" h="100vh">
+    <Box 
+      id="sidebar" as="nav" display="block" flex="1" width="var(--sidebar-width)" left="0" py="5" px="3" 
+      color="gray.200" position="fixed" h="100vh"
+    >
       <Flex fontSize="sm" lineHeight="tall" h="100%" flexDirection="column">
         <SidebarMenu user={user} teams={teams} isTeamsLoading={isTeamsLoading} />
         <ScrollArea pt="5" pb="1" h="100%">
