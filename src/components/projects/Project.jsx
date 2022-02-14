@@ -5,9 +5,8 @@ import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/toast'
 import { useSWRConfig } from 'swr'
 import NextLink from 'next/link'
-import {
-  Box, HStack, IconButton, useColorModeValue as mode, LinkBox, LinkOverlay, Link, Text
-} from '@chakra-ui/react'
+import { Box, HStack, IconButton, useColorModeValue as mode, LinkBox, LinkOverlay, 
+  Link, Text } from '@chakra-ui/react'
 import { useState } from 'react'
 
 /**
