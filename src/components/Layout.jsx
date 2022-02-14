@@ -56,7 +56,8 @@ export default function Layout({ children }) {
         <Sidebar user={user} />
          <Box flex="1" p={{ base: '0', md: '6' }}
           marginStart={{ md: 'var(--sidebar-width)' }}
-          position="relative" left={isOpen ? 'var(--sidebar-width)' : '0'} transition="left 0.2s"s>
+          position="relative" left={isOpen ? 'var(--sidebar-width)' : '0'} transition="left 0.2s"s
+        >
           <Box
             maxW="2560px"
             bg={mode('white', 'gray.700')}
