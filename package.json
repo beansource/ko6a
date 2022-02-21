@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev -p 1968",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prisma": "prisma generate"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.0",
