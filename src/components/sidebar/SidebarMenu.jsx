@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { useDisclosure } from '@chakra-ui/hooks'
 
 import { Menu as ChakraMenu, MenuButton, MenuList, MenuItem, 
-  Spinner, Image, Text, Divider } from '@chakra-ui/react'
+  Spinner, Image, Text, Divider, Button } from '@chakra-ui/react'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { FiPlusCircle, FiLogOut } from 'react-icons/fi'
 import { UserInfo } from './UserInfo'
@@ -14,19 +14,11 @@ export default function SidebarMenu({ user, teams, isTeamsLoading }) {
   const { currentTeam, handleTeamSwitch } = useContext(TeamContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
   
-
   return (
     <ChakraMenu>
-      <MenuButton textAlign="left"
-        p={0}
-        w="full"
-        display="block"
-        transition="background 0.1s"
-        rounded="xl"
-        _hover={{
-          bg: 'whiteAlpha.200',
-        }}
-        whiteSpace="nowrap" 
+      <MenuButton 
+        textAlign="left" p={0} w="full" display="block" transition="background 0.1s" rounded="xl"
+        _hover={{ bg: 'whiteAlpha.200' }} whiteSpace="nowrap"
       >
         <UserInfo name={user.name} email={user.email} image={user.avatarUrl} />
       </MenuButton>
@@ -34,7 +26,9 @@ export default function SidebarMenu({ user, teams, isTeamsLoading }) {
         {isTeamsLoading ? <Spinner /> : (
           <>
             <Text p="0 8px 4px 8px" color="gray.600">Personal</Text>
-            <MenuItem as="button" onClick={() => handleTeamSwitch(user.ghLogin)} color="gray.700" borderRadius="base" p="8px">
+            <MenuItem
+              as="button" onClick={() => handleTeamSwitch(user.ghLogin)} color="gray.700" borderRadius="base" p="8px"
+            >
               <Image
                 boxSize='20px'
                 borderRadius='full'

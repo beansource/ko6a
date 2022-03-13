@@ -43,3 +43,6 @@ debug.ts
 
 # ko6a results
 results/*
+
+# vscode
+.vscode/

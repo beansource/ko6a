@@ -4,7 +4,7 @@ import { Explorer } from '@projects/Explorer'
 import { Stack, StackDivider, Heading, Box } from '@chakra-ui/react'
 import useSWR from 'swr'
 
-export default function Project(props) {
+export default function Project({ ...props }) {
   const router = useRouter()
   const slug = router?.query?.slug
 
@@ -19,10 +19,10 @@ export default function Project(props) {
 
   // shows list of repos
   return (
-    <Box p="8">
+    <Box>
       {/* todo: figure out a clean way of making it clear a project contains a list of repos */}
       <Heading pb="2">repos</Heading>
-      <Stack spacing="8" py="5" px="8" divider={<StackDivider />}>
+      <Stack spacing="8" py="5" divider={<StackDivider />}>
         {project?.repos?.map(repo => {
           return (
             <Repo

@@ -1,11 +1,13 @@
-import { Box, HStack, IconButton, useColorModeValue as mode, LinkBox, LinkOverlay } from '@chakra-ui/react'
 import { HiCollection, HiPencilAlt, HiTrash } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import plur from 'plur'
 import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/toast'
 import { useSWRConfig } from 'swr'
-import Link from 'next/link'
+import NextLink from 'next/link'
+import { Box, HStack, IconButton, useColorModeValue as mode, LinkBox, LinkOverlay, 
+  Link, Text } from '@chakra-ui/react'
+import { useState } from 'react'
 
 /**
  * Deisgn used to list a user's Projects
@@ -13,15 +15,16 @@ import Link from 'next/link'
  * !todo: change 'title' to 'name'
  * !todo: add confirm dialog for deleting a project
  */
-export const Project = props => {
+export const Project = ({ title, repos, href, description }) => {
   const router = useRouter()
   const toast = useToast()
   const { mutate } = useSWRConfig()
-  const { title, children, repos, href, description } = props
+
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const deleteProject = async () => {
+    setIsDeleting(true)
     await $fetch(`/api/projects/${title}`, { method: 'DELETE' })
-    mutate('/api/projects')
     toast({
       title: "Project deleted ☠️",
       description: `${title} has been successfully deleted!`,
@@ -30,28 +33,30 @@ export const Project = props => {
       isClosable: true,
       position: "top-right"
     })
+    setIsDeleting(false)
+    
+    // todo: implement local data mutate cause supabase is being slow
+    mutate('/api/projects')
   }
 
   return (
-    <LinkBox position="relative" transition="0.3s"
-      _hover={{
-        transform: 'scale(1.01)'
-      }}
-    >
-      <Link href={`${router.asPath}/${href}`} passHref>
-        <LinkOverlay>
-          <Box fontWeight="bold" maxW="xl">
+    <Box position="relative">
+      <Box>
+        <NextLink href={`${router.asPath}/${href}`} passHref>
+          <Link color={mode('#0c68da', '#549bf5')} fontSize='lg'>
             {title}
-          </Box>
-          <HStack fontSize="sm" fontWeight="medium" color={mode('gray.500', 'white')} mt="1">
-            <Box as={HiCollection} fontSize="md" color="gray.400" />
-            <span>{repos} {plur('repository', repos)}</span>
-          </HStack>
-          <Box mt="3" maxW="xl" color={mode('gray.600', 'gray.200')}>
-            {children}
-          </Box>
-        </LinkOverlay>
-      </Link>
+          </Link>
+        </NextLink>
+        <Box mt={1} mb={3} maxW="xl" color={mode('gray.600', 'gray.200')}>
+          <Text fontSize='sm'>
+            {description}
+          </Text>
+        </Box>
+        <HStack fontSize="sm" fontWeight="medium" color={mode('gray.500', 'white')} mt="1">
+          <Box as={HiCollection} fontSize="md" color="gray.400" />
+          <span>{repos} {plur('repository', repos)}</span>
+        </HStack>
+      </Box>
 
       <HStack
         position={{ sm: 'absolute' }}
@@ -59,9 +64,14 @@ export const Project = props => {
         insetEnd={{ sm: '0' }}
         mt={{ base: '4', sm: '0' }}
       >
-        <IconButton as="a" aria-label="Edit" icon={<HiPencilAlt />} rounded="full" size="sm" cursor="pointer" />
-        <IconButton as="a" aria-label="Delete" icon={<HiTrash />} rounded="full" size="sm" cursor="pointer" onClick={deleteProject} />
+        <IconButton
+          aria-label="Edit" icon={<HiPencilAlt />} rounded="full" size="sm" cursor="pointer" 
+        />
+        <IconButton
+          aria-label="Delete" icon={<HiTrash />} rounded="full" size="sm" cursor="pointer"
+          onClick={deleteProject} isLoading={isDeleting}
+        />
       </HStack>
-    </LinkBox>
+    </Box>
   )
 }
