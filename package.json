@@ -7,8 +7,8 @@
     "dev": "next dev -p 1968",
     "build": "next build",
     "start": "next start",
-    "db-push": "prisma db push",
-    "prisma": "prisma generate"
+    "prisma": "prisma generate",
+    "prisma:db": "prisma db push",
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.0",
