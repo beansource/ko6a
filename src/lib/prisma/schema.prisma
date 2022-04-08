@@ -10,26 +10,22 @@ datasource db {
 model user {
   id               Int             @id @default(autoincrement())
   createdAt        DateTime?       @default(now()) @db.Timestamptz(6)
-  name             String
   ghLogin          String          @unique
+  name             String
   defaultTeam      String
-  teams            teamMembers[]
-
-  @@map("User")
+  teams            teamMember[]
 }
 
 model team {
   id            Int             @id @default(autoincrement())
   createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
   name          String          @unique
-  members       teamMembers[]
+  members       teamMember[]
   avatarUrl     String?
   projects      project[]
-
-  @@map("Team")
 }
 
-model teamMembers {
+model teamMember {
   createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
   member        user            @relation(fields:[userId], references:[id])
   team          team            @relation(fields:[teamId], references:[id])
@@ -37,7 +33,6 @@ model teamMembers {
   teamId        Int
 
   @@id([userId, teamId])
-  @@map("TeamMembers")
 }
 
 model project {
@@ -49,18 +44,14 @@ model project {
   projectOwner         team      @relation(fields: [projectOwnerId], references: [id])
   projectOwnerId       Int
   repos                repo[]
-
-  @@map("Project")
 }
 
 model repo {
-  id            Int       @id @default(autoincrement())
-  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
+  id            Int         @id @default(autoincrement())
+  createdAt     DateTime?   @default(now()) @db.Timestamptz(6)
   owner         String
   repo          String
   description   String?
   parentProject String?   @db.VarChar
   project       project?  @relation(fields: [parentProject], references: [name], onDelete: NoAction, onUpdate: NoAction)
-
-  @@map("Repo")
 }
