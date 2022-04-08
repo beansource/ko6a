@@ -1,7 +1,7 @@
 # ko6a 🦍
 **gorillas are insanely strong, we want your apps to be as well**
 
-[![Lint Code Base](https://github.com/goo-lagoon/ko6a/actions/workflows/linter.yml/badge.svg)](https://github.com/goo-lagoon/ko6a/actions/workflows/linter.yml)
+[![Lint Code Base](https://github.com/beansource/ko6a/actions/workflows/linter.yml/badge.svg)](https://github.com/beansource/ko6a/actions/workflows/linter.yml)
 
 gorillas are stronger than 20 adult humans combined
 
@@ -25,7 +25,7 @@ see how to [contribute](contributing.md)
 ## Getting started
 
 ```bash
-git clone https://github.com/goo-lagoon/ko6a
+git clone https://github.com/beansource/ko6a
 cd ko6a
 yarn
 ```
