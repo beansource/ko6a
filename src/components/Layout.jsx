@@ -21,10 +21,12 @@ export default function Layout({ children }) {
 
   const { user, isLoading, isError } = useUser(session?.user?.login)
 
+  const blueBg = mode('blue.800', 'gray.800')
+  const whiteBg = mode('white', 'gray.700')
+
   if (!session) {
     return (
-      <Flex direction="row" width="100vw" height="100vh" align="center" justify="center" 
-        bg={mode('blue.800', 'gray.800')}>
+      <Flex direction="row" width="100vw" height="100vh" align="center" justify="center" bg={blueBg}>
         <Link href={process.env.NEXT_PUBLIC_GITHUB_AUTH_URL}>
           <Button onClick={() => signIn()}>Login</Button>
         </Link>
@@ -47,20 +49,21 @@ export default function Layout({ children }) {
     <TeamProvider defaultTeam={user.defaultTeam}>
       <Flex
         height="100vh"
-        bg={mode('blue.800', 'gray.800')}
+        bg={blueBg}
         overflow="hidden"
         sx={{
           '--sidebar-width': '16rem',
         }}
       >
         <Sidebar user={user} />
-         <Box flex="1" p={{ base: '0', md: '6' }}
+        <Box
+          flex="1" p={{ base: '0', md: '6' }}
           marginStart={{ md: 'var(--sidebar-width)' }}
-          position="relative" left={isOpen ? 'var(--sidebar-width)' : '0'} transition="left 0.2s"s
+          position="relative" left={isOpen ? 'var(--sidebar-width)' : '0'} transition="left 0.2s"
         >
           <Box
             maxW="2560px"
-            bg={mode('white', 'gray.700')}
+            bg={whiteBg}
             height="100%"
             pb="6"
             rounded={{

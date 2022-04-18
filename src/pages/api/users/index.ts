@@ -1,13 +1,13 @@
 import getPrismaClient from '@prismaClient'
-import { NextApiRequest } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function handler(req: NextApiRequest, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const prisma = getPrismaClient()
   
   if (req.method === 'POST') {
     try {
       const { name, ghLogin } = JSON.parse(req.body)
-      const user = await prisma.user.create({ data: { name, ghLogin }})
+      const user = await prisma.user.create({ data: { name, ghLogin, defaultTeam: ghLogin }})
 
       if (user) {
         res.json(user)

@@ -1,11 +1,11 @@
 import getPrismaClient from '@prismaClient'
-import { NextApiRequest } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 /**
  * !todo: clean up cause it's a mess
  * !todo: add middleware to parse json body cause it's cringe that that is not done for us
  */
-export default async function handler(req: NextApiRequest, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const prisma = getPrismaClient()
   
   if (req.method === 'GET') {
