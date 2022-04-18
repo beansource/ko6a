@@ -8,9 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postgres": "docker run -p 5432:5432 -e POSTGRES_PASSWORD=password -d postgres",
     "prisma": "prisma db push && prisma generate",
-    "prisma:gen": "prisma generate",
-    "postgres": "docker run -p 5432:5432 -e POSTGRES_PASSWORD=password -d postgres"
+    "prisma:gen": "prisma generate"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.0",

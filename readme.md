@@ -33,7 +33,14 @@ yarn
 create a `.env.local` file similar to [`.env.example`](./.env.example)
 
 ```bash
+yarn postgres
+yarn prisma
+```
+
+starts up postgresql database and initalizes prisma ✨
+
+```bash
 yarn dev
 ```
 
-that will start the app on [`localhost:1968`](http://localhost:1968) ✨
+that will start the app on [`localhost:1968`](http://localhost:1968)
