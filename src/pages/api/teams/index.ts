@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
   if (req.method === 'GET') {
     try {
-      const teams = await prisma.team.findMany({ include: { name: true } })
+      const teams = await prisma.team.findMany()
       if (teams) {
         res.json(teams)
       } else {

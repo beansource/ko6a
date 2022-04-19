@@ -10,8 +10,9 @@ FROM node:16-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN cat .env
 
-RUN yarn prisma && \
+RUN yarn prisma:gen && \
     yarn build
 
 # Production image, copy all the files and run next
@@ -23,7 +24,7 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/package.json ./package.json
 
 # Automatically leverage output traces to reduce image size 

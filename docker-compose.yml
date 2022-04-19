@@ -1,0 +1,38 @@
+services:
+  web:
+    build: .
+    networks:
+      - client
+    ports:
+      - 1968:1968
+    env_file:
+      - .env
+    # environment:
+    #   - GITHUB_CLIENT_ID=c275d97344ce79ab0f0a
+    #   - GITHUB_CLIENT_SECRET=66e9354ccbb8887132100bfc25b3f9568370c943
+    #   - GITHUB_AUTH_PERMISSIONS=read:user,repo
+    #   - NEXT_PUBLIC_GITHUB_AUTH_URL=https://github.com/login/oauth/authorize?client_id=c275d97344ce79ab0f0a&scope=66e9354ccbb8887132100bfc25b3f9568370c943
+    #   - NEXTAUTH_URL=http://localhost:1968
+    #   - NEXTAUTH_SECRET=M0nkestr0ng^_^
+    #   - POSTGRES_PASSWORD=mysecretpassword
+    #   - DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5432/postgres
+    depends_on:
+      - db
+  db:
+    image: postgres
+    networks:
+      - client
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - DATABASE_PASS=mysecretpassword
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data: {}
+
+networks:
+  client: {}
