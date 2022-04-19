@@ -8,53 +8,65 @@ datasource db {
 }
 
 model user {
-  id               Int             @id @default(autoincrement())
-  createdAt        DateTime?       @default(now()) @db.Timestamptz(6)
-  ghLogin          String          @unique
-  name             String
-  defaultTeam      String
-  
-  teams            teamMember[]
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime? @default(now()) @db.Timestamptz(6)
+  ghLogin     String    @unique
+  name        String
+  defaultTeam String
+
+  teams teamMember[]
 }
 
 model team {
-  id            Int             @id @default(autoincrement())
-  createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
-  name          String          @unique
-  members       teamMember[]
-  avatarUrl     String?
-  
-  projects      project[]
+  id        Int          @id @default(autoincrement())
+  createdAt DateTime?    @default(now()) @db.Timestamptz(6)
+  name      String       @unique
+  members   teamMember[]
+  avatarUrl String?
+
+  projects project[]
 }
 
 model teamMember {
-  createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
-  member        user            @relation(fields:[userId], references:[id])
-  team          team            @relation(fields:[teamId], references:[id])
-  userId        Int
-  teamId        Int
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  member    user      @relation(fields: [userId], references: [id])
+  team      team      @relation(fields: [teamId], references: [id])
+  userId    Int
+  teamId    Int
 
   @@id([userId, teamId])
 }
 
 model project {
-  id                   Int       @id @default(autoincrement())
-  createdAt            DateTime? @default(now()) @db.Timestamptz(6)
-  name                 String    @unique(map: "projects_name_key") @db.VarChar
-  description          String?
-  owner                String
-  projectOwner         team      @relation(fields: [projectOwnerId], references: [id])
-  projectOwnerId       Int
-  
-  repos                repo[]
+  id             Int       @id @default(autoincrement())
+  createdAt      DateTime? @default(now()) @db.Timestamptz(6)
+  name           String    @unique(map: "projects_name_key") @db.VarChar
+  description    String?
+  owner          String
+  projectOwner   team      @relation(fields: [projectOwnerId], references: [id])
+  projectOwnerId Int
+
+  repos repo[]
+  test  test[]
 }
 
 model repo {
-  id            Int         @id @default(autoincrement())
-  createdAt     DateTime?   @default(now()) @db.Timestamptz(6)
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
   owner         String
   repo          String
   description   String?
-  parentProject String?     @db.VarChar
-  project       project?    @relation(fields: [parentProject], references: [name], onDelete: NoAction, onUpdate: NoAction)
+  parentProject String?   @db.VarChar
+  project       project?  @relation(fields: [parentProject], references: [name], onDelete: NoAction, onUpdate: NoAction)
+  tests         test[]
+}
+
+model test {
+  id        Int     @id @default(autoincrement())
+  path      String
+  project   project @relation(fields: [projectId], references: [id])
+  name      String
+  repo      repo?   @relation(fields: [repoId], references: [id])
+  repoId    Int?
+  projectId Int
 }
