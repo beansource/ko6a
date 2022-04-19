@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Text } from '@chakra-ui/react'
 import { HiChevronRight } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
@@ -24,11 +24,17 @@ export const NavBreadcrumb = props => {
     }
   }, [router])
 
+  const firstBreadcrumb = breadcrumbs?.length >= 1 && breadcrumbs[0]?.href
+  const shouldShowBreadcrumbSeparator = firstBreadcrumb !== '/'
+  const separator = shouldShowBreadcrumbSeparator && (
+    <Box as={HiChevronRight} color="gray.400" fontSize="md" top="2px" pos="relative" />
+  )
+
   return (
     <Breadcrumb
       fontSize="sm"
       {...props}
-      separator={<Box as={HiChevronRight} color="gray.400" fontSize="md" top="2px" pos="relative" />}
+      separator={separator}
     >
        <BreadcrumbItem color="inherit">
         <BreadcrumbLink href="/">Home</BreadcrumbLink>

@@ -13,6 +13,7 @@ model user {
   ghLogin          String          @unique
   name             String
   defaultTeam      String
+  
   teams            teamMember[]
 }
 
@@ -22,6 +23,7 @@ model team {
   name          String          @unique
   members       teamMember[]
   avatarUrl     String?
+  
   projects      project[]
 }
 
@@ -43,6 +45,7 @@ model project {
   owner                String
   projectOwner         team      @relation(fields: [projectOwnerId], references: [id])
   projectOwnerId       Int
+  
   repos                repo[]
 }
 
@@ -52,6 +55,6 @@ model repo {
   owner         String
   repo          String
   description   String?
-  parentProject String?   @db.VarChar
-  project       project?  @relation(fields: [parentProject], references: [name], onDelete: NoAction, onUpdate: NoAction)
+  parentProject String?     @db.VarChar
+  project       project?    @relation(fields: [parentProject], references: [name], onDelete: NoAction, onUpdate: NoAction)
 }

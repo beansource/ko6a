@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { ghLogin } = JSON.parse(req.body)
       const user = await prisma.user.findUnique({ where: { ghLogin }})
       const team = await prisma.team.findUnique({ where: { name }})
-      const membership = await prisma.teamMembers.delete({ where: { userId_teamId: { userId: user.id, teamId: team.id }}})
+      const membership = await prisma.teamMember.delete({ where: { userId_teamId: { userId: user.id, teamId: team.id }}})
       if (membership) {
         res.json(team)
       } else {
