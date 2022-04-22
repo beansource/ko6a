@@ -18,6 +18,14 @@ export const File = props => {
     auth: session?.accessToken
   })
 
+  // get repo id 
+  // const repoId = await repo.findFirst({
+  //   where: {
+  //     repo: 'k6'
+  //   }
+  // })
+  const res = $fetch(`/api/tests?path=${path.join('/')}`)
+
   const { isLoading, error: repoContentError, data: repoContent, isFetching } = useQuery('repoContent', async () => {
     const data = await octokit.rest.repos.getContent({
       owner,
@@ -69,7 +77,9 @@ export const File = props => {
       method: 'POST', 
       body: JSON.stringify({
         script: url,
-        path: path.join('/')
+        path: path.join('/'),
+        owner,
+        testId: res.id
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -93,6 +103,7 @@ export const File = props => {
       return stream()
     })
   }
+  console.log(res)
 
   return (
     <Tabs isFitted>
@@ -148,6 +159,7 @@ export const File = props => {
                 }}
               >
                 <Tab fontWeight="semibold">Results</Tab>
+                <Tab fontWeight="semibold">Output</Tab>
                 <Tab fontWeight="semibold">Source</Tab>
               </TabList>
               <Text 
@@ -176,6 +188,9 @@ export const File = props => {
         <Box px="8" flex="1">
           <Box maxW="7xl" mx="auto">
             <TabPanels mt="5" h="full">
+              <TabPanel>
+                list of results
+              </TabPanel>
               <TabPanel>
                 <Box bg="gray.700" borderRadius="12" my={4} maxH={'container.md'} minW={'full'}
                   maxW={'container.lg'} overflow="scroll" id="console"

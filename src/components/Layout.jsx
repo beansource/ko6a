@@ -82,7 +82,7 @@ export default function Layout({ children }) {
                   <Menu />
                 </HStack>
               </Flex>
-              <Flex direction="column" flex="1" overflow="auto" px="10" pt="8">
+              <Flex direction="column" flex="1" overflow="auto">
                 {children}
               </Flex>
             </Flex>

@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import { File } from './File'
 import isScriptFile from '@util/isScriptFile'
 import Link from 'next/link'
-
 const prettyBytes = require('pretty-bytes')
 
 /**

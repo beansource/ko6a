@@ -47,7 +47,6 @@ model project {
   projectOwnerId Int
 
   repos repo[]
-  test  test[]
 }
 
 model repo {
@@ -62,11 +61,17 @@ model repo {
 }
 
 model test {
-  id        Int     @id @default(autoincrement())
-  path      String
-  project   project @relation(fields: [projectId], references: [id])
-  name      String
-  repo      repo?   @relation(fields: [repoId], references: [id])
-  repoId    Int?
-  projectId Int
+  id      Int      @id @default(autoincrement())
+  path    String
+  name    String
+  repo    repo     @relation(fields: [repoId], references: [id])
+  repoId  Int
+  results result[]
+}
+
+model result {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime @default(now()) @db.Timestamptz(6)
+  test      test     @relation(fields: [testId], references: [id])
+  testId    Int
 }

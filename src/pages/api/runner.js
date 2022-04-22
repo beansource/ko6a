@@ -1,10 +1,13 @@
 import { exec, spawn } from 'child_process'
 import { Readable } from 'stream'
+import { usePrisma } from '@prismaClient'
 const fs = require('fs-extra')
 
 export default async function handler(req, res) {
+  console.log(req?.body)
   const path = req?.body?.path
   const timestamp = Date.now()
+  const { test, result, repo } = usePrisma()
 
   try {
     await fs.ensureFile(`results/${path}/${timestamp}.json`)
@@ -19,6 +22,8 @@ export default async function handler(req, res) {
     `json=results/${path}/${timestamp}.json`,
     req?.body?.script
   ])
+
+  const [onlyRepo, testFile] = path.split('/')
 
   const stream = new Readable({ read: () => {} })
   stream.pipe(res)
@@ -36,5 +41,11 @@ export default async function handler(req, res) {
     exec(`cat results/${path}/${timestamp}.json`, (error, stdout, stderr) => {
       res.end(`child process exited with code ${code.toString()}`)
     })
+  })
+
+  const resultResponse = await result.create({
+    data: {
+      testId: testResponse.id
+    }
   })
 }
