@@ -13,7 +13,7 @@ export default function NewRepo({ isOpen, onClose }) {
   const toast = useToast()
   const { mutate } = useSWRConfig()
   const router = useRouter()
-  const project = router?.query?.slug && router.query.slug[0]
+  const  { project } = router?.query
   
   const onSubmit = (values, { setSubmitting }) => {
     $fetch(`/api/projects/${project}/repos`, {

@@ -1,21 +1,13 @@
 import { useRouter } from 'next/router'
 import { Repo } from '@projects/Repo'
-import { Explorer } from '@projects/Explorer'
 import { Stack, StackDivider, Heading, Box } from '@chakra-ui/react'
 import useSWR from 'swr'
 
 export default function Project({ ...props }) {
   const router = useRouter()
-  const slug = router?.query?.slug
+  const { project: projectName } = router?.query
 
-  // shows contents of repo
-  if (slug && slug.length > 1) {
-    return (
-      <Explorer owner={slug[0]} repo={slug[1]} />
-    )
-  }
-
-  const { data: project, error } = useSWR(slug && `/api/projects/${slug[0]}`)
+  const { data: project, error } = useSWR(projectName && `/api/projects/${projectName}`)
 
   // shows list of repos
   return (
