@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Box, Container, Skeleton, Button, Divider, Flex, Heading, HStack, Tab, TabList, 
-  TabPanel, TabPanels, Tabs, Text, useColorModeValue as mode, IconButton, Tooltip } from '@chakra-ui/react'
+import { Box, Container, Skeleton, Button, Flex, Stack, Tab, TabList, ButtonGroup,
+  TabPanel, TabPanels, Tabs, Text, useColorModeValue as mode, useBreakpointValue } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 import { useSession } from 'next-auth/react'
 import { Octokit } from '@octokit/rest'
@@ -103,87 +103,49 @@ export const File = props => {
       return stream()
     })
   }
+  const isMobile = useBreakpointValue({ base: true, md: false })
   console.log(res)
 
   return (
-    <Tabs isFitted>
+    <Tabs isFitted variant="enclosed">
       <Flex direction="column" align="stretch" minH="100vh">
-        <Box bg={mode('gray.50', 'gray.800')} px="8" pt="8">
+        <Box px="8" pt="8">
           <Box maxW="7xl" mx="auto">
-            <Flex
-              direction={{
-                base: 'column',
-                md: 'row',
-              }}
-              justify="space-between"
-              align="flex-start"
-              mb="10"
-            >
-              <HStack
-                mb={{
-                  base: '4',
-                  md: '0',
-                }}
-              >
-                <Heading size="lg">Script</Heading>
-              </HStack>
-              <HStack
-                spacing={{
-                  base: '2',
-                  md: '4',
-                }}
-              >
-                <Button
-                  bg={mode('white', 'inherit')}
-                  variant="outline"
-                  leftIcon={<FcSportsMode />}
-                  fontSize="sm"
-                  onClick={runner}
-                  isLoading={loading} loadingText="Running"
-                >
-                  Run Test
-                </Button>
-                <Tooltip label="View on GitHub" openDelay={750} placement="top">
-                  <IconButton isRound variant="outline" colorScheme="gray" icon={<FaGithubAlt />} />
-                </Tooltip>
-              </HStack>
-            </Flex>
             <Flex justify="space-between" align="center">
               <TabList
-                border="0"
                 position="relative"
-                zIndex={1}
                 w={{
                   base: '100%',
                   md: 'auto',
                 }}
               >
-                <Tab fontWeight="semibold">Results</Tab>
-                <Tab fontWeight="semibold">Output</Tab>
-                <Tab fontWeight="semibold">Source</Tab>
+                <Tab fontWeight="semibold" _focus={{
+                  outline: 'none'
+                }}>Results</Tab>
+                <Tab fontWeight="semibold" _focus={{
+                  outline: 'none'
+                }}>Output</Tab>
+                <Tab fontWeight="semibold" _focus={{
+                  outline: 'none'
+                }}>Source</Tab>
               </TabList>
-              <Text 
-                onClick={() => {
-                  if (!loading) {
-                    setConsoleOutput('Run test to see results')
-                }}}
-                cursor="pointer"
-                fontWeight="semibold"
-                color={mode('blue.600', 'blue.300')}
-                fontSize="sm"
-                display={{
-                  base: 'none',
-                  md: 'block',
-                }}
-              >
-                <Box as={HiChartBar} fontSize="sm" display="inline-block" marginEnd="2" />
-                Clear console
-              </Text>
+              <Stack direction="row">
+                <ButtonGroup size="sm" isAttached variant="outline">
+                  <Button mr="-px" onClick={runner}
+                    isLoading={loading} loadingText="Running"
+                  >
+                    Run
+                  </Button>
+                  <Button onClick={() => {
+                    if (!loading) {
+                      setConsoleOutput('Run test to see results')
+                  }}}>
+                    Clear
+                  </Button>
+                </ButtonGroup>
+              </Stack>
             </Flex>
           </Box>
-        </Box>
-        <Box pos="relative" zIndex={0}>
-          <Divider borderBottomWidth="2px" opacity={1} borderColor={mode('gray.100', 'gray.700')} />
         </Box>
         <Box px="8" flex="1">
           <Box maxW="7xl" mx="auto">
