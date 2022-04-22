@@ -17,17 +17,17 @@ export const Explorer = props => {
   const { owner, repo, children } = props
   
   const router = useRouter()
-  const { slug } = router.query
-  const newSlugs = slug?.slice(2, slug.length + 1)
+  const { file } = router.query
+  let filePath = file ?? []
 
   // if url is a blob, show file
-  if (isScriptFile(newSlugs[newSlugs.length - 1])) {
+  if (isScriptFile(filePath[filePath.length - 1])) {
     return (
-      <File owner={owner} repo={repo} path={newSlugs} />
+      <File owner={owner} repo={repo} path={filePath} />
     )
   }
   
-  const path = `HEAD:${newSlugs?.join('/')}`
+  const path = `HEAD:${filePath?.join('/')}`
   const { data, error } = useSWR(['/api/github', owner, repo, path], fetcher)
 
   if (error) {
