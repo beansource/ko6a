@@ -42,7 +42,6 @@ export default function Layout({ children }) {
 
   if (isError) {
     console.log("🚀 ~ file: Layout.jsx ~ line 48 ~ Layout ~ isError", isError)
-    return 'scawy :('
   }
 
   return (

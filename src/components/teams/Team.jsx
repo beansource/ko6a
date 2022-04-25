@@ -76,7 +76,6 @@ export const Team = ({ teamName }) => {
   }
   else if (isTeammatesError || isTeamError || isUserError || isTeamsError) {
     console.log("🚀 ~ file: Team.jsx ~ line 22 ~ Team ~ {isTeammatesError,isTeamError,isUserError}", JSON.stringify({isTeammatesError,isTeamError, isUserError}))
-    return 'scawy'
   }
   else {
     if (name === null) setName(team.name)

@@ -8,7 +8,10 @@ export default function FilePage({ ...props }) {
 
   const { data: repoData, error } = useSWR(project && `/api/projects/${project}/${repo}`)
 
-  if (error) return 'scawy :('
+  if (error) {
+    console.log(error)
+  }
+
   if (!error && !repoData) return null
 
   return (

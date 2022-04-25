@@ -23,7 +23,6 @@ export default function Sidebar({ user }) {
 
   if (error) {
     console.log("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError, isTeamsError}", {isTeammatesError, isTeamsError})
-    return 'scawy!!!'
   }
 
   return (
