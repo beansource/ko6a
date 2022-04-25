@@ -16,10 +16,10 @@ export default function Menu() {
     <ChakraMenu>
       <MenuButton as={IconButton} icon={<ChevronDownIcon />} size="sm" />
       <MenuList>
-        <MenuItem onClick={onNewProjectModalOpen}>New Project</MenuItem>
-        {project && 
-          <MenuItem onClick={onNewRepoModalOpen}>Add Repo</MenuItem>
-        }
+        {!project &&
+          <MenuItem onClick={onNewProjectModalOpen}>New Project</MenuItem>}
+        {project &&
+          <MenuItem onClick={onNewRepoModalOpen}>Add Repo</MenuItem>}
       </MenuList>
       <NewProject isOpen={newProjectModalIsOpen} onOpen={onNewProjectModalOpen} onClose={onNewProjectModalClose} />
       <NewRepo isOpen={newRepoModalIsOpen} onClose={onNewRepoModalClose} />

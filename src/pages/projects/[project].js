@@ -8,11 +8,9 @@ export default function Project({ ...props }) {
   const { project: projectName } = router?.query
 
   const { data: project, error } = useSWR(projectName && `/api/projects/${projectName}`)
-
-  // shows list of repos
+  
   return (
     <Box p="8">
-      {/* todo: figure out a clean way of making it clear a project contains a list of repos */}
       <Heading pb="2">repos</Heading>
       <Stack spacing="8" py="5" divider={<StackDivider />}>
         {project?.repos?.map(repo => {

@@ -5,7 +5,7 @@ import Link from 'next/link'
 export default function SidebarLink(props) {
   const { href, children, icon = <ArrowRight />, avatar } = props
   return (
-    <Link href={href ?? '/'}>
+    <Link href={href ?? '/'} passHref>
       <Box
         as="a"
         marginEnd="2"

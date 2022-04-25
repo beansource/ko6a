@@ -1,5 +1,4 @@
 import { useContext } from 'react'
-
 import { Avatar, Box, Stack, Flex, Spacer, VStack } from '@chakra-ui/react'
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 import { SettingsIcon } from '@chakra-ui/icons'
@@ -61,7 +60,7 @@ export default function Sidebar({ user }) {
             <Stack>
               <NavSectionTitle>Resources</NavSectionTitle>
               <SidebarLink>Documentation</SidebarLink>
-              <SidebarLink href={data.github} target="_blank">
+              <SidebarLink href={data.github}>
                 GitHub
               </SidebarLink>
             </Stack>

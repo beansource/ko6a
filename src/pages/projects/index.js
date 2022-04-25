@@ -1,21 +1,37 @@
 import { useContext } from 'react'
 import { Project } from '@projects/Project'
-import { Stack, StackDivider, Center, Text, VStack } from '@chakra-ui/react'
+import { Stack, StackDivider, Text, VStack, HStack, Container, Divider, Button, Box } from '@chakra-ui/react'
 import { TeamContext } from '@contexts/TeamContext'
 import useSWR from 'swr'
+import { FiPlus } from 'react-icons/fi'
+import Image from 'next/image'
+import NewProject from '@components/projects/NewProject'
+import { useDisclosure } from '@chakra-ui/react'
 
 export default function Projects() {
   const { currentTeam } = useContext(TeamContext)
   const { data: projects } = useSWR(`/api/teams/${currentTeam}/projects`)
 
-  if (projects?.length === 0) {
+  const { isOpen: newProjectModalIsOpen, onOpen: onNewProjectModalOpen, onClose: onNewProjectModalClose } = useDisclosure()
+
+  if (projects?.length === 0 || true) {
     return (
-      <Center w='full' h='full'>
-        <VStack>
-          <Text fontSize='5xl'>🤔</Text>
-          <Text fontSize='xl'>Looks like you have no projects yet :(</Text>
-        </VStack>
-      </Center>
+      <Box>
+        <Container py={{ base: '4', md: '8' }}>
+          <VStack>
+            <Image src="/atomic-list-is-empty-1.png" alt="empty" width="500" height="500" />
+            <Text fontSize='xl'>No projects yet</Text>
+          </VStack>
+          <HStack my="24">
+            <Divider textColor="gray.700" />
+            <Button flexShrink={0} leftIcon={<FiPlus fontSize="1.25rem" />} onClick={onNewProjectModalOpen}>
+              Create Project
+            </Button>
+            <Divider />
+          </HStack>
+        </Container>
+        <NewProject isOpen={newProjectModalIsOpen} onOpen={onNewProjectModalOpen} onClose={onNewProjectModalClose} />
+      </Box>
     )
   }
 
