@@ -15,6 +15,6 @@ export default function FilePage({ ...props }) {
   if (!error && !repoData) return null
 
   return (
-    <Explorer owner={repoData?.owner} repo={repoData?.repo} />
+    <Explorer owner={repoData?.owner} repo={repoData?.repo} repoId={repoData?.id} />
   )
 }

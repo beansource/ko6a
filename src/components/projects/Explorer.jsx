@@ -10,11 +10,11 @@ const prettyBytes = require('pretty-bytes')
 
 /**
  * Explore a Repository and its contents
- * @param {*} props 
+ * @param {*} props
  * @returns 
  */
 export const Explorer = props => {
-  const { owner, repo, children } = props
+  const { owner, repo, children, repoId } = props
   
   const router = useRouter()
   const { file } = router.query
@@ -23,7 +23,7 @@ export const Explorer = props => {
   // if url is a blob, show file
   if (isScriptFile(filePath[filePath.length - 1])) {
     return (
-      <File owner={owner} repo={repo} path={filePath} />
+      <File owner={owner} repo={repo} path={filePath} repoId={repoId} />
     )
   }
   

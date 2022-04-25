@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Heading, HStack, Input, Stack, Text, useBreakpointValue, Kbd } from '@chakra-ui/react'
+import { Button, Container, Divider, Heading, HStack, Input, Stack, Text, useBreakpointValue } from '@chakra-ui/react'
 import * as React from 'react'
 
 import { signIn } from 'next-auth/react'
@@ -13,7 +13,7 @@ export const Login = () => (
           <Heading size={useBreakpointValue({ base: 'xs', md: 'sm' })}>
             Log in to your account
           </Heading>
-          <Text color="muted">Run your <Kbd>k6</Kbd> tests like never before</Text>
+          <Text color="muted">Run your k6 tests like never before</Text>
         </Stack>
       </Stack>
       <Stack spacing="6">

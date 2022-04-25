@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Container, Skeleton, Button, Flex, Stack, Tab, TabList, ButtonGroup,
-  TabPanel, TabPanels, Tabs, Text, useColorModeValue as mode, useBreakpointValue } from '@chakra-ui/react'
+  TabPanel, TabPanels, Tabs, Text, useBreakpointValue } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 import { useSession } from 'next-auth/react'
 import { Octokit } from '@octokit/rest'
@@ -18,13 +18,18 @@ export const File = props => {
     auth: session?.accessToken
   })
 
-  // get repo id 
-  // const repoId = await repo.findFirst({
-  //   where: {
-  //     repo: 'k6'
-  //   }
-  // })
-  const res = $fetch(`/api/tests?path=${path.join('/')}`)
+  useEffect(() => {
+    async function something() {
+      console.log(props)
+      // put test in db
+      const res = $fetch(`/api/tests`, {
+        method: 'POST',
+        body: JSON.stringify(props)
+      })
+    }
+
+    something()
+  }, [])
 
   const { isLoading, error: repoContentError, data: repoContent, isFetching } = useQuery('repoContent', async () => {
     const data = await octokit.rest.repos.getContent({
@@ -104,7 +109,6 @@ export const File = props => {
     })
   }
   const isMobile = useBreakpointValue({ base: true, md: false })
-  console.log(res)
 
   return (
     <Tabs isFitted variant="enclosed">
@@ -172,10 +176,6 @@ export const File = props => {
     </Tabs>
   )
 }
-
-import { HiChartBar } from 'react-icons/hi'
-import { FaGithubAlt } from 'react-icons/fa'
-import { FcSportsMode } from 'react-icons/fc'
 
 export const Script = props => {
   return (
