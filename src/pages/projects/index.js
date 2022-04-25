@@ -14,7 +14,7 @@ export default function Projects() {
 
   const { isOpen: newProjectModalIsOpen, onOpen: onNewProjectModalOpen, onClose: onNewProjectModalClose } = useDisclosure()
 
-  if (projects?.length === 0 || true) {
+  if (projects?.length === 0) {
     return (
       <Box>
         <Container py={{ base: '4', md: '8' }}>
