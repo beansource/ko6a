@@ -73,43 +73,41 @@ export const Team = ({ teamName }) => {
 
   if (isTeammatesLoading || isTeamLoading || isUserLoading || isTeamsLoading) {
     return <PageSpinner />
-  }
-  else if (isTeammatesError || isTeamError || isUserError || isTeamsError) {
+  } else if (isTeammatesError || isTeamError || isUserError || isTeamsError) {
     console.log("🚀 ~ file: Team.jsx ~ line 22 ~ Team ~ {isTeammatesError,isTeamError,isUserError}", JSON.stringify({isTeammatesError,isTeamError, isUserError}))
-  }
-  else {
+  } else {
     if (name === null) setName(team.name)
     if (defaultTeam === null) setDefaultTeam(user.defaultTeam)
     
     const onSubmit = (values, { setSubmitting, resetForm }) => {
-        $fetch(`/api/teams/${team.name}/members`, {
-          method: 'PUT',
-          body: JSON.stringify(values)
+      $fetch(`/api/teams/${team.name}/members`, {
+        method: 'PUT',
+        body: JSON.stringify(values)
+      })
+      .then(res => {
+        toast({
+          title: "Team updated 🚀",
+          description: `${values.ghLogin} has been successfully added to ${team.name}!`,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right"
         })
-        .then(res => {
-          toast({
-            title: "Team updated 🚀",
-            description: `${values.ghLogin} has been successfully added to ${team.name}!`,
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-            position: "top-right"
-          })
-          setSubmitting(false)
-          mutate(`/api/teams/${team.name}/members`)
+        setSubmitting(false)
+        mutate(`/api/teams/${team.name}/members`)
+      })
+      .catch(e => {
+        toast({
+          title: "Could not update team",
+          description: `Failed to add ${values.ghLogin} to ${team.name}!`,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right"
         })
-        .catch(e => {
-          toast({
-            title: "Could not update team",
-            description: `Failed to add ${values.ghLogin} to ${team.name}!`,
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-            position: "top-right"
-          })
-          console.log("🚀 ~ file: Team.jsx ~ line 30 ~ onSubmit ~ e", e)
-          setSubmitting(false)
-        })
+        console.log("🚀 ~ file: Team.jsx ~ line 30 ~ onSubmit ~ e", e)
+        setSubmitting(false)
+      })
     }
 
     const removeMember = member => {
@@ -235,29 +233,29 @@ const stringIsNotEmpty = (value) => {
 const SettingsCard = ({ onSave, children }) => {
   return (
     <Flex
-        flexDirection="column"
-        border="1px"
-        borderColor="gray.200"
-        borderRadius="md"
+      flexDirection="column"
+      border="1px"
+      borderColor="gray.200"
+      borderRadius="md"
+    >
+      <Box
+        p="6"
       >
-        <Box
-          p="6"
-        >
-          {children}
-        </Box>
-        <Box 
-          py="2"
-          px="6"
-          w="full"
-          h="3.5rem"
-          bg="gray.50"
-          align="right"
-          borderTop="1px"
-          borderColor="gray.200"
-        >
-          {onSave && <Button bg="none" border="1px" borderColor="gray.300" fontWeight="normal" onClick={onSave}>Save</Button>}
-        </Box>
-      </Flex>
+        {children}
+      </Box>
+      <Box 
+        py="2"
+        px="6"
+        w="full"
+        h="3.5rem"
+        bg="gray.50"
+        align="right"
+        borderTop="1px"
+        borderColor="gray.200"
+      >
+        {onSave && <Button bg="none" border="1px" borderColor="gray.300" fontWeight="normal" onClick={onSave}>Save</Button>}
+      </Box>
+    </Flex>
   )
 }
 
