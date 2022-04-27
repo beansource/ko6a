@@ -5,13 +5,13 @@ import { getSession } from 'next-auth/react'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req })
-  const { name }: any = req.query
+  const { team }: any = req.query
   
   const prisma = getPrismaClient()
 
   if (req.method === 'GET') {
     try {
-      const teammates = await prisma.user.findMany({ where: { teams: { some: { team: { name }}}}})
+      const teammates = await prisma.user.findMany({ where: { teams: { some: { team: { name: team }}}}})
       if (teammates) {
         const members = []
         for await (const member of teammates) {
@@ -31,8 +31,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   else if (req.method === 'PUT') {
     try {
       const { ghLogin } = JSON.parse(req.body)
-      const membership = await prisma.team.update({ where: { name }, data: { members: { create: [{ member: { connect: { ghLogin }}}] } }})
-      const members = await prisma.user.findMany({ where: { teams: { some: { team: { name }}}}})
+      const membership = await prisma.team.update({ where: { name: team }, data: { members: { create: [{ member: { connect: { ghLogin }}}] } }})
+      const members = await prisma.user.findMany({ where: { teams: { some: { team: { name: team }}}}})
       if (membership && members) {
         res.json(members)
       } else {
@@ -48,10 +48,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const { ghLogin } = JSON.parse(req.body)
       const user = await prisma.user.findUnique({ where: { ghLogin }})
-      const team = await prisma.team.findUnique({ where: { name }})
-      const membership = await prisma.teamMember.delete({ where: { userId_teamId: { userId: user.id, teamId: team.id }}})
+      const teamData = await prisma.team.findUnique({ where: { name: team }})
+      const membership = await prisma.teamMember.delete({ where: { userId_teamId: { userId: user.id, teamId: teamData.id }}})
       if (membership) {
-        res.json(team)
+        res.json(teamData)
       } else {
         return res.status(404).json({ error: 'User does not belong to this team' })
       }

@@ -1,13 +1,19 @@
+import { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { Repo } from '@projects/Repo'
 import { Stack, StackDivider, Heading, Box } from '@chakra-ui/react'
 import useSWR from 'swr'
+import { TeamContext } from '@contexts/TeamContext'
 
 export default function Project({ ...props }) {
   const router = useRouter()
   const { project: projectName } = router?.query
+  const { currentTeam } = useContext(TeamContext)
 
-  const { data: project, error } = useSWR(projectName && `/api/projects/${projectName}`)
+  const { data: project, error } = useSWR(projectName && `/api/teams/${currentTeam}/projects/${projectName}`)
+
+  if (error) return 'scawy :('
+  if (!project) return null
 
   // shows list of repos
   return (

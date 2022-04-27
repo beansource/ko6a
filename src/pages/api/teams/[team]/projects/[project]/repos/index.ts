@@ -10,10 +10,10 @@ export interface Repo {
 
 // endpoint handler that returns a list of repos for a project
 export default async function repos(req: NextApiRequest, res: NextApiResponse) {
-  const { project }: any = req.query
+  const { project, team }: any = req.query
   const prisma = getPrismaClient()
 
-  const projectData = await prisma.project.findUnique({ where: { name: project } })
+  const projectData = await prisma.project.findUnique({ where: { name_projectOwnerName: { name: project, projectOwnerName: team } } })
   if (!projectData) {
     res.status(404).json({ error: 'Project not found' })
   }
@@ -23,12 +23,12 @@ export default async function repos(req: NextApiRequest, res: NextApiResponse) {
     console.log(repos)
     res.status(200).json(repos)
   } else if (req.method === 'POST') {
-    const { owner, repo, description, parentProject }: Repo = JSON.parse(req.body)
+    const { owner, repo, description }: Repo = JSON.parse(req.body)
     const newRepo = await prisma.repo.create({ data: {
       owner, 
       repo,
       description,
-      parentProject
+      parentProject: projectData.id
     }})
     res.status(201).json({ message: 'Repo created!', repo: newRepo })
   }

@@ -15,20 +15,6 @@ export default async function handler(req: NextApiRequest, res) {
     } else {
       return res.status(404).json({ error: 'No projects found' })
     }
-  } else if (req.method === 'POST') {
-    const { name, description, owner, currentTeam } = JSON.parse(req.body)
-    const project = await prisma.project.create({ data: { name, description, owner, projectOwner: { 
-      connect: {
-        name: currentTeam
-      }
-    }}})
-
-    if (project) {
-      res.json(project)
-    } else {
-      return res.status(500).json({ error: 'Failed to create project' })
-    }
-    
   } else {
     return res.status(405).json({ error: 'Method not allowed' })
   }

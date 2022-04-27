@@ -16,14 +16,14 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
   const { currentTeam } = useContext(TeamContext)
   
   const onSubmit = (values, { setSubmitting }) => {
-    $fetch('/api/projects', {
+    $fetch(`/api/teams/${currentTeam}/projects`, {
       method: 'POST',
       body: JSON.stringify({ ...values, currentTeam }),
     })
       .then(r => {
         setSubmitting(false)
         onClose()
-        mutate('/api/projects')
+        mutate(`/api/teams/${currentTeam}/projects`)
         toast({
           title: "Project created 🚀",
           description: `${values.name} has been successfully created!`,
@@ -59,7 +59,6 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
                 <Stack spacing='2'>
                   <FormikField name="name" label="Project name" validation={stringIsNotEmpty} />
                   <FormikField name="description" label="Description" validation={stringIsNotEmpty} />
-                  <FormikField name="owner" label="Github Org or User" validation={stringIsNotEmpty} />
                   <HStack>
                     <Spacer />
                     <Button isLoading={props.isSubmitting} type="submit" colorScheme="blue">

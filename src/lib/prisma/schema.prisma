@@ -40,11 +40,12 @@ model teamMember {
 model project {
   id             Int       @id @default(autoincrement())
   createdAt      DateTime? @default(now()) @db.Timestamptz(6)
-  name           String    @unique(map: "projects_name_key") @db.VarChar
+  name           String
   description    String?
-  owner          String
-  projectOwner   team      @relation(fields: [projectOwnerId], references: [id])
-  projectOwnerId Int
+  projectOwner   team      @relation(fields: [projectOwnerName], references: [name])
+  projectOwnerName String
+
+  @@unique(fields: [name, projectOwnerName], name: "name_projectOwnerName")
 
   repos repo[]
 }
@@ -55,11 +56,11 @@ model repo {
   owner         String
   repo          String
   description   String?
-  parentProject String?   @db.VarChar
-  project       project?  @relation(fields: [parentProject], references: [name], onDelete: NoAction, onUpdate: NoAction)
+  parentProject Int
+  project       project?  @relation(fields: [parentProject], references: [id], onDelete: NoAction, onUpdate: NoAction)
   tests         test[]
 
-  @@unique(fields: [repo, parentProject], name: "repo_parentProject")
+  @@unique(fields: [repo, parentProject], name: "repo_project")
 }
 
 model test {
