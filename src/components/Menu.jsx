@@ -17,9 +17,11 @@ export default function Menu() {
       <MenuButton as={IconButton} icon={<ChevronDownIcon />} size="sm" />
       <MenuList>
         {!project &&
-          <MenuItem onClick={onNewProjectModalOpen}>New Project</MenuItem>}
+          <MenuItem onClick={onNewProjectModalOpen}>New Project</MenuItem>
+        }
         {project &&
-          <MenuItem onClick={onNewRepoModalOpen}>Add Repo</MenuItem>}
+          <MenuItem onClick={onNewRepoModalOpen}>Add Repo</MenuItem>
+        }
       </MenuList>
       <NewProject isOpen={newProjectModalIsOpen} onOpen={onNewProjectModalOpen} onClose={onNewProjectModalClose} />
       <NewRepo isOpen={newRepoModalIsOpen} onClose={onNewRepoModalClose} />
