@@ -1,5 +1,4 @@
 import { useContext } from 'react'
-
 import { Avatar, Box, Stack, Flex, Spacer, VStack } from '@chakra-ui/react'
 import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 import { SettingsIcon } from '@chakra-ui/icons'
@@ -24,7 +23,6 @@ export default function Sidebar({ user }) {
 
   if (error) {
     console.log("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError, isTeamsError}", {isTeammatesError, isTeamsError})
-    return 'scawy!!!'
   }
 
   return (
@@ -61,7 +59,7 @@ export default function Sidebar({ user }) {
             <Stack>
               <NavSectionTitle>Resources</NavSectionTitle>
               <SidebarLink>Documentation</SidebarLink>
-              <SidebarLink href={data.github} target="_blank">
+              <SidebarLink href={data.github}>
                 GitHub
               </SidebarLink>
             </Stack>

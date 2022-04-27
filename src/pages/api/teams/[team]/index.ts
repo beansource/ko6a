@@ -2,14 +2,14 @@ import getPrismaClient from '@prismaClient'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { name }: any = req.query
+  const { team }: any = req.query
   const prisma = getPrismaClient()
 
   if (req.method === 'GET') {
     try {
-      const team = await prisma.team.findUnique({ where: { name } })
-      if (team) {
-        res.json(team)
+      const teamData = await prisma.team.findUnique({ where: { name: team } })
+      if (teamData) {
+        res.json(teamData)
       } else {
         return res.status(404).json({ error: 'Team not found :(' })
       }
@@ -22,14 +22,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   else if (req.method === 'PUT') {
     try {
       const { name: newName } = JSON.parse(req.body)
-      const team = await prisma.team.update({ where: { name },
+      const teamData = await prisma.team.update({ where: { name: team },
         data: {
           name: newName
         }
       })
-      const members = await prisma.user.updateMany({ where: { defaultTeam: name }, data: { defaultTeam: newName }})
-      if (team && members) {
-        res.json(team)
+      const members = await prisma.user.updateMany({ where: { defaultTeam: team }, data: { defaultTeam: newName }})
+      if (teamData && members) {
+        res.json(teamData)
       } else {
         return res.status(500).json({ error: 'Error updating team' })
       }

@@ -1,26 +1,23 @@
+import { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { Repo } from '@projects/Repo'
-import { Explorer } from '@projects/Explorer'
 import { Stack, StackDivider, Heading, Box } from '@chakra-ui/react'
 import useSWR from 'swr'
+import { TeamContext } from '@contexts/TeamContext'
 
 export default function Project({ ...props }) {
   const router = useRouter()
-  const slug = router?.query?.slug
+  const { project: projectName } = router?.query
+  const { currentTeam } = useContext(TeamContext)
 
-  // shows contents of repo
-  if (slug && slug.length > 1) {
-    return (
-      <Explorer owner={slug[0]} repo={slug[1]} />
-    )
-  }
+  const { data: project, error } = useSWR(projectName && `/api/teams/${currentTeam}/projects/${projectName}`)
 
-  const { data: project, error } = useSWR(slug && `/api/projects/${slug[0]}`)
+  if (error) return 'scawy :('
+  if (!project) return null
 
   // shows list of repos
   return (
-    <Box>
-      {/* todo: figure out a clean way of making it clear a project contains a list of repos */}
+    <Box p="8">
       <Heading pb="2">repos</Heading>
       <Stack spacing="8" py="5" divider={<StackDivider />}>
         {project?.repos?.map(repo => {

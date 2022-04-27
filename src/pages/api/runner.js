@@ -1,15 +1,24 @@
 import { exec, spawn } from 'child_process'
 import { Readable } from 'stream'
+import { usePrisma } from '@prismaClient'
+const fs = require('fs-extra')
 
 export default async function handler(req, res) {
-  const path = req?.body?.path
-  let options
+  const timestamp = Date.now()
+  const { result } = usePrisma()
+  const { path, testId, script } = JSON.parse(req?.body)
+
+  try {
+    await fs.ensureFile(`results/${path}/${timestamp}.json`)
+  } catch (err) {
+    console.error(err)
+  }
   
   let k6 = spawn('k6', [
     'run',
     '--out',
-    'json=results/latest.json',
-    req?.body?.script
+    `json=results/${path}/${timestamp}.json`,
+    script
   ])
 
   const stream = new Readable({ read: () => {} })
@@ -25,8 +34,16 @@ export default async function handler(req, res) {
   })
   
   k6.on('exit', code => {
-    exec('cat results/latest.json', (error, stdout, stderr) => {
+    exec(`cat results/${path}/${timestamp}.json`, (error, stdout, stderr) => {
       res.end(`child process exited with code ${code.toString()}`)
     })
   })
+
+  const response = await result.create({
+    data: {
+      testId: testId,
+      data: {}
+    }
+  })
+  console.log(response)
 }

@@ -8,6 +8,11 @@ const nextConfig = {
   },
   experimental: {
     outputStandalone: true
+  },
+  compiler: {
+    removeConsole: {
+      exclude: ['error']
+    }
   }
 }
 

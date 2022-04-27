@@ -7,8 +7,7 @@ import NewRepo from './projects/NewRepo'
 
 export default function Menu() {
   const router = useRouter()
-  const slug = router?.query?.slug
-  const userWithinProjectNav = slug && slug.length >= 1
+  const { project } = router?.query
 
   const { isOpen: newProjectModalIsOpen, onOpen: onNewProjectModalOpen, onClose: onNewProjectModalClose } = useDisclosure()
   const { isOpen: newRepoModalIsOpen, onOpen: onNewRepoModalOpen, onClose: onNewRepoModalClose } = useDisclosure()
@@ -17,8 +16,10 @@ export default function Menu() {
     <ChakraMenu>
       <MenuButton as={IconButton} icon={<ChevronDownIcon />} size="sm" />
       <MenuList>
-        <MenuItem onClick={onNewProjectModalOpen}>New Project</MenuItem>
-        {userWithinProjectNav && 
+        {!project &&
+          <MenuItem onClick={onNewProjectModalOpen}>New Project</MenuItem>
+        }
+        {project &&
           <MenuItem onClick={onNewRepoModalOpen}>Add Repo</MenuItem>
         }
       </MenuList>

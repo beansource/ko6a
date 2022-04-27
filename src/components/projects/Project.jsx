@@ -5,9 +5,9 @@ import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/toast'
 import { useSWRConfig } from 'swr'
 import NextLink from 'next/link'
-import { Box, HStack, IconButton, useColorModeValue as mode, LinkBox, LinkOverlay, 
-  Link, Text } from '@chakra-ui/react'
-import { useState } from 'react'
+import { Box, HStack, IconButton, useColorModeValue as mode, Link, Text } from '@chakra-ui/react'
+import { useState, useContext } from 'react'
+import { TeamContext } from '@contexts/TeamContext'
 
 /**
  * Deisgn used to list a user's Projects
@@ -19,14 +19,15 @@ export const Project = ({ title, repos, href, description }) => {
   const router = useRouter()
   const toast = useToast()
   const { mutate } = useSWRConfig()
+  const { currentTeam } = useContext(TeamContext)
 
   const [isDeleting, setIsDeleting] = useState(false)
 
   const deleteProject = async () => {
     setIsDeleting(true)
-    await $fetch(`/api/projects/${title}`, { method: 'DELETE' })
+    await $fetch(`/api/teams/${currentTeam}/projects/${title}`, { method: 'DELETE' })
     toast({
-      title: "Project deleted ☠️",
+      title: "Project deleted",
       description: `${title} has been successfully deleted!`,
       status: "error",
       duration: 9000,
@@ -35,8 +36,7 @@ export const Project = ({ title, repos, href, description }) => {
     })
     setIsDeleting(false)
     
-    // todo: implement local data mutate cause supabase is being slow
-    mutate('/api/projects')
+    mutate(`/api/teams/${currentTeam}/projects`)
   }
 
   return (

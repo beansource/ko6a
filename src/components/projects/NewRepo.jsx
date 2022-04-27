@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { Formik, Form } from 'formik'
 import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/react'
@@ -8,22 +9,25 @@ import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
   Stack, HStack, Spacer
 } from '@chakra-ui/react'
+import { TeamContext } from '@contexts/TeamContext'
 
 export default function NewRepo({ isOpen, onClose }) {
   const toast = useToast()
   const { mutate } = useSWRConfig()
   const router = useRouter()
-  const project = router?.query?.slug && router.query.slug[0]
+  const  { project } = router?.query
+  const { currentTeam } = useContext(TeamContext)
+  
   
   const onSubmit = (values, { setSubmitting }) => {
-    $fetch(`/api/projects/${project}/repos`, {
+    $fetch(`/api/teams/${currentTeam}/projects/${project}/repos`, {
       method: 'POST',
-      body: JSON.stringify({ ...values, parentProject: project }),
+      body: JSON.stringify({ ...values }),
     })
       .then(() => {
         setSubmitting(false)
         onClose()
-        mutate(`/api/projects/${project}`)
+        mutate(`/api/teams/${currentTeam}/projects/${project}`)
         toast({
           title: "Repo added 🚀",
           description: `${values.repo} has been successfully added to ${project}!`,
