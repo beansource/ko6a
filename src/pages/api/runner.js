@@ -4,14 +4,12 @@ import { usePrisma } from '@prismaClient'
 const fs = require('fs-extra')
 
 export default async function handler(req, res) {
-  console.log(req?.body)
-  const path = req?.body?.path
   const timestamp = Date.now()
-  const { test, result, repo } = usePrisma()
+  const { result } = usePrisma()
+  const { path, testId, script } = JSON.parse(req?.body)
 
   try {
     await fs.ensureFile(`results/${path}/${timestamp}.json`)
-    console.log('created dir & file for results')
   } catch (err) {
     console.error(err)
   }
@@ -20,10 +18,8 @@ export default async function handler(req, res) {
     'run',
     '--out',
     `json=results/${path}/${timestamp}.json`,
-    req?.body?.script
+    script
   ])
-
-  const [onlyRepo, testFile] = path.split('/')
 
   const stream = new Readable({ read: () => {} })
   stream.pipe(res)
@@ -43,9 +39,11 @@ export default async function handler(req, res) {
     })
   })
 
-  const resultResponse = await result.create({
+  const response = await result.create({
     data: {
-      testId: testResponse.id
+      testId: testId,
+      data: {}
     }
   })
+  console.log(response)
 }

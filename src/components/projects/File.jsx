@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Box, Container, Skeleton, Button, Flex, Stack, Tab, TabList, ButtonGroup,
-  TabPanel, TabPanels, Tabs, Text, useBreakpointValue } from '@chakra-ui/react'
+  TabPanel, TabPanels, Tabs, Text, VStack, HStack } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 import { useSession } from 'next-auth/react'
 import { Octokit } from '@octokit/rest'
 import { $fetch } from 'ohmyfetch'
 import { CodeBlock, ocean } from 'react-code-blocks'
+import Image from 'next/image'
+import plur from 'plur'
 
 export const File = props => {
   const { data: session, status } = useSession()
@@ -14,18 +16,23 @@ export const File = props => {
   const [loading, setLoading] = useState(false)
   const [consoleOutput, setConsoleOutput] = useState('Run test to see results')
 
+  const [testId, updateTestId] = useState()
+  const [results, updateResults] = useState([])
+
   const octokit = new Octokit({
     auth: session?.accessToken
   })
 
+  // api route things, either post new test or get existing test from db
   useEffect(() => {
     async function something() {
       console.log(props)
-      // put test in db
-      const res = $fetch(`/api/tests`, {
+      const res = await $fetch(`/api/tests`, {
         method: 'POST',
         body: JSON.stringify(props)
       })
+      updateTestId(res?.data?.id)
+      updateResults(res?.data?.results)
     }
 
     something()
@@ -78,37 +85,38 @@ export const File = props => {
   const runner = () => {
     setLoading(true)
     setConsoleOutput('')
-    fetch('/api/runner', { 
+    $fetch('/api/runner', {
       method: 'POST', 
       body: JSON.stringify({
         script: url,
         path: path.join('/'),
         owner,
-        testId: res.id
+        testId
       }),
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(res => {
-      const reader = res.body.getReader()
-      const chunks = []
+      console.log(res)
+      // this is borked rn
+      // const reader = res.body.getReader()
+      // const chunks = []
 
-      async function stream() {
-        const { value, done } = await reader.read()
-        if (done) {
-          setLoading(false)
-          return chunks
-        }
-        let log = new TextDecoder().decode(value)
-        setConsoleOutput(oldArr => oldArr + log)
-        scrollToBottom('console')
-        chunks.push(value)
-        return stream()
-      }
-      return stream()
+      // async function stream() {
+      //   const { value, done } = await reader.read()
+      //   if (done) {
+      //     setLoading(false)
+      //     return chunks
+      //   }
+      //   let log = new TextDecoder().decode(value)
+      //   setConsoleOutput(oldArr => oldArr + log)
+      //   scrollToBottom('console')
+      //   chunks.push(value)
+      //   return stream()
+      // }
+      // return stream()
     })
   }
-  const isMobile = useBreakpointValue({ base: true, md: false })
 
   return (
     <Tabs isFitted variant="enclosed">
@@ -155,7 +163,7 @@ export const File = props => {
           <Box maxW="7xl" mx="auto">
             <TabPanels mt="5" h="full">
               <TabPanel>
-                list of results
+                <Results results={results} />
               </TabPanel>
               <TabPanel>
                 <Box bg="gray.700" borderRadius="12" my={4} maxH={'container.md'} minW={'full'}
@@ -192,6 +200,62 @@ export const Script = props => {
       </Container>
     </Box>
   )
+}
+
+import { OurTable } from '@components/results/Table'
+
+export const Results = props => {
+  console.log(props.results)
+  if (props.results?.length > 0) {
+    return (
+      <Container maxW="fit">
+        <Box
+          bg="bg-surface"
+          boxShadow={{
+            base: 'none',
+            md: 'sm',
+          }}
+        >
+          <Stack spacing="5">
+            <Box overflowX="auto">
+              <OurTable results={props.results} />
+            </Box>
+            <Box
+              px="4"
+              pb="5"
+            >
+              <HStack spacing="3" justify="space-between">
+                <Text color="muted" fontSize="sm">
+                  Showing {props.results?.length} {plur('result', props.results?.length)}
+                </Text>
+                <ButtonGroup
+                  spacing="3"
+                  justifyContent="space-between"
+                  width={{
+                    base: 'full',
+                    md: 'auto',
+                  }}
+                  variant="outline"
+                >
+                  <Button>Previous</Button>
+                  <Button>Next</Button>
+                </ButtonGroup>
+              </HStack>
+            </Box>
+          </Stack>
+        </Box>
+      </Container>
+    )
+  } else {
+    return (
+      <Container maxW="container.lg">
+        <VStack spacing="16">
+          <Image src="/atomic-list-is-empty-1.png" alt="error" width="350" height="350" />
+          <Text fontSize="xl">This test has not been run yet</Text>
+        </VStack>
+      </Container>
+    )
+  }
 }
 
 const scrollToBottom = e => {

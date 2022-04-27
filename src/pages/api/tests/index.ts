@@ -3,35 +3,39 @@ import { usePrisma } from '@prismaClient'
 
 export default async function handler(req: NextApiRequest, res) {
   const { test } = usePrisma()
-
-  const { path }: any = req.query
   
-  if (req.method === 'GET') {
-    const testObject = await test.findFirst({
-      where: {
-        path: path
-      },
-      include: {
-        results: true
-      }
-    })
-    console.log(`🤓 ~ file: index.ts ~ line 15 ~ handler ~ id`, testObject);
-
-    const results = await test.findMany({ include: { results: true }})
-    if (results) {
-      res.json(results)
-    }
-  } else if (req.method === 'POST') {
+  if (req.method === 'POST') {
     const { repoId, path, repo } = JSON.parse(req.body)
-    console.log(req.body)
-    const newTest = await test.create({
-      data: {
-        repoId: repoId,
-        path: `${repo}/${path.join('/')}`,
-        name: path[path.length - 1]
-      }
+
+    // is the test exist
+    const isTest = await test.findFirst({
+      where: {
+        path: `${repo}/${path.join('/')}`
+      },
+      include: { results: true }
     })
-    console.log(newTest)
+    if (isTest) {
+      console.log(`👹 ~ file: index.ts ~ line 34 ~ handler ~ isTest`, isTest)
+      res.status(200).json({
+        message: 'Test exists',
+        data: isTest
+      })
+    }
+    
+    console.log(req.body)
+    if (!isTest) {
+      const newTest = await test.create({
+        data: {
+          repoId: repoId,
+          path: `${repo}/${path.join('/')}`,
+          name: path[path.length - 1]
+        }
+      })
+      res.status(201).json({
+        message: 'Test created',
+        data: newTest
+      })
+    }
   } else {
     return res.status(405).json({ error: 'Method not allowed' })
   }

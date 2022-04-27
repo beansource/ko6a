@@ -76,4 +76,5 @@ model result {
   timestamp DateTime @default(now()) @db.Timestamptz(6)
   test      test     @relation(fields: [testId], references: [id])
   testId    Int
+  data      Json
 }
