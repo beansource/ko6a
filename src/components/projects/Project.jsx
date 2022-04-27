@@ -5,8 +5,7 @@ import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/toast'
 import { useSWRConfig } from 'swr'
 import NextLink from 'next/link'
-import { Box, HStack, IconButton, useColorModeValue as mode, LinkBox, LinkOverlay, 
-  Link, Text } from '@chakra-ui/react'
+import { Box, HStack, IconButton, useColorModeValue as mode, Link, Text } from '@chakra-ui/react'
 import { useState, useContext } from 'react'
 import { TeamContext } from '@contexts/TeamContext'
 
@@ -28,7 +27,7 @@ export const Project = ({ title, repos, href, description }) => {
     setIsDeleting(true)
     await $fetch(`/api/teams/${currentTeam}/projects/${title}`, { method: 'DELETE' })
     toast({
-      title: "Project deleted ☠️",
+      title: "Project deleted",
       description: `${title} has been successfully deleted!`,
       status: "error",
       duration: 9000,
@@ -37,7 +36,6 @@ export const Project = ({ title, repos, href, description }) => {
     })
     setIsDeleting(false)
     
-    // todo: implement local data mutate cause supabase is being slow
     mutate(`/api/teams/${currentTeam}/projects`)
   }
 

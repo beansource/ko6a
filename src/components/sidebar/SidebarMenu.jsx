@@ -1,14 +1,15 @@
 import { useContext } from 'react'
 import { useDisclosure } from '@chakra-ui/hooks'
-
-import { Menu as ChakraMenu, MenuButton, MenuList, MenuItem, 
-  Spinner, Image, Text, Divider, Button } from '@chakra-ui/react'
+import { Menu as ChakraMenu, MenuButton, MenuList, MenuItem,
+  Spinner, Image, Text, Divider } from '@chakra-ui/react'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { FiPlusCircle, FiLogOut } from 'react-icons/fi'
 import { UserInfo } from './UserInfo'
 import NewTeam from '@teams/NewTeam'
 
 import { TeamContext } from '@contexts/TeamContext'
+
+import { signOut } from 'next-auth/react'
 
 export default function SidebarMenu({ user, teams, isTeamsLoading }) {
   const { currentTeam, handleTeamSwitch } = useContext(TeamContext)
@@ -76,7 +77,7 @@ export default function SidebarMenu({ user, teams, isTeamsLoading }) {
               p="8px" 
               color="gray.700" 
               borderRadius="base" 
-              onClick={() => console.log('logging out')} 
+              onClick={() => signOut()}
               icon={<FiLogOut size="15px" color="#4A5568" />}
             >
               Logout

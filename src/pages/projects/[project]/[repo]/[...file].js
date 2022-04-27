@@ -11,10 +11,13 @@ export default function FilePage({ ...props }) {
 
   const { data: repoData, error } = useSWR(project && currentTeam && repo && `/api/teams/${currentTeam}/projects/${project}/repos/${repo}`)
 
-  if (error) return 'scawy :('
+  if (error) {
+    console.log(error)
+  }
+
   if (!error && !repoData) return null
 
   return (
-    <Explorer owner={repoData?.owner} repo={repoData?.repo} />
+    <Explorer owner={repoData?.owner} repo={repoData?.repo} repoId={repoData?.id} />
   )
 }
