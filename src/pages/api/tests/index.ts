@@ -12,7 +12,13 @@ export default async function handler(req: NextApiRequest, res) {
       where: {
         path: `${repo}/${path.join('/')}`
       },
-      include: { results: true }
+      include: {
+        results: {
+          include: {
+            user: true
+          }
+        }
+      }
     })
     if (isTest) {
       console.log(`👹 ~ file: index.ts ~ line 34 ~ handler ~ isTest`, isTest)

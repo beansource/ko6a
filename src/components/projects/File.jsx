@@ -202,7 +202,7 @@ export const Script = props => {
   )
 }
 
-import { OurTable } from '@components/results/Table'
+import { ResultsTable } from '@components/results/Table'
 
 export const Results = props => {
   console.log(props.results)
@@ -218,7 +218,7 @@ export const Results = props => {
         >
           <Stack spacing="5">
             <Box overflowX="auto">
-              <OurTable results={props.results} />
+              <ResultsTable results={props.results} />
             </Box>
             <Box
               px="4"

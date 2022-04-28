@@ -40,13 +40,12 @@ export default async function handler(req, res) {
       res.end(`child process exited with code ${code.toString()}`)
     })
   })
-  console.log(session?.user)
 
   const response = await result.create({
     data: {
       testId: testId,
       data: {},
-      userId: parseInt(session?.user?.id)
+      ghLogin: session?.user?.login
     }
   })
   console.log(response)

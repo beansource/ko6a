@@ -79,6 +79,6 @@ model result {
   test      test     @relation(fields: [testId], references: [id])
   testId    Int
   data      Json
-  user      user     @relation(fields: [userId], references: [id])
-  userId    Int
+  user      user     @relation(fields: [ghLogin], references: [ghLogin])
+  ghLogin   String
 }

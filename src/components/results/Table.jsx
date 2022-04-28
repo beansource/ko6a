@@ -5,7 +5,7 @@ import { FiTrash2 } from 'react-icons/fi'
 import { IoArrowDown } from 'react-icons/io5'
 import { format } from 'date-fns'
 
-export const OurTable = props => (
+export const ResultsTable = props => (
   <Table {...props}>
     <Thead>
       <Tr>
@@ -40,9 +40,9 @@ export const OurTable = props => (
             </Badge>
           </Td>
           <Td>
-            <Tooltip label="Alexander Swanson">
+            <Tooltip label={result.user.name}>
               <Avatar size="xs"
-                src="https://avatars.githubusercontent.com/u/22817788?u=bda277aeedd287ff00950771d7495a5eac31cf61&v=4"
+                src={`https://github.com/${result.ghLogin}.png`}
               />
             </Tooltip>
           </Td>
