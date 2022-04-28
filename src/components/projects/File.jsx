@@ -26,7 +26,6 @@ export const File = props => {
   // api route things, either post new test or get existing test from db
   useEffect(() => {
     async function something() {
-      console.log(props)
       const res = await $fetch(`/api/tests`, {
         method: 'POST',
         body: JSON.stringify(props)
@@ -62,7 +61,6 @@ export const File = props => {
     try {
       data = await $fetch(url)
     } catch (error) {
-      console.log(error)
       return (
         <Text>
           {error}
@@ -85,7 +83,7 @@ export const File = props => {
   const runner = () => {
     setLoading(true)
     setConsoleOutput('')
-    $fetch('/api/runner', {
+    fetch('/api/runner', {
       method: 'POST', 
       body: JSON.stringify({
         script: url,
@@ -97,24 +95,22 @@ export const File = props => {
         'Content-Type': 'application/json'
       }
     }).then(res => {
-      console.log(res)
-      // this is borked rn
-      // const reader = res.body.getReader()
-      // const chunks = []
+      const reader = res.body.getReader()
+      const chunks = []
 
-      // async function stream() {
-      //   const { value, done } = await reader.read()
-      //   if (done) {
-      //     setLoading(false)
-      //     return chunks
-      //   }
-      //   let log = new TextDecoder().decode(value)
-      //   setConsoleOutput(oldArr => oldArr + log)
-      //   scrollToBottom('console')
-      //   chunks.push(value)
-      //   return stream()
-      // }
-      // return stream()
+      async function stream() {
+        const { value, done } = await reader.read()
+        if (done) {
+          setLoading(false)
+          return chunks
+        }
+        let log = new TextDecoder().decode(value)
+        setConsoleOutput(oldArr => oldArr + log)
+        scrollToBottom('console')
+        chunks.push(value)
+        return stream()
+      }
+      return stream()
     })
   }
 
@@ -205,7 +201,6 @@ export const Script = props => {
 import { OurTable } from '@components/results/Table'
 
 export const Results = props => {
-  console.log(props.results)
   if (props.results?.length > 0) {
     return (
       <Container maxW="fit">
