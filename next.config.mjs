@@ -10,7 +10,7 @@ const nextConfig = {
     outputStandalone: true
   },
   compiler: {
-    removeConsole: process.env.ENV === 'prod',
+    removeConsole: false, //process.env.ENV === 'prod',
     exclude: ['error']
   }
 }
