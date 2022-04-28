@@ -30,7 +30,7 @@ export const ResultsTable = props => (
             <HStack spacing="3">
               <Checkbox />
               <Box>
-                <Text color="muted">{format(new Date(result.timestamp), 'h:m:ss aaa MM/dd/yyyy')}</Text>
+                <Text color="muted">{format(new Date(result.timestamp), 'h:mm:ss aaa MM/dd/yyyy')}</Text>
               </Box>
             </HStack>
           </Td>
