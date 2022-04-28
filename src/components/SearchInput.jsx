@@ -2,6 +2,9 @@ import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 import * as React from 'react'
 import { BsSearch } from 'react-icons/bs'
 
+/**
+ * todo: implement search
+ */
 export const SearchInput = (props) => {
   const { rootProps, ...rest } = props
   return (
@@ -20,6 +23,7 @@ export const SearchInput = (props) => {
       </InputLeftElement>
       <Input
         {...rest}
+        disabled
         placeholder="Search"
         rounded="md"
         _placeholder={{
