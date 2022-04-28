@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const projectData = await prisma.project.findUnique({ where: { name_projectOwnerName: { name: project, projectOwnerName: team } } })
   if (!projectData) {
-    res.status(404).json({ error: 'Project not found' })
+    return res.status(404).json({ error: 'Project not found' })
   }
 
   if (req.method === 'GET') {

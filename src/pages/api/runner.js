@@ -7,7 +7,7 @@ const fs = require('fs-extra')
 export default async function handler(req, res) {
   const timestamp = Date.now()
   const { result } = usePrisma()
-  const { path, testId, script } = JSON.parse(req?.body)
+  const { path, testId, script } = req?.body
   const session = await getSession({ req })
 
   try {

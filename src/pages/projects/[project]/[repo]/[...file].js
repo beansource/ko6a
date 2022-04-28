@@ -9,7 +9,8 @@ export default function FilePage({ ...props }) {
   const { project, repo } = router?.query
   const { currentTeam } = useContext(TeamContext)
 
-  const { data: repoData, error } = useSWR(project && currentTeam && repo && `/api/teams/${currentTeam}/projects/${project}/repos/${repo}`)
+  const canFetch = project && currentTeam && repo
+  const { data: repoData, error } = useSWR(canFetch && `/api/teams/${currentTeam}/projects/${project}/repos/${repo}`)
 
   if (error) {
     console.log(error)
