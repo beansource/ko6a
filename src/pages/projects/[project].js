@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { Repo } from '@projects/Repo'
-import { Stack, StackDivider, Heading, Box, Container, VStack, HStack,
+import { Stack, StackDivider, Box, Container, VStack, HStack,
   Divider, Button, useDisclosure, Text } from '@chakra-ui/react'
 import useSWR from 'swr'
 import { TeamContext } from '@contexts/TeamContext'
@@ -42,7 +42,6 @@ export default function Project({ ...props }) {
 
   return (
     <Box p="8">
-      <Heading pb="2">repos</Heading>
       <Stack spacing="8" py="5" divider={<StackDivider />}>
         {project?.repos?.map(repo => {
           return (
