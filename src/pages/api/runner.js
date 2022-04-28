@@ -1,12 +1,14 @@
 import { exec, spawn } from 'child_process'
 import { Readable } from 'stream'
 import { usePrisma } from '@prismaClient'
+import { getSession } from 'next-auth/react'
 const fs = require('fs-extra')
 
 export default async function handler(req, res) {
   const timestamp = Date.now()
   const { result } = usePrisma()
   const { path, testId, script } = req?.body
+  const session = await getSession({ req })
 
   try {
     await fs.ensureFile(`results/${path}/${timestamp}.json`)
@@ -42,7 +44,8 @@ export default async function handler(req, res) {
   const response = await result.create({
     data: {
       testId: testId,
-      data: {}
+      data: {},
+      ghLogin: session?.user?.login
     }
   })
   console.log(response)

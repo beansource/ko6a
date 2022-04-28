@@ -14,7 +14,8 @@ model user {
   name        String
   defaultTeam String
 
-  teams teamMember[]
+  teams  teamMember[]
+  result result[]
 }
 
 model team {
@@ -38,16 +39,16 @@ model teamMember {
 }
 
 model project {
-  id             Int       @id @default(autoincrement())
-  createdAt      DateTime? @default(now()) @db.Timestamptz(6)
-  name           String
-  description    String?
-  projectOwner   team      @relation(fields: [projectOwnerName], references: [name])
+  id               Int       @id @default(autoincrement())
+  createdAt        DateTime? @default(now()) @db.Timestamptz(6)
+  name             String
+  description      String?
+  projectOwner     team      @relation(fields: [projectOwnerName], references: [name])
   projectOwnerName String
 
-  @@unique(fields: [name, projectOwnerName], name: "name_projectOwnerName")
 
   repos repo[]
+  @@unique(fields: [name, projectOwnerName], name: "name_projectOwnerName")
 }
 
 model repo {
@@ -78,4 +79,6 @@ model result {
   test      test     @relation(fields: [testId], references: [id])
   testId    Int
   data      Json
+  user      user     @relation(fields: [ghLogin], references: [ghLogin])
+  ghLogin   String
 }

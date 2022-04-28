@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createContext } from 'react'
 import { useRouter } from 'next/router'
 
-export const TeamContext = React.createContext()
+export const TeamContext = createContext()
 
 export const TeamProvider = ({ children, defaultTeam }) => {
   const router = useRouter()
