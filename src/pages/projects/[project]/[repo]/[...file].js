@@ -11,7 +11,6 @@ export default function FilePage({ ...props }) {
 
   const canFetch = project && currentTeam && repo
   const { data: repoData, error } = useSWR(canFetch && `/api/teams/${currentTeam}/projects/${project}/repos/${repo}`)
-  console.log(`🚀 ~ file: [...file].js ~ line 14 ~ FilePage ~ repoData`, repoData)
 
   if (error) {
     console.log(error)

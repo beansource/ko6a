@@ -42,7 +42,6 @@ export default async function handler(req, res) {
   const response = await result.create({
     data: {
       testId: testId,
-      userId: 1,
       data: {}
     }
   })

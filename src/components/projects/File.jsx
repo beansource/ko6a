@@ -95,7 +95,6 @@ export const File = props => {
         'Content-Type': 'application/json'
       }
     }).then(res => {
-      console.log(`🚀 ~ file: File.jsx ~ line 100 ~ runner ~ res`, res)
       const reader = res.body.getReader()
       const chunks = []
 
