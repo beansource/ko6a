@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
-import { Explorer } from '@projects/Explorer'
+import { Explorer } from '@components/projects/explorer'
 import useSWR from 'swr'
-import { TeamContext } from '@contexts/TeamContext'
+import { TeamContext } from '@components/contexts/team-context'
 
 export default function FilePage({ ...props }) {
   const router = useRouter()

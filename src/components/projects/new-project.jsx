@@ -8,7 +8,7 @@ import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
   Stack, HStack, Spacer
 } from '@chakra-ui/react'
-import { TeamContext } from '@contexts/TeamContext'
+import { TeamContext } from '@components/contexts/team-context'
 
 export default function NewProject({ isOpen, onOpen, onClose }) {
   const toast = useToast()

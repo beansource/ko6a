@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
     catch (e) {
-      console.error("🤠 ~ file: index.ts ~ line 21 ~ handler ~ e", e);
+      console.error("🤠 ~ file: index.ts ~ line 21 ~ handler ~ e", e)
       return res.status(500).json({ error: 'Failed to retrieve projects' })
     }
     
@@ -38,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
     catch (e) {
-      console.error("🤠 ~ file: index.ts ~ line 34 ~ handler ~ e", e);
+      console.error("🤠 ~ file: index.ts ~ line 34 ~ handler ~ e", e)
       return res.status(500).json({ error: 'Failed to delete project' })
     }
     

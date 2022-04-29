@@ -2,8 +2,8 @@ import { Menu as ChakraMenu, MenuButton, MenuList, MenuItem, IconButton } from '
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
 import { useDisclosure } from '@chakra-ui/hooks'
-import NewProject from './projects/NewProject'
-import NewRepo from './projects/NewRepo'
+import NewProject from './projects/new-project'
+import NewRepo from './projects/new-repo'
 
 export default function Menu() {
   const router = useRouter()

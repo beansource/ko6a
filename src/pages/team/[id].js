@@ -1,4 +1,4 @@
-import { Team } from '@teams/Team'
+import { Team } from '@components/teams/team'
 import { useRouter } from 'next/router'
 
 export default function ManageTeam() {

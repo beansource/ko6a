@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
-import { Repo } from '@projects/Repo'
+import { Repo } from '@components/projects/repo'
 import { Stack, StackDivider, Box, Container, VStack, HStack,
   Divider, Button, useDisclosure, Text } from '@chakra-ui/react'
 import useSWR from 'swr'
-import { TeamContext } from '@contexts/TeamContext'
+import { TeamContext } from '@components/contexts/team-context'
 import Image from 'next/image'
-import NewRepo from '@components/projects/NewRepo'
+import NewRepo from '@components/projects/new-repo'
 import { FiPlus } from 'react-icons/fi'
 
 export default function Project({ ...props }) {

@@ -1,20 +1,20 @@
 import { Flex, Box, useColorModeValue as mode, Spacer, HStack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import Sidebar from '@components/sidebar/Sidebar'
-import PageSpinner from '@components/PageSpinner'
+import Sidebar from '@components/sidebar/sidebar'
+import PageSpinner from '@components/page-spinner'
 
 import { useUser } from '@hooks'
-import { TeamProvider } from '@contexts/TeamContext'
+import { TeamProvider } from '@components/contexts/team-context'
 
 import { useSession } from 'next-auth/react'
 
-import { SearchInput } from '@components/SearchInput'
-import Menu from '@components/Menu'
-import { MobileMenuButton } from '@components/MobileMenuButton'
-import { NavBreadcrumb } from '@components/NavBreadcrumb'
-import { useMobileMenuState } from '@components/useMobileMenuState'
+import { SearchInput } from '@components/search-input'
+import Menu from '@components/menu'
+import { MobileMenuButton } from '@components/mobile-menu-button'
+import { NavBreadcrumb } from '@components/nav-breadcrumb'
+import { useMobileMenuState } from '@components/use-mobile-menu-state'
 
-import { Login } from './Login'
+import { Login } from './login'
 
 export default function Layout({ children }) {
   const router = useRouter()

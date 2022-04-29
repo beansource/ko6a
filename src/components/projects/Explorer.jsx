@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { BsFillFolderFill, BsFileEarmarkCodeFill } from 'react-icons/bs'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
-import { File } from './File'
+import { File } from './file'
 import isScriptFile from '@util/isScriptFile'
 import Link from 'next/link'
 const prettyBytes = require('pretty-bytes')
