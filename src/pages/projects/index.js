@@ -1,11 +1,11 @@
 import { useContext } from 'react'
-import { Project } from '@projects/Project'
+import { Project } from '@components/projects/project'
 import { Stack, StackDivider, Text, VStack, HStack, Container, Divider, Button, Box } from '@chakra-ui/react'
-import { TeamContext } from '@contexts/TeamContext'
+import { TeamContext } from '@components/contexts/team-context'
 import useSWR from 'swr'
 import { FiPlus } from 'react-icons/fi'
 import Image from 'next/image'
-import NewProject from '@components/projects/NewProject'
+import NewProject from '@components/projects/new-project'
 import { useDisclosure } from '@chakra-ui/react'
 
 export default function Projects() {

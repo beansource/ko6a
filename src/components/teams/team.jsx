@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { VStack, Box, Text, Flex, Input, Button, Spacer, Link, Divider,
   FormControl, FormLabel, FormErrorMessage, Stack, StackDivider, Select, useToast } from '@chakra-ui/react'
-import PageSpinner from '@components/PageSpinner'
+import PageSpinner from '@components/page-spinner'
 import { Formik, Form, Field } from 'formik'
 import { useTeammates, useTeam, useUser, useTeams } from '@hooks'
 import { $fetch } from 'ohmyfetch'

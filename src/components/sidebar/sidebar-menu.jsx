@@ -4,10 +4,10 @@ import { Menu as ChakraMenu, MenuButton, MenuList, MenuItem,
   Spinner, Image, Text, Divider } from '@chakra-ui/react'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { FiPlusCircle, FiLogOut } from 'react-icons/fi'
-import { UserInfo } from './UserInfo'
-import NewTeam from '@teams/NewTeam'
+import { UserInfo } from './user-info'
+import NewTeam from '@components/teams/new-team'
 
-import { TeamContext } from '@contexts/TeamContext'
+import { TeamContext } from '@components/contexts/team-context'
 
 import { signOut } from 'next-auth/react'
 

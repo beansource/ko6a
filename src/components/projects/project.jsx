@@ -7,7 +7,7 @@ import { useSWRConfig } from 'swr'
 import NextLink from 'next/link'
 import { Box, HStack, IconButton, useColorModeValue as mode, Link, Text } from '@chakra-ui/react'
 import { useState, useContext } from 'react'
-import { TeamContext } from '@contexts/TeamContext'
+import { TeamContext } from '@components/contexts/team-context'
 
 /**
  * Deisgn used to list a user's Projects

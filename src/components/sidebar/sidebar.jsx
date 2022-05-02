@@ -4,14 +4,14 @@ import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { data } from '@data'
 
-import { NavSectionTitle } from '@components/NavSectionTitle'
-import SidebarLink from './SidebarLink'
-import SidebarMenu from './SidebarMenu'
+import { NavSectionTitle } from '@components/nav-section-title'
+import SidebarLink from './sidebar-link'
+import SidebarMenu from './sidebar-menu'
 
 import { useTeammates, useTeams } from '@hooks'
-import { TeamContext } from '@contexts/TeamContext'
+import { TeamContext } from '@components/contexts/team-context'
 
-import { ScrollArea } from '@components/ScrollArea'
+import { ScrollArea } from '@components/scroll-area'
 
 export default function Sidebar({ user }) {
   const { currentTeam } = useContext(TeamContext)
