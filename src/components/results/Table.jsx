@@ -9,15 +9,8 @@ export const ResultsTable = props => (
   <Table {...props}>
     <Thead>
       <Tr>
-        <Th>
-          <HStack spacing="3">
-            <Checkbox />
-            <HStack spacing="1">
-              <Text>Time</Text>
-              <Icon as={IoArrowDown} color="muted" boxSize="4" />
-            </HStack>
-          </HStack>
-        </Th>
+        <Th>Date</Th>
+        <Th>Time</Th>
         <Th>Status</Th>
         <Th>Run by</Th>
         <Th></Th>
@@ -27,12 +20,10 @@ export const ResultsTable = props => (
       {props.results.map(result => (
         <Tr key={result.id}>
           <Td>
-            <HStack spacing="3">
-              <Checkbox />
-              <Box>
-                <Text color="muted">{format(new Date(result.timestamp), 'h:mm:ss aaa MM/dd/yyyy')}</Text>
-              </Box>
-            </HStack>
+            <Text color="muted">{format(new Date(result.timestamp), 'MMMM dd, yyyy')}</Text>
+          </Td>
+          <Td>
+            <Text color="muted">{format(new Date(result.timestamp), 'h:mm:ss aaa')}</Text>
           </Td>
           <Td>
             <Badge size="sm" colorScheme="green">
