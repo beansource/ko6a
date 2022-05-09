@@ -1,6 +1,6 @@
 import getPrismaClient from '@prismaClient'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getUser } from '@util/githubApi'
+import { getUser } from '@util/github-api'
 import { getSession } from 'next-auth/react'
 import { setupNewUser } from '@lib/prisma/api'
 

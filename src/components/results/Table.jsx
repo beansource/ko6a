@@ -1,8 +1,6 @@
-import { Badge, Box, Checkbox, HStack, Icon, IconButton, Table, Tbody, Td, Text, Th, Thead, Tr,
-  Avatar, Tooltip } from '@chakra-ui/react'
+import { Badge, HStack, IconButton, Table, Tbody, Td, Text, Th, Thead, Tr, Avatar, Tooltip } from '@chakra-ui/react'
 import * as React from 'react'
 import { FiTrash2 } from 'react-icons/fi'
-import { IoArrowDown } from 'react-icons/io5'
 import { format } from 'date-fns'
 
 export const ResultsTable = props => (

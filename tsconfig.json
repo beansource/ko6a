@@ -8,7 +8,7 @@
       "@util/*": ["util/*"],
       "@data/*": ["lib/data/*"],
       "@hooks": ["util/hooks"],
-      "@prismaClient": ["lib/prisma/prismaClient"],
+      "@prismaClient": ["lib/prisma/prisma-client"],
       "@teams/*": ["components/teams/*"],
       "@contexts/*": ["components/contexts/*"],
       "@lib/*": ["lib/*"],
