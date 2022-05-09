@@ -4,7 +4,7 @@ import { usePrisma } from '@prismaClient'
 export default async function handler(req: NextApiRequest, res) {
   const { method } = req
   const { test, result } = usePrisma()
-  
+
   switch (method) {
     case 'POST':
       const { repoId, path, repo } = JSON.parse(req.body)
@@ -43,7 +43,6 @@ export default async function handler(req: NextApiRequest, res) {
       }
       break
     case 'DELETE':
-      console.log('delete case')
       const { id } = JSON.parse(req.body)
       const removed = await result.delete({
         where: {
