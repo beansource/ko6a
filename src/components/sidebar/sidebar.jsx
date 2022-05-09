@@ -7,11 +7,12 @@ import { data } from '@data'
 import { NavSectionTitle } from '@components/nav-section-title'
 import SidebarLink from './sidebar-link'
 import SidebarMenu from './sidebar-menu'
+import { ScrollArea } from '@components/scroll-area'
 
 import { useTeammates, useTeams } from '@hooks'
 import { TeamContext } from '@components/contexts/team-context'
 
-import { ScrollArea } from '@components/scroll-area'
+import { Book, Github } from 'lucide-react'
 
 export default function Sidebar({ user }) {
   const { currentTeam } = useContext(TeamContext)
@@ -22,7 +23,7 @@ export default function Sidebar({ user }) {
   const error = isTeammatesError || isTeamsError
 
   if (error) {
-    console.log("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError, isTeamsError}", {isTeammatesError, isTeamsError})
+    console.error("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError, isTeamsError}", {isTeammatesError, isTeamsError})
   }
 
   return (
@@ -52,13 +53,14 @@ export default function Sidebar({ user }) {
                 </SidebarLink>
                 : null)}) : null}
             </Stack>
-            <Stack>
-              <NavSectionTitle>Explore</NavSectionTitle>
-              <SidebarLink>Documentation</SidebarLink>
-              <SidebarLink href={data.github}>
+            <NavSection title="Explore">
+              <SidebarLink icon={<Book size={15} />}>
+                Documentation
+              </SidebarLink>
+              <SidebarLink href={data.github} icon={<Github size={15} />}>
                 GitHub
               </SidebarLink>
-            </Stack>
+            </NavSection>
             </Box>
             <Spacer />
           <SidebarLink href={'/settings'} icon={<SettingsIcon />}>
@@ -69,5 +71,14 @@ export default function Sidebar({ user }) {
         <Spacer />
       </Flex>
     </Box>
+  )
+}
+
+const NavSection = ({ title, children }) => {
+  return (
+    <Stack>
+      <NavSectionTitle>{title}</NavSectionTitle>
+      {children}
+    </Stack>
   )
 }

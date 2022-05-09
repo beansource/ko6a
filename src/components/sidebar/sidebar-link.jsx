@@ -2,8 +2,7 @@ import { Box, createIcon, HStack, Text, useColorModeValue as mode } from '@chakr
 import * as React from 'react'
 import Link from 'next/link'
 
-export default function SidebarLink(props) {
-  const { href, children, icon = <ArrowRight />, avatar } = props
+export default function SidebarLink({ href, children, icon = <ArrowRight />, avatar }) {
   return (
     <Link href={href ?? '/'} passHref>
       <Box
