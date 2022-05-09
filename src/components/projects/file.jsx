@@ -14,7 +14,6 @@ export const File = props => {
   const { owner, repo, path } = props
 
   const [loading, setLoading] = useState(false)
-  const [consoleOutput, setConsoleOutput] = useState('Run test to see results')
 
   const [testId, updateTestId] = useState()
   const [results, updateResults] = useState([])
@@ -81,8 +80,6 @@ export const File = props => {
   }
 
   const runner = () => {
-    setLoading(true)
-    setConsoleOutput('')
     fetch('/api/runner', {
       method: 'POST', 
       body: JSON.stringify({
@@ -94,23 +91,6 @@ export const File = props => {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(res => {
-      const reader = res.body.getReader()
-      const chunks = []
-
-      async function stream() {
-        const { value, done } = await reader.read()
-        if (done) {
-          setLoading(false)
-          return chunks
-        }
-        let log = new TextDecoder().decode(value)
-        setConsoleOutput(oldArr => oldArr + log)
-        scrollToBottom('console')
-        chunks.push(value)
-        return stream()
-      }
-      return stream()
     })
   }
 
@@ -132,25 +112,14 @@ export const File = props => {
                 }}>Results</Tab>
                 <Tab fontWeight="semibold" _focus={{
                   outline: 'none'
-                }}>Output</Tab>
-                <Tab fontWeight="semibold" _focus={{
-                  outline: 'none'
                 }}>Source</Tab>
               </TabList>
               <Stack direction="row">
-                <ButtonGroup size="sm" isAttached variant="outline">
-                  <Button mr="-px" onClick={runner}
-                    isLoading={loading} loadingText="Running"
-                  >
-                    Run
-                  </Button>
-                  <Button onClick={() => {
-                    if (!loading) {
-                      setConsoleOutput('Run test to see results')
-                  }}}>
-                    Clear
-                  </Button>
-                </ButtonGroup>
+                <Button onClick={runner} variant="outline"
+                  isLoading={loading} loadingText="Running"
+                >
+                  Run
+                </Button>
               </Stack>
             </Flex>
           </Box>
@@ -160,15 +129,6 @@ export const File = props => {
             <TabPanels mt="5" h="full">
               <TabPanel>
                 <Results results={results} />
-              </TabPanel>
-              <TabPanel>
-                <Box bg="gray.700" borderRadius="12" my={4} maxH={'container.md'} minW={'full'}
-                  maxW={'container.lg'} overflow="scroll" id="console"
-                >
-                  <Text style={{ whiteSpace: 'pre-line' }} color="white" p="5">
-                    <pre>{consoleOutput}</pre>
-                  </Text>
-                </Box>
               </TabPanel>
               <TabPanel>
                 <Script loading={loading} rawFile={rawFile} rawErrorStatus={rawErrorStatus} />
@@ -232,8 +192,8 @@ export const Results = props => {
                   }}
                   variant="outline"
                 >
-                  <Button>Previous</Button>
-                  <Button>Next</Button>
+                  <Button disabled>Previous</Button>
+                  <Button disabled>Next</Button>
                 </ButtonGroup>
               </HStack>
             </Box>
@@ -251,9 +211,4 @@ export const Results = props => {
       </Container>
     )
   }
-}
-
-const scrollToBottom = e => {
-  const div = document.getElementById(e)
-  div.scrollTop = div.scrollHeight - div.clientHeight
 }
