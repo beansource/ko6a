@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
+    "changelogen": "^0.0.3",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.5",
     "plur": "^5.0.0",
