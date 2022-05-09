@@ -8,7 +8,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lol": "changelogen",
     "postgres": "docker run -p 5432:5432 -e POSTGRES_PASSWORD=password -d postgres",
     "prisma": "prisma db push && prisma generate",
     "prisma:gen": "prisma generate"
