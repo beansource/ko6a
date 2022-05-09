@@ -18,6 +18,7 @@ import { Login } from './login'
 
 export default function Layout({ children }) {
   const router = useRouter()
+  const isHome = router?.pathname === '/' || router?.pathname === '/projects'
   const { data: session } = useSession()
   const { isOpen, toggle } = useMobileMenuState()
 
@@ -73,7 +74,9 @@ export default function Layout({ children }) {
               <Flex w="full" py="4" justify="space-between" align="center" px="10">
                 <Flex align="center" minH="8">
                   <MobileMenuButton onClick={toggle} isOpen={isOpen} />
-                  <NavBreadcrumb slug={router?.query?.slug} />
+                  {!isHome && 
+                    <NavBreadcrumb />
+                  }
                 </Flex>
                 <Spacer />
                 <HStack spacing="2">

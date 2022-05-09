@@ -53,7 +53,7 @@ export default function Sidebar({ user }) {
                 : null)}) : null}
             </Stack>
             <Stack>
-              <NavSectionTitle>Resources</NavSectionTitle>
+              <NavSectionTitle>Explore</NavSectionTitle>
               <SidebarLink>Documentation</SidebarLink>
               <SidebarLink href={data.github}>
                 GitHub
