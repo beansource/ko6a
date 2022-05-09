@@ -1,7 +1,9 @@
-import { Badge, HStack, IconButton, Table, Tbody, Td, Text, Th, Thead, Tr, Avatar, Tooltip } from '@chakra-ui/react'
+import { Badge, Menu, MenuButton, MenuList, MenuItem, IconButton, 
+  Table, Tbody, Td, Text, Th, Thead, Tr, Avatar, Tooltip } from '@chakra-ui/react'
 import * as React from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import { format } from 'date-fns'
+import { HamburgerIcon } from '@chakra-ui/icons'
 
 export const ResultsTable = props => (
   <Table {...props}>
@@ -11,12 +13,14 @@ export const ResultsTable = props => (
         <Th>Time</Th>
         <Th>Status</Th>
         <Th>Run by</Th>
-        <Th></Th>
+        <Th>Actions</Th>
       </Tr>
     </Thead>
     <Tbody>
       {props.results.map(result => (
-        <Tr key={result.id}>
+        <Tr key={result.id} cursor="pointer" _hover={{
+          bg: "gray.50"
+        }}>
           <Td>
             <Text color="muted">{format(new Date(result.timestamp), 'MMMM dd, yyyy')}</Text>
           </Td>
@@ -24,9 +28,11 @@ export const ResultsTable = props => (
             <Text color="muted">{format(new Date(result.timestamp), 'h:mm:ss aaa')}</Text>
           </Td>
           <Td>
-            <Badge size="sm" colorScheme="green">
-              {result.status}completed
-            </Badge>
+            <Tooltip label={result.data}>
+              <Badge size="sm" colorScheme="green">
+                completed
+              </Badge>
+            </Tooltip>
           </Td>
           <Td>
             <Tooltip label={result.user.name}>
@@ -36,15 +42,23 @@ export const ResultsTable = props => (
             </Tooltip>
           </Td>
           <Td>
-            <HStack spacing="1">
-              <Tooltip label="Delete test result">
-                <IconButton
-                  icon={<FiTrash2 fontSize="1.25rem" />}
-                  variant="ghost"
-                  aria-label="Delete result"
-                />
-              </Tooltip>
-            </HStack>
+            <Menu isLazy>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<HamburgerIcon />}
+                variant="ghost"
+                rounded="full"
+              />
+              <MenuList>
+                <MenuItem icon={<FiTrash2 />} command='⌘D'>
+                  Delete result
+                </MenuItem>
+                <MenuItem icon={<FiTrash2 />} command='⌘E'>
+                  Export result
+                </MenuItem>
+              </MenuList>
+            </Menu>
           </Td>
         </Tr>
       ))}
