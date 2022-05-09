@@ -2,47 +2,57 @@ import { NextApiRequest } from 'next'
 import { usePrisma } from '@prismaClient'
 
 export default async function handler(req: NextApiRequest, res) {
-  const { test } = usePrisma()
+  const { method } = req
+  const { test, result } = usePrisma()
   
-  if (req.method === 'POST') {
-    const { repoId, path, repo } = JSON.parse(req.body)
-
-    // is the test exist
-    const isTest = await test.findFirst({
-      where: {
-        path: `${repo}/${path.join('/')}`
-      },
-      include: {
-        results: {
-          include: {
-            user: true
+  switch (method) {
+    case 'POST':
+      const { repoId, path, repo } = JSON.parse(req.body)
+      // is the test exist
+      const isTest = await test.findFirst({
+        where: {
+          path: `${repo}/${path.join('/')}`
+        },
+        include: {
+          results: {
+            include: {
+              user: true
+            }
           }
         }
-      }
-    })
-    if (isTest) {
-      console.log(`👹 ~ file: index.ts ~ line 34 ~ handler ~ isTest`, isTest)
-      res.status(200).json({
-        message: 'Test exists',
-        data: isTest
       })
-    }
-    
-    console.log(req.body)
-    if (!isTest) {
-      const newTest = await test.create({
-        data: {
-          repoId: repoId,
-          path: `${repo}/${path.join('/')}`,
-          name: path[path.length - 1]
+      if (isTest) {
+        res.status(200).json({
+          message: 'Test exists',
+          data: isTest
+        })
+      }
+      
+      if (!isTest) {
+        const newTest = await test.create({
+          data: {
+            repoId: repoId,
+            path: `${repo}/${path.join('/')}`,
+            name: path[path.length - 1]
+          }
+        })
+        res.status(201).json({
+          message: 'Test created',
+          data: newTest
+        })
+      }
+      break
+    case 'DELETE':
+      console.log('delete case')
+      const { id } = JSON.parse(req.body)
+      const removed = await result.delete({
+        where: {
+          id: id
         }
       })
-      res.status(201).json({
-        message: 'Test created',
-        data: newTest
-      })
-    }
-  } else {
-    return res.status(405).json({ error: 'Method not allowed' })
+      res.status(200).json({ message: 'Test result deleted'})
+      break
+    default:
+      res.status(405).json({ error: 'Method not allowed' })
   }
 }

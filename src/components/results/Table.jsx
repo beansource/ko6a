@@ -4,6 +4,7 @@ import * as React from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import { format } from 'date-fns'
 import { HamburgerIcon } from '@chakra-ui/icons'
+import { $fetch } from 'ohmyfetch'
 
 export const ResultsTable = props => (
   <Table {...props}>
@@ -51,10 +52,17 @@ export const ResultsTable = props => (
                 rounded="full"
               />
               <MenuList>
-                <MenuItem icon={<FiTrash2 />} command='⌘D'>
+                <MenuItem icon={<FiTrash2 />} command='⌘D' onClick={() => {
+                  const res = $fetch(`/api/tests`, {
+                    method: 'DELETE',
+                    body: JSON.stringify({
+                      id: result.id
+                    })
+                  })
+                }}>
                   Delete result
                 </MenuItem>
-                <MenuItem icon={<FiTrash2 />} command='⌘E'>
+                <MenuItem icon={<FiTrash2 />} command='⌘E' disabled>
                   Export result
                 </MenuItem>
               </MenuList>
