@@ -36,13 +36,10 @@ export const NavBreadcrumb = props => {
       {...props}
       separator={separator}
     >
-       <BreadcrumbItem color="inherit">
-        <BreadcrumbLink href="/">Home</BreadcrumbLink>
-      </BreadcrumbItem>
       {breadcrumbs?.map((item, idx) => {
         return (
           <BreadcrumbItem color="inherit" isCurrentPage={item.name == breadcrumbs[breadcrumbs.length - 1].name} key={idx}>
-            <Link href={item.href}>
+            <Link href={item.href} passHref>
               <BreadcrumbLink>
                 {item.name}
               </BreadcrumbLink>

@@ -12,6 +12,15 @@ const nextConfig = {
   compiler: {
     removeConsole: false, //process.env.ENV === 'prod',
     exclude: ['error']
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/projects',
+        permanent: true
+      }
+    ]
   }
 }
 
