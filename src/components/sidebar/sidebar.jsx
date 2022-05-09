@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { Avatar, Box, Stack, Flex, Spacer, VStack } from '@chakra-ui/react'
-import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
+import { BsFillFolderFill } from 'react-icons/bs'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { data } from '@data'
 
@@ -36,13 +36,9 @@ export default function Sidebar({ user }) {
           <VStack h="full" align="left">
             <Box>
             <Stack pb="6">
-              <SidebarLink display={{ base: 'block', lg: 'none' }} mb="2" pb="6" icon={<BsSearch />}>
-                Search
-              </SidebarLink>
               <SidebarLink icon={<BsFillFolderFill />} href="/projects">
                 Projects
               </SidebarLink>
-              <SidebarLink icon={<BsTerminalFill />}>Console</SidebarLink>
             </Stack>
             <Stack pb="6">
               <NavSectionTitle>{currentTeam}</NavSectionTitle>
