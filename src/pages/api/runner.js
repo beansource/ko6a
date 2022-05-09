@@ -1,7 +1,6 @@
-import { exec, spawn } from 'child_process'
-import { Readable } from 'stream'
 import { usePrisma } from '@prismaClient'
 import { getSession } from 'next-auth/react'
+import { execa } from 'execa'
 const fs = require('fs-extra')
 
 export default async function handler(req, res) {
@@ -10,41 +9,43 @@ export default async function handler(req, res) {
   const { path, testId, script } = req?.body
   const session = await getSession({ req })
 
-  try {
-    await fs.ensureFile(`results/${path}/${timestamp}.json`)
-  } catch (err) {
-    console.error(err)
-  }
-  
-  let k6 = spawn('k6', [
+  const subprocess = execa('k6', [
     'run',
-    '--out',
-    `json=results/${path}/${timestamp}.json`,
     script
   ])
+  subprocess.stdout.pipe(fs.createWriteStream(`results/${path}/${timestamp}.txt`))
 
-  const stream = new Readable({ read: () => {} })
-  stream.pipe(res)
-
-  k6.stdout.on('data', data => {
-    stream.push(data.toString())
+  res.status(200).json({
+    message: `done`
   })
 
-  k6.stderr.on('data', data => {
-    console.log(`stderr: ${data.toString()}`)
-    stream.push(`stderr: ${data.toString()}`)
+  subprocess.on('exit', code => {
+    console.log('exit code ', code)
   })
   
-  k6.on('exit', code => {
-    exec(`cat results/${path}/${timestamp}.json`, (error, stdout, stderr) => {
-      res.end(`child process exited with code ${code.toString()}`)
-    })
-  })
+  // let k6 = spawn('k6', [
+  //   'run',
+  //   '--out',
+  //   `json=results/${path}/${timestamp}.json`,
+  //   script
+  // ])
+
+  // const stream = new Readable({ read: () => {} })
+  // stream.pipe(res)
+
+  // k6.stdout.on('data', data => {
+  //   stream.push(data.toString())
+  // })
+
+  // k6.stderr.on('data', data => {
+  //   console.log(`stderr: ${data.toString()}`)
+  //   stream.push(`stderr: ${data.toString()}`)
+  // })
 
   const response = await result.create({
     data: {
       testId: testId,
-      data: {},
+      data: await fetch(`./results/${path}/${timestamp}.txt`).then(file => file.text()),
       ghLogin: session?.user?.login
     }
   })
