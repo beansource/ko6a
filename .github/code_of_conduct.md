@@ -1,5 +1,3 @@
-<!-- TODO: replace with out own Code of Conduct -->
-
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge
