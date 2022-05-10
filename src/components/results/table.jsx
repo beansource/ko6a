@@ -24,21 +24,21 @@ export default function ResultsTable(props) {
       </Thead>
       <Tbody>
         {props.results.map(result => (
-          <Tr key={result.id} cursor="pointer" _hover={{
+          <Tr key={result.id} _hover={{
             bg: "gray.50"
-          }} onClick={() => router.push(`/results/${result.id}`)}>
-            <Td>
+          }}>
+            <Td cursor="pointer" onClick={() => router.push(`/results/${result.id}`)}>
               <Text color="muted">{format(new Date(result.timestamp), 'MMMM dd, yyyy')}</Text>
             </Td>
-            <Td>
+            <Td cursor="pointer" onClick={() => router.push(`/results/${result.id}`)}>
               <Text color="muted">{format(new Date(result.timestamp), 'h:mm:ss aaa')}</Text>
             </Td>
-            <Td>
+            <Td cursor="pointer" onClick={() => router.push(`/results/${result.id}`)}>
               <Badge size="sm" colorScheme="green">
                 completed
               </Badge>
             </Td>
-            <Td>
+            <Td cursor="pointer" onClick={() => router.push(`/results/${result.id}`)}>
               <Tooltip label={result.user.name}>
                 <Avatar size="xs"
                   src={`https://github.com/${result.ghLogin}.png`}
