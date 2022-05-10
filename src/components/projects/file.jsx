@@ -158,7 +158,7 @@ export const Script = props => {
   )
 }
 
-import { ResultsTable } from '@components/results/table'
+import ResultsTable from '@components/results/table'
 
 export const Results = props => {
   if (props.results?.length > 0) {
