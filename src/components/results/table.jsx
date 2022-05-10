@@ -5,7 +5,6 @@ import { FiTrash2 } from 'react-icons/fi'
 import { AiOutlineExport } from 'react-icons/ai'
 import { format } from 'date-fns'
 import { HamburgerIcon } from '@chakra-ui/icons'
-import { $fetch } from 'ohmyfetch'
 
 const toast = createStandaloneToast()
 
@@ -58,14 +57,13 @@ export const ResultsTable = props => (
               />
               <MenuList>
                 <MenuItem fontSize="lg" icon={<FiTrash2 />} onClick={() => {
-                  $fetch(`/api/tests`, {
+                  fetch(`/api/tests`, {
                     method: 'DELETE',
                     body: JSON.stringify({
                       id: result.id
-                    }),
-                    parseResponse: JSON.parse
-                  }).then(response => {
-                    if (response.message == "Test result deleted") {
+                    })
+                  }).then(async res => {
+                    if (res.status == 200) {
                       toast({
                         title: 'Deleted',
                         description: 'Test result has been deleted',
