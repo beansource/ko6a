@@ -16,7 +16,6 @@ export default async function handler(req, res) {
   subprocess.stdout.pipe(fs.createWriteStream(`results/${path}/${timestamp}.txt`))
 
   subprocess.on('exit', async code => {
-    console.log('exit code ', code)
     try {
       console.log(`finding results/${path}/${timestamp}.txt`)
       const output = await fs.readFileSync(`results/${path}/${timestamp}.txt`, 'utf8')
@@ -40,9 +39,8 @@ export default async function handler(req, res) {
       ghLogin: session?.user?.login
     }
   })
-  console.log(response)
 
   res.status(200).json({
-    message: `done`
+    message: 'done'
   })
 }
