@@ -44,12 +44,18 @@ export default async function handler(req: NextApiRequest, res) {
       break
     case 'DELETE':
       const { id } = JSON.parse(req.body)
-      const removed = await result.delete({
-        where: {
-          id: id
+      try {
+        const removed = await result.delete({
+          where: {
+            id: id
+          }
+        })
+        if (removed) {
+          res.status(200).json({ message: 'Test result deleted'})
         }
-      })
-      res.status(200).json({ message: 'Test result deleted'})
+      } catch (err) {
+        res.status(400).json({ message: 'Issue deleting test'})
+      }
       break
     default:
       res.status(405).json({ error: 'Method not allowed' })
