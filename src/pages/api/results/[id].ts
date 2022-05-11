@@ -16,7 +16,6 @@ export default async function handler(req: NextApiRequest, res) {
           user: true
         }
       })
-      console.log(`👹 ~ file: [id].ts ~ line 17 ~ handler ~ data`, data)
       res.status(200).json({
         message: 'Result data found',
         data
