@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { Container, Text, Flex, Spacer, Avatar } from '@chakra-ui/react'
+import { Container, Text, Flex, Spacer, Avatar, Skeleton } from '@chakra-ui/react'
 import useSWR from 'swr'
 import { format } from 'date-fns'
 import { Prism } from 'react-syntax-highlighter'
@@ -38,6 +38,12 @@ export default function Result() {
         <Prism language="log" wrapLines="true" wrapLongLines="true" style={darcula}>
           {data?.data?.data}
         </Prism>
+      </Container>
+    )
+  } else {
+    return (
+      <Container maxW="container.xl" pt="16">
+        <Skeleton height="64" />
       </Container>
     )
   }
