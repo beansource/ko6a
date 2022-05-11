@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { Avatar, Box, Stack, Flex, Spacer, VStack } from '@chakra-ui/react'
-import { BsFillFolderFill, BsSearch, BsTerminalFill } from 'react-icons/bs'
+import { BsFillFolderFill } from 'react-icons/bs'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { data } from '@data'
 
@@ -12,7 +12,7 @@ import { ScrollArea } from '@components/scroll-area'
 import { useTeammates, useTeams } from '@hooks'
 import { TeamContext } from '@components/contexts/team-context'
 
-import { Book, Github } from 'lucide-react'
+import { Book, Github, Mountain, Wrench } from 'lucide-react'
 
 export default function Sidebar({ user }) {
   const { currentTeam } = useContext(TeamContext)
@@ -37,13 +37,9 @@ export default function Sidebar({ user }) {
           <VStack h="full" align="left">
             <Box>
             <Stack pb="6">
-              <SidebarLink display={{ base: 'block', lg: 'none' }} mb="2" pb="6" icon={<BsSearch />}>
-                Search
-              </SidebarLink>
               <SidebarLink icon={<BsFillFolderFill />} href="/projects">
                 Projects
               </SidebarLink>
-              <SidebarLink icon={<BsTerminalFill />}>Console</SidebarLink>
             </Stack>
             <Stack pb="6">
               <NavSectionTitle>{currentTeam}</NavSectionTitle>
@@ -58,12 +54,24 @@ export default function Sidebar({ user }) {
                 : null)}) : null}
             </Stack>
             <NavSection title="Explore">
-              <SidebarLink icon={<Book size={15} />}>
-                Documentation
-              </SidebarLink>
-              <SidebarLink href={data.github} icon={<Github size={15} />}>
-                GitHub
-              </SidebarLink>
+              <Stack pb="6">
+                <SidebarLink icon={<Book size={15} />}>
+                  Documentation
+                </SidebarLink>
+                <SidebarLink href={data.github} icon={<Github size={15} />}>
+                  GitHub
+                </SidebarLink>
+              </Stack>
+            </NavSection>
+            <NavSection title="Resources">
+              <Stack pb="6">
+                <SidebarLink href="https://k6.io/docs" icon={<Mountain size={15} />}>
+                  k6 docs
+                </SidebarLink>
+                <SidebarLink href="https://jslib.k6.io" icon={<Wrench size={15} />}>
+                  jslib
+                </SidebarLink>
+              </Stack>
             </NavSection>
             </Box>
             <Spacer />
