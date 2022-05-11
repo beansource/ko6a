@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router'
-import { Container } from '@chakra-ui/react'
+import { Container, Text, Flex, Spacer, Avatar } from '@chakra-ui/react'
 import useSWR from 'swr'
-import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { format } from 'date-fns'
+import { Prism } from 'react-syntax-highlighter'
+import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-export default function Result({ ...props }) {
+export default function Result() {
   const router = useRouter()
   const { id } = router?.query
 
@@ -13,11 +15,30 @@ export default function Result({ ...props }) {
     console.log(error)
   }
 
-  return (
-    <Container maxW="container.lg">
-      <SyntaxHighlighter language="shell" wrapLines="true" wrapLongLines="true">
-        {JSON.stringify(data?.data?.data)}
-      </SyntaxHighlighter>
-    </Container>
-  )
+  if (data?.data) {
+    const { timestamp } = data?.data
+    const { name, ghLogin } = data?.data?.user
+
+    return (
+      <Container maxW="container.xl">
+        <Flex py="4">
+          <Text>
+            {timestamp && format(new Date(timestamp), 'MMMM dd, h:mm:ss aaa')}
+          </Text>
+          <Spacer />
+          <Text mr="2">
+            Run by {name && name}
+          </Text>
+          {ghLogin &&
+            <Avatar size="xs"
+              src={`https://github.com/${ghLogin}.png`}
+            />
+          }
+        </Flex>
+        <Prism language="log" wrapLines="true" wrapLongLines="true" style={darcula}>
+          {data?.data?.data}
+        </Prism>
+      </Container>
+    )
+  }
 }

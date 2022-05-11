@@ -11,6 +11,9 @@ export default async function handler(req: NextApiRequest, res) {
       const data = await result.findUnique({
         where: {
           id: Number(id)
+        },
+        include: {
+          user: true
         }
       })
       console.log(`👹 ~ file: [id].ts ~ line 17 ~ handler ~ data`, data)

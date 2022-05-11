@@ -9,6 +9,12 @@ export default async function handler(req, res) {
   const { path, testId, script } = req?.body
   const session = await getSession({ req })
 
+  try {
+    await fs.ensureFile(`results/${path}/${timestamp}.txt`)
+  } catch (err) {
+    console.error(err)
+  }
+
   const subprocess = execa('k6', [
     'run',
     script
