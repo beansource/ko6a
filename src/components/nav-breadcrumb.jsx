@@ -31,9 +31,7 @@ export const NavBreadcrumb = props => {
   )
 
   if (props.results) {
-    console.log(props.results)
     const path = props?.results?.path?.split('/')
-    console.log(JSON.stringify(props?.results?.repo?.project))
     const owner = props?.results?.repo?.project?.name
     return (
       <Breadcrumb
@@ -62,7 +60,7 @@ export const NavBreadcrumb = props => {
         })}
         <BreadcrumbItem color="inherit" isCurrentPage>
           <BreadcrumbLink>
-            results 💖
+            results 🥳
           </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>

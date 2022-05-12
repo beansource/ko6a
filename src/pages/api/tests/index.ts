@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res) {
     case 'POST':
       const { repoId, path, repo } = JSON.parse(req.body)
       // is the test exist
-      const isTest = await test.findFirst({
+      const isTest = await test.findFirst({ // this should be findUnique and use wombo combo
         where: {
           path: `${repo}/${path.join('/')}`
         },
@@ -26,9 +26,7 @@ export default async function handler(req: NextApiRequest, res) {
           message: 'Test exists',
           data: isTest
         })
-      }
-      
-      if (!isTest) {
+      } else {
         const newTest = await test.create({
           data: {
             repoId: repoId,
