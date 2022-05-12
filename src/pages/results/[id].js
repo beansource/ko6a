@@ -3,7 +3,7 @@ import { Container, Text, Flex, Spacer, Avatar, Skeleton } from '@chakra-ui/reac
 import useSWR from 'swr'
 import { format } from 'date-fns'
 import { Prism } from 'react-syntax-highlighter'
-import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { darcula, coy } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 export default function Result() {
   const router = useRouter()
@@ -35,7 +35,7 @@ export default function Result() {
             />
           }
         </Flex>
-        <Prism language="log" wrapLines="true" wrapLongLines="true" style={darcula}>
+        <Prism language="log" wrapLines="true" wrapLongLines="true" style={coy}>
           {data?.data?.data}
         </Prism>
       </Container>
