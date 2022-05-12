@@ -3,7 +3,7 @@ import { Container, Text, Flex, Spacer, Avatar, Skeleton } from '@chakra-ui/reac
 import useSWR from 'swr'
 import { format } from 'date-fns'
 import { Prism } from 'react-syntax-highlighter'
-import { darcula, coy } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { coy } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 export default function Result() {
   const router = useRouter()
