@@ -19,6 +19,7 @@ import { Login } from './login'
 export default function Layout({ children }) {
   const router = useRouter()
   const isHome = router?.pathname === '/' || router?.pathname === '/projects'
+  const onResults = router?.asPath?.includes('results')
   const { data: session } = useSession()
   const { isOpen, toggle } = useMobileMenuState()
 
@@ -71,7 +72,7 @@ export default function Layout({ children }) {
             }}
           >
             <Flex direction="column" height="full">
-              <Flex w="full" py="4" justify="space-between" align="center" px="10">
+              {!onResults && <Flex w="full" py="4" justify="space-between" align="center" px="10">
                 <Flex align="center" minH="8">
                   <MobileMenuButton onClick={toggle} isOpen={isOpen} />
                   {!isHome && 
@@ -83,7 +84,7 @@ export default function Layout({ children }) {
                   <SearchInput />
                   <Menu />
                 </HStack>
-              </Flex>
+              </Flex>}
               <Flex direction="column" flex="1" overflow="auto">
                 {children}
               </Flex>

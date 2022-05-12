@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
-import { Container, Text, Flex, Spacer, Avatar, Skeleton } from '@chakra-ui/react'
+import { Container, Text, Flex, Spacer, Avatar, Skeleton, Divider } from '@chakra-ui/react'
+import { NavBreadcrumb } from '@components/nav-breadcrumb'
 import useSWR from 'swr'
 import { format } from 'date-fns'
 import { Prism } from 'react-syntax-highlighter'
@@ -21,7 +22,13 @@ export default function Result() {
 
     return (
       <Container maxW="container.xl">
-        <Flex py="4">
+        <Flex w="full" py="4" justify="space-between" align="center" px="10">
+          <Flex align="center" minH="8">
+            <NavBreadcrumb results={data?.data?.test} />
+          </Flex>
+          <Spacer />
+        </Flex>
+        <Flex py="8" px="16">
           <Text>
             {timestamp && format(new Date(timestamp), 'MMMM dd, h:mm:ss aaa')}
           </Text>
@@ -35,6 +42,7 @@ export default function Result() {
             />
           }
         </Flex>
+        <Divider />
         <Prism language="log" wrapLines="true" wrapLongLines="true" style={coy}>
           {data?.data?.data}
         </Prism>
