@@ -19,7 +19,7 @@ export const TeamProvider = ({ children, defaultTeam }) => {
     setCurrentTeam(newTeam)
     window.sessionStorage.setItem('currentTeam', newTeam)
     if (newTeam != tempTeam) {
-      router.push('/')
+      router.push('/projects')
     }
   }
 
