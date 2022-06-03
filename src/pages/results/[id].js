@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router'
-import { Container, Text, Flex, Spacer, Avatar, Skeleton } from '@chakra-ui/react'
+import { Container, Text, Flex, Spacer, Avatar, Skeleton, Divider } from '@chakra-ui/react'
+import { NavBreadcrumb } from '@components/nav-breadcrumb'
 import useSWR from 'swr'
 import { format } from 'date-fns'
 import { Prism } from 'react-syntax-highlighter'
-import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { coy } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 export default function Result() {
   const router = useRouter()
@@ -20,30 +21,35 @@ export default function Result() {
     const { name, ghLogin } = data?.data?.user
 
     return (
-      <Container maxW="container.xl">
-        <Flex py="4">
+      <Container maxW='container.xl'>
+        <Flex w='full' py='4' justify='space-between' align='center' px='10'>
+          <Flex align='center' minH='8'>
+            <NavBreadcrumb results={data?.data?.test} />
+          </Flex>
+          <Spacer />
+        </Flex>
+        <Flex py='8' px='16'>
           <Text>
             {timestamp && format(new Date(timestamp), 'MMMM dd, h:mm:ss aaa')}
           </Text>
           <Spacer />
-          <Text mr="2">
+          <Text mr='2'>
             Run by {name && name}
           </Text>
-          {ghLogin &&
-            <Avatar size="xs"
-              src={`https://github.com/${ghLogin}.png`}
-            />
-          }
+          {ghLogin && <Avatar
+            size='xs' src={`https://github.com/${ghLogin}.png`}
+          />}
         </Flex>
-        <Prism language="log" wrapLines="true" wrapLongLines="true" style={darcula}>
+        <Divider />
+        <Prism language='log' wrapLines='true' wrapLongLines='true' style={coy}>
           {data?.data?.data}
         </Prism>
       </Container>
     )
   } else {
     return (
-      <Container maxW="container.xl" pt="16">
-        <Skeleton height="64" />
+      <Container maxW='container.xl' pt='16'>
+        <Skeleton height='64' />
       </Container>
     )
   }

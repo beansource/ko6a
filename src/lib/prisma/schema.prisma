@@ -71,6 +71,8 @@ model test {
   repo    repo     @relation(fields: [repoId], references: [id])
   repoId  Int
   results result[]
+
+  @@unique(fields: [path, repoId], name: "test_repo")
 }
 
 model result {
@@ -81,4 +83,6 @@ model result {
   data      String?
   user      user     @relation(fields: [ghLogin], references: [ghLogin])
   ghLogin   String
+
+  @@unique(fields: [id, testId], name: "result_test")
 }

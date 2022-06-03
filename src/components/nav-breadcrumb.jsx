@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Text } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
 import { HiChevronRight } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
@@ -29,6 +29,43 @@ export const NavBreadcrumb = props => {
   const separator = shouldShowBreadcrumbSeparator && (
     <Box as={HiChevronRight} color="gray.400" fontSize="md" top="2px" pos="relative" />
   )
+
+  if (props.results) {
+    const path = props?.results?.path?.split('/')
+    const owner = props?.results?.repo?.project?.name
+    return (
+      <Breadcrumb
+        fontSize="sm"
+        {...props}
+        separator={separator}
+      >
+        <BreadcrumbItem color="inherit">
+          <BreadcrumbLink href="/projects">
+            projects
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem color="inherit">
+          <BreadcrumbLink href={`/projects/${owner}`}>
+            {owner}
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        {path.map((item, idx) => {
+          return (
+            <BreadcrumbItem color="inherit" key={idx}>
+              <BreadcrumbLink href={`/projects/${owner}/${path.slice(null, idx + 1).join('/')}`}>
+                {item}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          )
+        })}
+        <BreadcrumbItem color="inherit" isCurrentPage>
+          <BreadcrumbLink>
+            results 🥳
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
+    )
+  }
 
   return (
     <Breadcrumb
