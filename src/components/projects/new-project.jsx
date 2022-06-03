@@ -1,24 +1,31 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Formik, Form } from 'formik'
 import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/react'
 import { useSWRConfig } from 'swr'
 import FormikField from '@components/forms/formik-field'
+import { TeamContext } from '@components/contexts/team-context'
 import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
-  Stack, HStack, Spacer
+  Stack, HStack, Spacer, Tooltip, Text
 } from '@chakra-ui/react'
-import { TeamContext } from '@components/contexts/team-context'
 
 export default function NewProject({ isOpen, onOpen, onClose }) {
   const toast = useToast()
   const { mutate } = useSWRConfig()
   const { currentTeam } = useContext(TeamContext)
+  const [projectNameValue, setProjectNameValue] = useState('')
+  const shouldShowDashesText = projectNameValue.trim().includes(' ')
   
   const onSubmit = (values, { setSubmitting }) => {
+    const formattedProjectName = values.name.trim().replaceAll(' ', '-')
+    const projectValues = {
+      ...values,
+      name: formattedProjectName
+    }
     $fetch(`/api/teams/${currentTeam}/projects`, {
       method: 'POST',
-      body: JSON.stringify({ ...values, currentTeam }),
+      body: JSON.stringify({ ...projectValues, currentTeam }),
     })
       .then(r => {
         setSubmitting(false)
@@ -26,7 +33,7 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
         mutate(`/api/teams/${currentTeam}/projects`)
         toast({
           title: "Project created 🚀",
-          description: `${values.name} has been successfully created!`,
+          description: `${formattedProjectName} has been successfully created!`,
           status: "success",
           duration: 9000,
           isClosable: true,
@@ -45,6 +52,11 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
     }
   }
 
+  const validateProjectName = (value) => {
+    setProjectNameValue(value)
+    return stringIsNotEmpty(value)
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -57,8 +69,15 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
             {(props) => (
               <Form>
                 <Stack spacing='2'>
-                  <FormikField name="name" label="Project name" validation={stringIsNotEmpty} />
+                  <Tooltip label>
+                    <FormikField name="name" label="Project name" validation={validateProjectName} />
+                  </Tooltip>
                   <FormikField name="description" label="Description" validation={stringIsNotEmpty} />
+                  {shouldShowDashesText && 
+                    <Text>
+                      Project will be saved as {projectNameValue.replaceAll(' ', '-')}
+                    </Text>
+                  }
                   <HStack>
                     <Spacer />
                     <Button isLoading={props.isSubmitting} type="submit" colorScheme="blue">
