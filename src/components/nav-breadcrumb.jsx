@@ -52,7 +52,7 @@ export const NavBreadcrumb = props => {
         {path.map((item, idx) => {
           return (
             <BreadcrumbItem color="inherit" key={idx}>
-              <BreadcrumbLink>
+              <BreadcrumbLink href={`/projects/${owner}/${path.slice(null, idx + 1).join('/')}`}>
                 {item}
               </BreadcrumbLink>
             </BreadcrumbItem>
