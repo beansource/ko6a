@@ -7,7 +7,7 @@ import FormikField from '@components/forms/formik-field'
 import { TeamContext } from '@components/contexts/team-context'
 import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
-  Stack, HStack, Spacer, Tooltip, Text
+  Stack, HStack, Spacer, Text
 } from '@chakra-ui/react'
 
 export default function NewProject({ isOpen, onOpen, onClose }) {
@@ -46,13 +46,13 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
       })
   }
 
-  const stringIsNotEmpty = (value) => {
+  const stringIsNotEmpty = value => {
     if (!value?.length > 0) {
       return 'Value must not be empty!'
     }
   }
 
-  const validateProjectName = (value) => {
+  const validateProjectName = value => {
     setProjectNameValue(value)
     return stringIsNotEmpty(value)
   }
@@ -69,9 +69,7 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
             {(props) => (
               <Form>
                 <Stack spacing='2'>
-                  <Tooltip label>
-                    <FormikField name="name" label="Project name" validation={validateProjectName} />
-                  </Tooltip>
+                  <FormikField name="name" label="Project name" validation={validateProjectName} />
                   <FormikField name="description" label="Description" validation={stringIsNotEmpty} />
                   {shouldShowDashesText && 
                     <Text>
