@@ -1,8 +1,6 @@
 # ko6a 🦍
 **gorillas are insanely strong, we want your apps to be as well**
 
-[![Lint Code Base](https://github.com/beansource/ko6a/actions/workflows/linter.yml/badge.svg)](https://github.com/beansource/ko6a/actions/workflows/linter.yml)
-
 gorillas are stronger than 20 adult humans combined
 
 they can they can lift 10x their body weight

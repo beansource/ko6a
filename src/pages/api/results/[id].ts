@@ -13,7 +13,16 @@ export default async function handler(req: NextApiRequest, res) {
           id: Number(id)
         },
         include: {
-          user: true
+          user: true,
+          test: {
+            include: {
+              repo: {
+                include: {
+                  project: true
+                }
+              }
+            }
+          }
         }
       })
       res.status(200).json({
