@@ -15,10 +15,12 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
   const { mutate } = useSWRConfig()
   const { currentTeam } = useContext(TeamContext)
   const [projectNameValue, setProjectNameValue] = useState('')
-  const shouldShowDashesText = projectNameValue.trim().includes(' ')
+  
+  const trimmedProjectName = projectNameValue.trim()
+  const projectNameIncludesSpaces = trimmedProjectName.includes(' ')
+  const formattedProjectName = projectNameIncludesSpaces ? trimmedProjectName.replaceAll(' ', '-') : trimmedProjectName
   
   const onSubmit = (values, { setSubmitting }) => {
-    const formattedProjectName = values.name.trim().replaceAll(' ', '-')
     const projectValues = {
       ...values,
       name: formattedProjectName
@@ -71,9 +73,9 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
                 <Stack spacing='2'>
                   <FormikField name="name" label="Project name" validation={validateProjectName} />
                   <FormikField name="description" label="Description" validation={stringIsNotEmpty} />
-                  {shouldShowDashesText && 
+                  {projectNameIncludesSpaces && 
                     <Text>
-                      Project will be saved as {projectNameValue.trim().replaceAll(' ', '-')}
+                      Project will be saved as {formattedProjectName}
                     </Text>
                   }
                   <HStack>
