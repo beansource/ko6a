@@ -73,7 +73,7 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
                   <FormikField name="description" label="Description" validation={stringIsNotEmpty} />
                   {shouldShowDashesText && 
                     <Text>
-                      Project will be saved as {projectNameValue.replaceAll(' ', '-')}
+                      Project will be saved as {projectNameValue.trim().replaceAll(' ', '-')}
                     </Text>
                   }
                   <HStack>
