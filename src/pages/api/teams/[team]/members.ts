@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         res.json(members)
       } else {
-        return res.status(404).json({ error: 'Members not found :(' })
+        return res.status(404).json({ error: 'Members not found' })
       }
     }
     catch (e) {
@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   else if (req.method === 'PUT') {
     try {
-      const { ghLogin } = JSON.parse(req.body)
+      const { ghLogin } = req.body
       const membership = await prisma.team.update({ where: { name: team }, data: { members: { create: [{ member: { connect: { ghLogin }}}] } }})
       const members = await prisma.user.findMany({ where: { teams: { some: { team: { name: team }}}}})
       if (membership && members) {
@@ -46,7 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   else if (req.method === 'DELETE') {
     try {
-      const { ghLogin } = JSON.parse(req.body)
+      const { ghLogin } = req.body
       const user = await prisma.user.findUnique({ where: { ghLogin }})
       const teamData = await prisma.team.findUnique({ where: { name: team }})
       const membership = await prisma.teamMember.delete({ where: { userId_teamId: { userId: user.id, teamId: teamData.id }}})
