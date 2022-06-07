@@ -11,11 +11,10 @@ import { Button, Modal, ModalOverlay, ModalContent, ModalHeader,
 
 export default function NewProject({ isOpen, onOpen, onClose }) {
   const toast = useToast()
+  const initialRef = useRef(null)
   const { mutate } = useSWRConfig()
   const { currentTeam } = useContext(TeamContext)
   const [projectNameValue, setProjectNameValue] = useState('')
-
-  const initialRef = useRef(null)
   
   const trimmedProjectName = projectNameValue?.trim()
   const projectNameIncludesSpaces = trimmedProjectName?.includes(' ')
