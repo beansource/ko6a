@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res) {
     if (projects) {
       res.json(projects)
     } else {
-      return res.status(404).json({ error: 'No projects found :(' })
+      return res.status(404).json({ error: 'No projects found' })
     }
   } else if (req.method === 'POST') {
     const { name, description } = JSON.parse(req.body)

@@ -6,10 +6,10 @@ import { AiOutlineExport } from 'react-icons/ai'
 import { format } from 'date-fns'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
-
-const toast = createStandaloneToast()
+const { ToastContainer, toast } = createStandaloneToast()
 
 export default function ResultsTable(props) {
+  const toast = createStandaloneToast()
   const router = useRouter()
   return (
     <Table {...props}>
@@ -98,6 +98,7 @@ export default function ResultsTable(props) {
           </Tr>
         ))}
       </Tbody>
+      <ToastContainer />
     </Table>
   )
 }
