@@ -1,23 +1,22 @@
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import { Formik, Form } from 'formik'
 import { $fetch } from 'ohmyfetch'
 import { useToast } from '@chakra-ui/react'
 import { useSWRConfig } from 'swr'
 import { useRouter } from 'next/router'
 import FormikField from '@components/forms/formik-field'
-import {
-  Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, 
-  Stack, HStack, Spacer
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader,
+  ModalBody, ModalCloseButton, Stack, HStack, Spacer
 } from '@chakra-ui/react'
 import { TeamContext } from '@components/contexts/team-context'
 
 export default function NewRepo({ isOpen, onClose }) {
   const toast = useToast()
+  const initialRef = useRef(null)
   const { mutate } = useSWRConfig()
   const router = useRouter()
   const  { project } = router?.query
   const { currentTeam } = useContext(TeamContext)
-  
   
   const onSubmit = (values, { setSubmitting }) => {
     $fetch(`/api/teams/${currentTeam}/projects/${project}/repos`, {
@@ -29,17 +28,24 @@ export default function NewRepo({ isOpen, onClose }) {
         onClose()
         mutate(`/api/teams/${currentTeam}/projects/${project}`)
         toast({
-          title: "Repo added 🚀",
+          title: "Repo added ✨",
           description: `${values.repo} has been successfully added to ${project}!`,
           status: "success",
-          duration: 9000,
+          duration: 4000,
           isClosable: true,
           position: "top-right"
         })
       })
       .catch(() => {
         setSubmitting(false)
-        console.log('Issue adding repo to project :(')
+        toast({
+          title: "Issue adding repo",
+          description: `There was an issue adding the repo, ${err}`,
+          status: "error",
+          duration: 7000,
+          isClosable: true,
+          position: "top-right"
+        })
       })
   }
 
@@ -50,7 +56,7 @@ export default function NewRepo({ isOpen, onClose }) {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>New Project</ModalHeader>
@@ -61,7 +67,7 @@ export default function NewRepo({ isOpen, onClose }) {
             {(props) => (
               <Form>
                 <Stack spacing='2'>
-                  <FormikField name="owner" label="Repo owner (user/org)" validation={stringIsNotEmpty} />
+                  <FormikField name="owner" label="Repo owner (user/org)" validation={stringIsNotEmpty} focus={initialRef} />
                   <FormikField name="repo" label="The repo name" validation={stringIsNotEmpty} />
                   <FormikField name="description" label="Description" validation={stringIsNotEmpty} />
                   <HStack>

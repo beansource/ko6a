@@ -30,7 +30,7 @@ export default function NewProject({ isOpen, onOpen, onClose }) {
       method: 'POST',
       body: JSON.stringify({ ...projectValues, currentTeam }),
     })
-      .then(r => {
+      .then(res => {
         setSubmitting(false)
         onClose()
         mutate(`/api/teams/${currentTeam}/projects`)
