@@ -36,7 +36,7 @@ export default function NewRepo({ isOpen, onClose }) {
           position: "top-right"
         })
       })
-      .catch(() => {
+      .catch(err => {
         setSubmitting(false)
         toast({
           title: "Issue adding repo",
