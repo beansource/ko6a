@@ -16,7 +16,7 @@ const fetcher = async url => {
   return res.json()
 }
 
-export const useTeammates = name => {
+const useTeammates = name => {
   const { data, error } = useSWR(name && `/api/teams/${name}/members`, fetcher)
 
   return {
@@ -26,7 +26,7 @@ export const useTeammates = name => {
   }
 }
 
-export const useTeam = id => {
+const useTeam = id => {
   const { data, error } = useSWR(id && `/api/teams/${id}`, fetcher)
 
   return {
@@ -36,7 +36,7 @@ export const useTeam = id => {
   }
 }
 
-export const useUser = id => {
+const useUser = id => {
   const { data, error } = useSWR(id && `/api/users/${id}`, fetcher)
 
   return {
@@ -46,7 +46,7 @@ export const useUser = id => {
   }
 }
 
-export const useTeams = id => {
+const useTeams = id => {
   const { data, error } = useSWR(id && `/api/users/${id}/teams`, fetcher)
 
   return {
@@ -54,4 +54,11 @@ export const useTeams = id => {
     isLoading: !error && !data,
     isError: error
   }
+}
+
+export {
+  useTeammates,
+  useTeam,
+  useUser,
+  useTeams
 }
