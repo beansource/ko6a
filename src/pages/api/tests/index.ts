@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res) {
   
   switch (method) {
     case 'POST':
-      const { repoId, path, repo } = JSON.parse(req.body)
+      const { repoId, path, repo } = req.body
       // is the test exist
       const isTest = await test.findUnique({
         where: {

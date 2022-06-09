@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (teams) {
         res.json(teams)
       } else {
-        return res.status(404).json({ error: 'No teams found :(' })
+        return res.status(404).json({ error: 'No teams found' })
       }
     }
     catch (e) {
@@ -25,17 +25,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   } else if (req.method === 'POST') {
     try {
-      const { name, ghLogin } = JSON.parse(req.body)
+      const { name, ghLogin } = req.body
       const team = await prisma.team.create({ data: { name, members: { create: [{ member: { connect: { ghLogin }}}]} }})
       if (team) {
         res.json(team)
       } else {
-        return res.status(500).json({ error: 'Failed to create team :(' })
+        return res.status(500).json({ error: 'Failed to create team' })
       }
     }
     catch (e) {
       console.log("🚀 ~ file: index.ts ~ line 33 ~ handler ~ e", e)
-      return res.status(500).json({ error: 'Failed to create team :(' })
+      return res.status(500).json({ error: 'Failed to create team' })
     }
     
   } else {
