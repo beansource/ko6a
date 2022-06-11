@@ -7,6 +7,7 @@ import Layout from '../components/layout'
 import { SWRConfig } from 'swr'
 import { $fetch } from 'ohmyfetch'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ErrorBoundary } from '@components'
 
 function Ko6a({ Component, pageProps: { session, ...pageProps }}) {
   const queryClient = new QueryClient()
@@ -24,9 +25,11 @@ function Ko6a({ Component, pageProps: { session, ...pageProps }}) {
                   {data.title}
                 </title>
               </Head>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <ErrorBoundary>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ErrorBoundary>
             </QueryClientProvider>
           </SWRConfig>
         </ColorModeProvider>
