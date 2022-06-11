@@ -20,9 +20,10 @@ export default function Layout({ children }) {
   const router = useRouter()
   const onResults = router?.asPath?.includes('results')
   const { data: session } = useSession()
+  console.log("🚀 ~ file: layout.jsx ~ line 23 ~ Layout ~ data", session)
   const { isOpen, toggle } = useMobileMenuState()
 
-  const breadcrumbExcludedPaths = new Set(['/', '/projects'])
+  const breadcrumbExcludedPaths = new Set(['/', '/projects', '/settings'])
   const shouldHideBreadcrumbs = breadcrumbExcludedPaths.has(router?.pathname)
 
   const { user, isLoading, isError } = useUser(session?.user?.login)

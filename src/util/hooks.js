@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react'
 import useSWR from 'swr'
 
 const fetcher = async url => {
@@ -37,7 +38,10 @@ const useTeam = id => {
 }
 
 const useUser = id => {
-  const { data, error } = useSWR(id && `/api/users/${id}`, fetcher)
+  const { data: session } = useSession()
+
+  const userId = id || session?.user?.login || undefined
+  const { data, error } = useSWR(`/api/users/${userId}`, fetcher)
 
   return {
     user: data,

@@ -22,10 +22,10 @@ model team {
   id        Int          @id @default(autoincrement())
   createdAt DateTime?    @default(now()) @db.Timestamptz(6)
   name      String       @unique
-  members   teamMember[]
   avatarUrl String?
-
-  projects project[]
+  
+  members   teamMember[]
+  projects  project[]
 }
 
 model teamMember {
@@ -43,6 +43,7 @@ model project {
   createdAt        DateTime? @default(now()) @db.Timestamptz(6)
   name             String
   description      String?
+  
   projectOwner     team      @relation(fields: [projectOwnerName], references: [name])
   projectOwnerName String
 
