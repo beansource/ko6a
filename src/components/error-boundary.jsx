@@ -1,6 +1,6 @@
 import { Center, VStack, Text, Heading, Link } from '@chakra-ui/react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
-import Custom500 from 'pages/500'
 import { Component } from 'react'
 
 export class ErrorBoundary extends Component {
@@ -38,8 +38,8 @@ export class ErrorBoundary extends Component {
               </Heading>
               <Text color='white'>
                 Looks like something went wrong. Submit an issue on our
-                <Link isExternal href={ko6aRepo} px={1}>
-                  Github repo
+                <Link isExternal href={ko6aRepo} px={1} color='blue.200'>
+                  Github repo <ExternalLinkIcon mx='2px' mb='1' />
                 </Link>
                 if the problem persists.
               </Text>
