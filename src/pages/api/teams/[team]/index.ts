@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (teamData) {
         res.json(teamData)
       } else {
-        return res.status(404).json({ error: 'Team not found :(' })
+        return res.status(404).json({ error: 'Team not found' })
       }
     }
     catch (e) {

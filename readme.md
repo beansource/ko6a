@@ -17,6 +17,7 @@ see how to [contribute](contributing.md)
 - **styling**: [chakra ui](http://chakra-ui.com)
 
 ## Requirements
+- [node](.node-version)
 - [k6](https://github.com/grafana/k6)
 - [yarn](https://yarnpkg.com/getting-started/install)
 

@@ -26,7 +26,7 @@ export default async function users(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === 'PUT') {
     try {
-      const user = await prisma.user.update({ where: { ghLogin: login }, data: JSON.parse(req.body) })
+      const user = await prisma.user.update({ where: { ghLogin: login }, data: req.body })
       if (user) {
         res.json({ message: 'Successfully updated default team' })
       } else {
