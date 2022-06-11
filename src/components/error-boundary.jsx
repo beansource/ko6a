@@ -23,7 +23,7 @@ export class ErrorBoundary extends Component {
   }
 
   render() {
-    const ko6aRepo = 'https://github.com/beansource/ko6a'
+    const ko6aRepo = 'https://github.com/beansource/ko6a/issues'
 
     // Check if the error is thrown
     if (this.state.hasError) {
