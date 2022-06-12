@@ -1,14 +1,19 @@
-import { Container, List, ListItem, HStack, Button, Flex, Box, Text } from '@chakra-ui/react'
-import { Users, Brush } from 'lucide-react'
+import { Container, List, ListItem, HStack, Button, Flex, Box, Text, Spacer, Divider, StackDivider } from '@chakra-ui/react'
+import { Brush, Swords, User } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const SettingsLayout = ({ children }) => {
   return (
-    <Flex p='8'>
+    <Flex flexDir='column' p='8'>
+      <Flex w='full'>
+        <Spacer />
+        <SettingsNav />
+        <Spacer />
+      </Flex>
       <Box flex={1}>
         {children}
       </Box>
-      <SettingsNav />
     </Flex>
   )
 }
@@ -16,9 +21,14 @@ const SettingsLayout = ({ children }) => {
 const SettingsNav = () => {
   const navItems = [
     {
+      name: 'Profile',
+      href: '/settings/profile',
+      icon: <User size={15} />
+    },
+    {
       name: 'Teams',
       href: '/settings/teams',
-      icon: <Users size={15} />
+      icon: <Swords size={15} />
     },
     {
       name: 'Appearance',
@@ -28,25 +38,40 @@ const SettingsNav = () => {
   ]
 
   return (
-    <List w='10rem' borderWidth='1px' borderRadius='6px' h='fit-content' mt='4' ml='4'>
-      {navItems.map(item => (
+    <HStack
+      borderWidth='1px' borderRadius='6px'
+      w='fit-content'
+      mt='4' ml='4'
+      spacing={1}
+    >
+      {navItems.map((item, index) => (
         <NavItem key={item.name} {...item} />
       ))}
-    </List>
+    </HStack>
   )
 }
 
-const NavItem = ({ icon, name, href }) => {
+const NavItem = ({ icon, name, href, ...props }) => {
+  const router = useRouter()
+  const { pathname } = router
+  
+  // todo: might want to use this to highlight the active nav item in some way 🤔
+  const isActive = pathname === href
+
   return (
-    <ListItem w='full' p='1'>
+    <Box
+      w='full' p='1' {...props}
+    >
       <Link href={href} passHref>
-        <Button size='sm' as='a' leftIcon={icon} w='full' justifyContent='start' bg='none'>
+        <Button
+          size='sm' as='a' leftIcon={icon} w='full' justifyContent='start' bg='none'
+        >
           <Text>
             {name}
           </Text>
         </Button>
       </Link>
-    </ListItem>
+    </Box>
   )
 }
 
