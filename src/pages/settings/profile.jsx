@@ -11,6 +11,7 @@ const ProfileSettings = () => {
   
   const [name, setName] = useState(user?.name)
   const [bio, setBio] = useState(user?.bio)
+  const [isUpdating, setIsUpdating] = useState(false)
   
   const userHasChanges = (name !== user?.name) || (bio !== user?.bio)
   const handleNameChange = e => setName(e.target.value)
@@ -19,6 +20,7 @@ const ProfileSettings = () => {
   const profilePic = user.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${user.name}.svg`
 
   const updateProfile = () => {
+    setIsUpdating(true)
     fetch(`/api/users/${user.ghLogin}`, {
       method: 'PUT',
       body: JSON.stringify({
@@ -46,6 +48,7 @@ const ProfileSettings = () => {
           position: 'top-right'
         })
       }
+      setIsUpdating(false)
     })
   }
 
@@ -86,7 +89,8 @@ const ProfileSettings = () => {
       <HStack w='full' pt='20' >
         <Spacer />
         <Button
-          size='sm' variant='outline' colorScheme='green' isDisabled={!userHasChanges}
+          size='sm' variant='outline' colorScheme='green'
+          isDisabled={!userHasChanges} isLoading={isUpdating}
           onClick={updateProfile}
         >
           Update
