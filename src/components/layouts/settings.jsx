@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 const SettingsLayout = ({ children }) => {
   return (
     <Flex flexDir='column' p='8'>
-      <Flex w='full'>
+      <Flex w='full' mb='5'>
         <Spacer />
         <SettingsNav />
         <Spacer />
