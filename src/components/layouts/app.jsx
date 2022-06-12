@@ -14,7 +14,7 @@ import { MobileMenuButton } from '@components/mobile-menu-button'
 import { NavBreadcrumb } from '@components/nav-breadcrumb'
 import { useMobileMenuState } from '@components/use-mobile-menu-state'
 
-import { Login } from './login'
+import { Login } from '../login'
 
 export default function Layout({ children }) {
   const router = useRouter()

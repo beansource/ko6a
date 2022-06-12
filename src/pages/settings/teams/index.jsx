@@ -36,6 +36,4 @@ const TeamSettingsHome = () => {
   )
 }
 
-
-
 export default TeamSettingsHome
