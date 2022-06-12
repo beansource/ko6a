@@ -1,4 +1,4 @@
-import { Container, Heading, HStack, Spacer, Switch, useColorMode } from "@chakra-ui/react"
+import { Container, Heading, HStack, Spacer, Switch, useColorMode } from '@chakra-ui/react'
 
 const AppearanceSettings = () => {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -8,8 +8,6 @@ const AppearanceSettings = () => {
       <Heading as='h2' fontSize='24px' mb='4'>
         Appearance
       </Heading>
-
-      {/* create a toggle for chakra ui dark mode */}
       <Heading as='h3' fontSize='16px' mb='4'>
         Dark mode
       </Heading>

@@ -1,4 +1,4 @@
-import { Center, Container, Heading, List, ListItem, Text, VStack, Image, HStack, Spacer, Button } from '@chakra-ui/react'
+import { Container, Heading, List, ListItem, Text, Image, HStack, Spacer, Button } from '@chakra-ui/react'
 import { useUser } from '@util/hooks'
 import Link from 'next/link'
 
@@ -16,7 +16,7 @@ const TeamSettingsHome = () => {
           <ListItem key={team.id} padding='16px'>
             <HStack>
               <Image
-                width='30px' height='30px' borderRadius={'50%'}
+                width='30px' height='30px' borderRadius='50%'
                 src={team.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${team.name}.svg`}
               />
               <Text>

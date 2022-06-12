@@ -1,9 +1,9 @@
-import { useUser } from "@util/hooks"
-import { useState } from "react"
+import { useState } from 'react'
+import { useUser } from '@util/hooks'
 import {
   Button, Container, FormControl, FormLabel, Heading, HStack, Image, Input, Spacer, Textarea, VStack,
   useToast
-} from "@chakra-ui/react"
+} from '@chakra-ui/react'
 
 const ProfileSettings = () => {
   const toast = useToast()
@@ -17,7 +17,7 @@ const ProfileSettings = () => {
   const handleNameChange = e => setName(e.target.value)
   const handleBioChange = e => setBio(e.target.value)
 
-  const profilePic = user.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${user.name}.svg`
+  const profilePic = user.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${user.ghLogin}.svg`
 
   const updateProfile = () => {
     setIsUpdating(true)
