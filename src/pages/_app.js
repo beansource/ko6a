@@ -18,7 +18,7 @@ function Ko6a({ Component, pageProps: { session, ...pageProps }}) {
   const router = useRouter()
   
   const pathSlugs = router.pathname.split('/').filter(slug => slug)
-  const isInSettings = pathSlugs[0] === 'settings'
+  const userIsInSettings = pathSlugs[0] === 'settings'
   
   return (
     <SessionProvider session={session}>
@@ -32,7 +32,7 @@ function Ko6a({ Component, pageProps: { session, ...pageProps }}) {
             </Head>
             <ErrorBoundary>
               <AppLayout>
-                {isInSettings ? (
+                {userIsInSettings ? (
                   <SettingsLayout>
                     <Component {...pageProps} />
                   </SettingsLayout>
