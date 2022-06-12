@@ -54,13 +54,17 @@ const SettingsNav = () => {
 const NavItem = ({ icon, name, href, ...props }) => {
   const router = useRouter()
   const { pathname } = router
-  
-  // todo: might want to use this to highlight the active nav item in some way 🤔
-  const isActive = pathname === href
+  const isActive = pathname === href || (href === '/settings/profile' && pathname === '/settings')
+
+  const border = isActive ? {
+    borderBottomWidth:'2px',
+    borderBottomStyle:'solid',
+    borderBottomColor:'blue.400'
+  } : {}
 
   return (
     <Box
-      w='full' p='1' {...props}
+      w='full' p='1' {...border} {...props}
     >
       <Link href={href} passHref>
         <Button
