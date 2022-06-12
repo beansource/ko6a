@@ -39,14 +39,15 @@ const useTeam = id => {
 
 const useUser = id => {
   const { data: session } = useSession()
-
   const userId = id || session?.user?.login || undefined
-  const { data, error } = useSWR(`/api/users/${userId}`, fetcher)
+
+  const { data, error, mutate } = useSWR(`/api/users/${userId}`, fetcher)
 
   return {
     user: data,
     isLoading: !error && !data,
-    isError: error
+    isError: error,
+    mutateUser: mutate
   }
 }
 

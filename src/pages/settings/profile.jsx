@@ -1,10 +1,49 @@
-import { Container, FormControl, FormLabel, Heading, HStack, Image, Input, Spacer, Textarea, VStack } from "@chakra-ui/react"
 import { useUser } from "@util/hooks"
+import { useState } from "react"
+import {
+  Button, Container, FormControl, FormLabel, Heading, HStack, Image, Input, Spacer, Textarea, VStack,
+  useToast
+} from "@chakra-ui/react"
 
-// todo: implement and re-enable input fields
 const ProfileSettings = () => {
-  const { user } = useUser()
+  const toast = useToast()
+  const { user, mutateUser } = useUser()
+  const [name, setName] = useState(user?.name ?? '')
+  
+  const userHasChanges = name !== user?.name
+  const handleNameChange = e => setName(e.target.value)
+
   const profilePic = user.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${user.name}.svg`
+
+  const updateProfile = () => {
+    fetch(`/api/users/${user.ghLogin}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name
+      })
+    }).then(res => {
+      if (res.ok) {
+        toast({
+          title: 'Profile updated',
+          description: 'Your profile has been updated successfully 🎉',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right'
+        })
+        mutateUser({ ...user, name })
+      } else {
+        toast({
+          title: 'Error updating profile',
+          description: 'An error occurred while updating your profile.',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right'
+        })
+      }
+    })
+  }
 
   return (
     <Container maxW='4xl'>
@@ -18,7 +57,7 @@ const ProfileSettings = () => {
               <FormLabel htmlFor='name' fontWeight='semibold'>
                 Name
               </FormLabel>
-              <Input id='name' type='text' value={user.name} isDisabled />
+              <Input id='name' type='text' value={name} onChange={handleNameChange} />
             </FormControl>
 
             <FormControl w='sm'>
@@ -29,7 +68,7 @@ const ProfileSettings = () => {
             </FormControl>
           </VStack>
           <Spacer />
-          <VStack align='start' pr='10' spacing={0}>
+          <VStack align='start' spacing={0}>
             <FormLabel htmlFor='profilePicture' fontWeight='semibold'>
               Profile picture
             </FormLabel>
@@ -40,6 +79,15 @@ const ProfileSettings = () => {
           </VStack>
         </HStack>
       </VStack>
+      <HStack w='full' pt='20' >
+        <Spacer />
+        <Button
+          size='sm' variant='outline' colorScheme='green' isDisabled={!userHasChanges}
+          onClick={updateProfile}
+        >
+          Update
+        </Button>
+      </HStack>
     </Container>
   )
 }

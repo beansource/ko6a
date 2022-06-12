@@ -9,51 +9,58 @@ export default async function users(req: NextApiRequest, res: NextApiResponse) {
   let { login }: any = req.query
   const prisma = getPrismaClient()
 
-  if (req.method === 'GET') {
-    try {
-      const { user: ghUser } = await getUser(session.accessToken, login)
-      const user = await prisma.user.findUnique({
-        where: {
-          ghLogin: login
-        },
-        include: {
-          teams: {
-            select: {
-              team: true
+  switch (req.method) {
+    case 'GET': {
+      try {
+        const { user: ghUser } = await getUser(session.accessToken, login)
+        const user = await prisma.user.findUnique({
+          where: {
+            ghLogin: login
+          },
+          include: {
+            teams: {
+              select: {
+                team: true
+              }
             }
           }
+        })
+        
+        // todo: is this returning an actual object after creation?
+        if (!user) {
+          await setupNewUser(login, ghUser.name)
         }
-      })
-      
-      // todo: is this returning an actual object after creation?
-      if (!user) {
-        await setupNewUser(login, ghUser.name)
+  
+        const parsedUser = {
+          ...user,
+          teams: user.teams.map(team => team.team)
+        }
+        
+        // order matters here since github has some overlapping prop keys
+        return res.json({ ...ghUser, ...parsedUser })
+      } catch (e) {
+        return res.status(500).json({ error: 'Error retrieving user' })
       }
-
-      const parsedUser = {
-        ...user,
-        teams: user.teams.map(team => team.team)
+    }
+    
+    case 'PUT': {
+      try {
+        const payload = await JSON.parse(req.body)
+        const user = await prisma.user.update({ where: { ghLogin: login }, data: payload })
+        if (user) {
+          res.json({ message: 'Successfully updated default team' })
+        } else {
+          return res.status(404).json({ error: 'User not found :(' })
+        }
+      } catch (e) {
+        return res.status(500).json({
+          message: 'Error updating user',
+          error: e
+        })
       }
-      res.json({ ...parsedUser, ...ghUser })
     }
-    catch (e) {
-      console.log("🚀 ~ file: index.ts ~ line 20 ~ handler ~ e", e)
-      return res.status(500).json({ error: 'Error retrieving user' })
-    }
+    
+    default:
+      return res.status(405)
   }
-
-  if (req.method === 'PUT') {
-    try {
-      const user = await prisma.user.update({ where: { ghLogin: login }, data: req.body })
-      if (user) {
-        res.json({ message: 'Successfully updated default team' })
-      } else {
-        return res.status(404).json({ error: 'User not found :(' })
-      }
-    }
-    catch (e) {
-      console.log("🚀 ~ file: index.ts ~ line 38 ~ handler ~ e", e)
-      return res.status(500).json({ error: 'Error updating user' })
-    }
-  } 
 }
