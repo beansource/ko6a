@@ -13,7 +13,9 @@ export default async function users(req: NextApiRequest, res: NextApiResponse) {
     case 'GET': {
       try {
         const { user: ghUser } = await getUser(session.accessToken, login)
-        const user = await prisma.user.findUnique({
+        
+        let user: any
+        user = await prisma.user.findUnique({
           where: {
             ghLogin: login
           },
@@ -26,9 +28,9 @@ export default async function users(req: NextApiRequest, res: NextApiResponse) {
           }
         })
         
-        // todo: is this returning an actual object after creation?
         if (!user) {
-          await setupNewUser(login, ghUser.name)
+          const { name, bio } = ghUser
+          user = await setupNewUser(login, name, bio)
         }
   
         const parsedUser = {

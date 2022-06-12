@@ -5,13 +5,19 @@ const getUsers = async () => {
   return user.findMany({ where: {}, orderBy: { name: 'desc' } })
 }
 
-const setupNewUser = async (githubLogin, userName) => {
+const setupNewUser = async (githubLogin, userName, bio) => {
   const { user, team, teamMember } = usePrisma()
   const ghLogin = githubLogin,
         defaultTeam = githubLogin,
         name = userName ?? githubLogin
 
-  const newUser = await user.create({ data: { ghLogin, name, defaultTeam }})
+  const newUser = await user.create({ data: {
+    ghLogin,
+    name,
+    defaultTeam,
+    bio
+  }})
+  
   const { id: newTeamId } = await team.create({ data: { name: defaultTeam }})
   await teamMember.create({ data: { teamId: newTeamId, userId: newUser.id }})
 

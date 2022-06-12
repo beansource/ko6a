@@ -11,8 +11,10 @@ model user {
   id          Int       @id @default(autoincrement())
   createdAt   DateTime? @default(now()) @db.Timestamptz(6)
   ghLogin     String    @unique
+  
   name        String
   defaultTeam String
+  bio         String?
 
   teams  teamMember[]
   result result[]

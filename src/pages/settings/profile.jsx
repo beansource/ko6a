@@ -8,10 +8,13 @@ import {
 const ProfileSettings = () => {
   const toast = useToast()
   const { user, mutateUser } = useUser()
-  const [name, setName] = useState(user?.name ?? '')
   
-  const userHasChanges = name !== user?.name
+  const [name, setName] = useState(user?.name)
+  const [bio, setBio] = useState(user?.bio)
+  
+  const userHasChanges = (name !== user?.name) || (bio !== user?.bio)
   const handleNameChange = e => setName(e.target.value)
+  const handleBioChange = e => setBio(e.target.value)
 
   const profilePic = user.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${user.name}.svg`
 
@@ -19,7 +22,8 @@ const ProfileSettings = () => {
     fetch(`/api/users/${user.ghLogin}`, {
       method: 'PUT',
       body: JSON.stringify({
-        name
+        name,
+        bio
       })
     }).then(res => {
       if (res.ok) {
@@ -64,7 +68,7 @@ const ProfileSettings = () => {
               <FormLabel htmlFor='bio' fontWeight='semibold'>
                 Bio
               </FormLabel>
-              <Textarea id='bio' isDisabled />
+              <Textarea id='bio' value={bio} onChange={handleBioChange} />
             </FormControl>
           </VStack>
           <Spacer />
