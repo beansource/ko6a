@@ -13,7 +13,7 @@ export const Team = ({ teamName }) => {
   const router = useRouter()
   const toast = useToast()
   const { mutate } = useSWRConfig()
-  const { data:session } = useSession()
+  const { data: session } = useSession()
 
   const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(teamName)
   const { team, isLoading: isTeamLoading, isError: isTeamError } = useTeam(teamName)

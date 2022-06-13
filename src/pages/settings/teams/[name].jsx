@@ -3,9 +3,9 @@ import { useRouter } from 'next/router'
 
 export default function ManageTeam() {
   const router = useRouter()
-  const { id } = router?.query
+  const { name } = router?.query
 
   return (
-    <Team teamName={id}/>
+    <Team teamName={name}/>
   )
 }

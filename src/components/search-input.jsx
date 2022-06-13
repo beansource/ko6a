@@ -1,4 +1,4 @@
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
+import { Input, InputGroup, InputLeftElement, useColorModeValue } from '@chakra-ui/react'
 import * as React from 'react'
 import { BsSearch } from 'react-icons/bs'
 
@@ -7,6 +7,8 @@ import { BsSearch } from 'react-icons/bs'
  */
 export const SearchInput = (props) => {
   const { rootProps, ...rest } = props
+  const textColor = useColorModeValue('gray.700', 'white')
+
   return (
     <InputGroup
       maxW="2xs"
@@ -18,7 +20,7 @@ export const SearchInput = (props) => {
       }}
       {...rootProps}
     >
-      <InputLeftElement color="gray.400" pointerEvents="none">
+      <InputLeftElement color={textColor} pointerEvents="none">
         <BsSearch />
       </InputLeftElement>
       <Input
@@ -27,7 +29,7 @@ export const SearchInput = (props) => {
         placeholder="Search"
         rounded="md"
         _placeholder={{
-          color: 'gray.400',
+          color: textColor,
         }}
       />
     </InputGroup>

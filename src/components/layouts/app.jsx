@@ -14,18 +14,22 @@ import { MobileMenuButton } from '@components/mobile-menu-button'
 import { NavBreadcrumb } from '@components/nav-breadcrumb'
 import { useMobileMenuState } from '@components/use-mobile-menu-state'
 
-import { Login } from './login'
+import { Login } from '../login'
 
 export default function Layout({ children }) {
   const router = useRouter()
   const onResults = router?.asPath?.includes('results')
   const { data: session } = useSession()
   const { isOpen, toggle } = useMobileMenuState()
-
-  const breadcrumbExcludedPaths = new Set(['/', '/projects'])
-  const shouldHideBreadcrumbs = breadcrumbExcludedPaths.has(router?.pathname)
-
   const { user, isLoading, isError } = useUser(session?.user?.login)
+
+  const breadcrumbExcludingPaths = ['/', '/projects', '/settings']
+  const shouldHideBreadcrumbs = breadcrumbExcludingPaths.includes(router?.pathname)
+
+  const navExcludingPages = ['settings']
+  const currentBasePage = router?.pathname.split('/')[1]
+  const notOnNavBarExcludingPage = !navExcludingPages.includes(currentBasePage)
+  const shouldRenderNavBar = notOnNavBarExcludingPage && !onResults
 
   const blueBg = mode('blue.800', 'gray.800')
   const whiteBg = mode('white', 'gray.700')
@@ -45,7 +49,7 @@ export default function Layout({ children }) {
   }
 
   if (isError) {
-    console.log("🚀 ~ file: Layout.jsx ~ line 48 ~ Layout ~ isError", isError)
+    console.log("LAYOUT ERROR", isError)
   }
 
   return (
@@ -74,19 +78,21 @@ export default function Layout({ children }) {
             }}
           >
             <Flex direction="column" height="full">
-              {!onResults && <Flex w="full" py="4" justify="space-between" align="center" px="10">
-                <Flex align="center" minH="8">
-                  <MobileMenuButton onClick={toggle} isOpen={isOpen} />
-                  {!shouldHideBreadcrumbs && 
-                    <NavBreadcrumb />
-                  }
+              {shouldRenderNavBar &&
+                <Flex w="full" py="4" justify="space-between" align="center" px="10">
+                  <Flex align="center" minH="8">
+                    <MobileMenuButton onClick={toggle} isOpen={isOpen} />
+                    {!shouldHideBreadcrumbs && 
+                      <NavBreadcrumb />
+                    }
+                  </Flex>
+                  <Spacer />
+                  <HStack spacing="2">
+                    <SearchInput />
+                    <Menu />
+                  </HStack>
                 </Flex>
-                <Spacer />
-                <HStack spacing="2">
-                  <SearchInput />
-                  <Menu />
-                </HStack>
-              </Flex>}
+              }
               <Flex direction="column" flex="1" overflow="auto">
                 {children}
               </Flex>

@@ -69,7 +69,7 @@ export default function SidebarMenu({ user, teams, isTeamsLoading }) {
               color="gray.700" 
               borderRadius="base" 
               icon={<SettingsIcon boxSize="15px" color="gray.600" />}
-              href={`/team/${currentTeam}`}
+              href={`/settings/teams/${currentTeam}`}
             >
               Team Settings
             </MenuItem>
