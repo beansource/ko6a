@@ -86,10 +86,9 @@ const ProfileSettings = () => {
           </VStack>
         </HStack>
       </VStack>
-      <HStack w='full' pt='20' >
-        <Spacer />
+      <HStack pt='20'>
         <Button
-          size='sm' variant='outline' colorScheme='green'
+          size='sm' colorScheme='green'
           isDisabled={!userHasChanges} isLoading={isUpdating}
           onClick={updateProfile}
         >
