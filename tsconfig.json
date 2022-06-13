@@ -4,6 +4,7 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],
+      "@components": ["components/index.js"],
       "@projects/*": ["components/projects/*"],
       "@util/*": ["util/*"],
       "@data/*": ["lib/data/*"],

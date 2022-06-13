@@ -18,10 +18,12 @@ import { Login } from './login'
 
 export default function Layout({ children }) {
   const router = useRouter()
-  const isHome = router?.pathname === '/' || router?.pathname === '/projects'
   const onResults = router?.asPath?.includes('results')
   const { data: session } = useSession()
   const { isOpen, toggle } = useMobileMenuState()
+
+  const breadcrumbExcludedPaths = new Set(['/', '/projects'])
+  const shouldHideBreadcrumbs = breadcrumbExcludedPaths.has(router?.pathname)
 
   const { user, isLoading, isError } = useUser(session?.user?.login)
 
@@ -75,7 +77,7 @@ export default function Layout({ children }) {
               {!onResults && <Flex w="full" py="4" justify="space-between" align="center" px="10">
                 <Flex align="center" minH="8">
                   <MobileMenuButton onClick={toggle} isOpen={isOpen} />
-                  {!isHome && 
+                  {!shouldHideBreadcrumbs && 
                     <NavBreadcrumb />
                   }
                 </Flex>
