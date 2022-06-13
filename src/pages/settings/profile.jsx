@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { useUser } from '@util/hooks'
-import {
-  Button, Container, FormControl, FormLabel, Heading, HStack, Image, Input, Spacer, Textarea, VStack,
-  useToast
-} from '@chakra-ui/react'
+import { Button, Container, FormControl, FormLabel, Heading, HStack, Avatar, Input, Spacer, 
+  Textarea, VStack, useToast } from '@chakra-ui/react'
 
 const ProfileSettings = () => {
   const toast = useToast()
@@ -33,7 +31,7 @@ const ProfileSettings = () => {
           title: 'Profile updated',
           description: 'Your profile has been updated successfully 🎉',
           status: 'success',
-          duration: 9000,
+          duration: 4000,
           isClosable: true,
           position: 'top-right'
         })
@@ -43,7 +41,7 @@ const ProfileSettings = () => {
           title: 'Error updating profile',
           description: 'An error occurred while updating your profile.',
           status: 'error',
-          duration: 9000,
+          duration: 7000,
           isClosable: true,
           position: 'top-right'
         })
@@ -77,12 +75,9 @@ const ProfileSettings = () => {
           <Spacer />
           <VStack align='start' spacing={0}>
             <FormLabel htmlFor='profilePicture' fontWeight='semibold'>
-              Profile picture
+              Photo
             </FormLabel>
-            <Image
-              width='200' height='200' borderRadius={'50%'}
-              src={profilePic}
-            />
+            <Avatar showBorder='true' size='2xl' src={profilePic} />
           </VStack>
         </HStack>
       </VStack>
