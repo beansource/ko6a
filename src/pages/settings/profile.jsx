@@ -15,7 +15,7 @@ const ProfileSettings = () => {
   const handleNameChange = e => setName(e.target.value)
   const handleBioChange = e => setBio(e.target.value)
 
-  const profilePic = user.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${user.ghLogin}.svg`
+  const profilePic = user?.avatarUrl ?? `https://avatars.dicebear.com/api/jdenticon/${user?.ghLogin}.svg`
 
   const updateProfile = () => {
     setIsUpdating(true)
