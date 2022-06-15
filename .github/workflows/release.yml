@@ -15,4 +15,4 @@ jobs:
           node-version: 16.x
       - run: npx changelogithub
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_KAREN_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.KAREN_TOKEN}}
