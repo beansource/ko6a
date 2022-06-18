@@ -10,8 +10,8 @@ import { signOut } from 'next-auth/react'
 import { useUser } from '@util/hooks'
 
 import {
-  Menu as ChakraMenu, MenuButton, MenuList, MenuItem as ChakraMenuItem, Spinner, Image, Text, Divider, useColorMode,
-  useColorModeValue
+  MenuButton, MenuList, Spinner, Image, Text, Divider, useColorMode, useColorModeValue,
+  Menu as ChakraMenu,  MenuItem as ChakraMenuItem
 } from '@chakra-ui/react'
 
 export default function SidebarMenu({ teams, isTeamsLoading }) {

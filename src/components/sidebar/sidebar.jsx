@@ -19,7 +19,7 @@ export default function Sidebar() {
   const { currentTeam } = useContext(TeamContext)
   const { user } = useUser()
 
-  const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(currentTeam)
+  const { teammates, isLoading: _isTeammatesLoading, isError: isTeammatesError } = useTeammates(currentTeam)
   const { teams, isLoading: isTeamsLoading, isError: isTeamsError } = useTeams(user.ghLogin)
 
   const error = isTeammatesError || isTeamsError
