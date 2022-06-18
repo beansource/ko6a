@@ -21,7 +21,10 @@ const TeamMember = ({ ghLogin, ...props }) => {
   const { name, avatarUrl } = user
   return (
     <SidebarLink
-      avatar={<Avatar bg="none" size="xs" name={name} src={avatarUrl} />}
+      {...props}
+      avatar={
+        <Avatar bg="none" size="xs" name={name} src={avatarUrl} />
+      }
     >
       {name}
     </SidebarLink>
