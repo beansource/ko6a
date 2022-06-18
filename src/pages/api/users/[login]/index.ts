@@ -39,7 +39,7 @@ export default async function users(req: NextApiRequest, res: NextApiResponse) {
         }
         
         // order matters here since github has some overlapping prop keys
-        return res.json({ ...ghUser, ...parsedUser })
+        return res.status(200).json({ ...ghUser, ...parsedUser })
       } catch (e) {
         return res.status(500).json({ error: 'Error retrieving user' })
       }
