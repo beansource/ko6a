@@ -38,7 +38,7 @@ export default function Sidebar() {
       color="gray.200" position="fixed" h="100vh"
     >
       <Flex fontSize="sm" lineHeight="tall" h="100%" flexDirection="column">
-        <SidebarMenu user={user} teams={teams} isTeamsLoading={isTeamsLoading} />
+        <SidebarMenu teams={teams} isTeamsLoading={isTeamsLoading} />
         <ScrollArea pt="5" pb="1" h="100%">
           <VStack h="full" align="left">
             <Box>

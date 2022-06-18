@@ -1,7 +1,8 @@
 import { useContext } from 'react'
 import { useDisclosure } from '@chakra-ui/hooks'
 import { Menu as ChakraMenu, MenuButton, MenuList, MenuItem,
-  Spinner, Image, Text, Divider } from '@chakra-ui/react'
+  Spinner, Image, Text, Divider, useColorMode, HStack, Heading, Spacer, Switch, Button } from '@chakra-ui/react'
+import { Moon, Sun } from 'lucide-react'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { FiPlusCircle, FiLogOut } from 'react-icons/fi'
 import { UserInfo } from './user-info'
@@ -10,10 +11,13 @@ import NewTeam from '@components/teams/new-team'
 import { TeamContext } from '@components/contexts/team-context'
 
 import { signOut } from 'next-auth/react'
+import { useUser } from '@util/hooks'
 
-export default function SidebarMenu({ user, teams, isTeamsLoading }) {
+export default function SidebarMenu({ teams, isTeamsLoading }) {
+  const { user } = useUser()
   const { currentTeam, handleTeamSwitch } = useContext(TeamContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { colorMode, toggleColorMode } = useColorMode()
   
   return (
     <ChakraMenu>
@@ -63,6 +67,37 @@ export default function SidebarMenu({ user, teams, isTeamsLoading }) {
               Create Team
             </MenuItem>
             <Divider my="2"/>
+            <MenuItem
+              as='button'
+              p="8px"
+              color="gray.700"
+              borderRadius="base"
+              onClick={toggleColorMode}
+              icon={<Moon size="15px" /> }
+            >
+              Dark Mode
+            </MenuItem>
+            {/* {colorMode === 'light' ? (
+              <MenuButton
+                p="8px"
+                color="gray.700"
+                borderRadius="base"
+                onClick={toggleColorMode}
+                icon={<Moon size="15px" /> }
+              >
+                Dark Mode
+              </MenuButton>
+            ) : (
+              <MenuItem
+                p="8px"
+                color="gray.700"
+                borderRadius="base"
+                onClick={toggleColorMode}
+                icon={<Sun size="15px" /> }
+              >
+                Light Mode
+              </MenuItem>
+            )} */}
             <MenuItem
               as="a"
               p="8px" 
