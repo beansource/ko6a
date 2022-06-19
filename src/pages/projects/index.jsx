@@ -40,11 +40,12 @@ export default function Projects() {
       {projects?.map(project => {
         return (
           <Project
+            key={project.name}
             title={project.name}
             repos={project?.repos?.length ?? 0}
             href={project.name}
-            key={project.name}
             description={project.description}
+            createdAt={project.createdAt}
           />
         )
       })}
