@@ -70,7 +70,7 @@ export const Project = ({ title, repos, href, description }) => {
         />
         <IconButton
           aria-label="Delete" icon={<HiTrash />} rounded="full" size="md" cursor="pointer"
-          onClick={deleteProject} isLoading={isDeleting}
+          onClick={deleteProject} isLoading={isDeleting} colorScheme='red'
         />
       </HStack>
     </Box>
