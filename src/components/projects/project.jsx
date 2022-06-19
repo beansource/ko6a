@@ -27,12 +27,12 @@ export const Project = ({ title, repos, href, description }) => {
     setIsDeleting(true)
     await $fetch(`/api/teams/${currentTeam}/projects/${title}`, { method: 'DELETE' })
     toast({
-      title: "Project deleted",
+      title: 'Project deleted',
       description: `${title} has been successfully deleted!`,
-      status: "error",
+      status: 'error',
       duration: 9000,
       isClosable: true,
-      position: "top-right"
+      position: 'top-right'
     })
     setIsDeleting(false)
     
@@ -40,20 +40,20 @@ export const Project = ({ title, repos, href, description }) => {
   }
 
   return (
-    <Box position="relative" px={4}>
+    <Box position='relative' px={4}>
       <Box>
         <NextLink href={`${router.asPath}/${href}`} passHref>
           <Link color={mode('#0c68da', '#549bf5')} fontSize='xl'>
             {title}
           </Link>
         </NextLink>
-        <Box mt={1} mb={3} maxW="xl" color={mode('gray.600', 'gray.200')}>
+        <Box mt={1} mb={3} maxW='xl' color={mode('gray.600', 'gray.200')}>
           <Text fontSize='md'>
             {description}
           </Text>
         </Box>
-        <HStack color={mode('gray.500', 'white')} mt="1">
-          <Box as={HiCollection} fontSize="lg" color="gray.400" />
+        <HStack color={mode('gray.500', 'white')} mt='1'>
+          <Box as={HiCollection} fontSize='lg' color='gray.400' />
           <span>{repos} {plur('repository', repos)}</span>
         </HStack>
       </Box>
@@ -65,11 +65,11 @@ export const Project = ({ title, repos, href, description }) => {
         mt={{ base: '4', sm: '0' }}
       >
         <IconButton
-          aria-label="Edit" icon={<HiPencilAlt />} rounded="full" size="md" cursor="pointer" 
+          aria-label='Edit' icon={<HiPencilAlt />} rounded='full' size='sm' cursor='pointer' 
           isDisabled
         />
         <IconButton
-          aria-label="Delete" icon={<HiTrash />} rounded="full" size="md" cursor="pointer"
+          aria-label='Delete' icon={<HiTrash />} rounded='full' size='sm' cursor='pointer'
           onClick={deleteProject} isLoading={isDeleting} colorScheme='red'
         />
       </HStack>
