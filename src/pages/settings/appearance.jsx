@@ -16,7 +16,7 @@ const AppearanceSettings = () => {
           Toggle dark mode
         </Heading>
         <Spacer />
-        <Switch isChecked={colorMode === "dark"} onChange={toggleColorMode} />
+        <Switch isChecked={colorMode === 'dark'} onChange={toggleColorMode} />
       </HStack>
     </Container>
   )

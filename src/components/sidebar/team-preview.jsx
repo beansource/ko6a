@@ -1,11 +1,10 @@
 import { useUser } from '@hooks'
 import { NavSectionTitle } from '@components/nav-section-title'
-import SidebarLink from './sidebar-link'
-import { Avatar, Stack } from '@chakra-ui/react'
+import { Avatar, HStack, Stack, Text } from '@chakra-ui/react'
 
 const TeamPreview = ({ teammates, currentTeam }) => {
   return (
-    <Stack pb="6">
+    <Stack pb='6'>
       <NavSectionTitle>
         {currentTeam}
       </NavSectionTitle>
@@ -20,14 +19,14 @@ const TeamMember = ({ ghLogin, ...props }) => {
   const { user } = useUser(ghLogin)
   const { name, avatarUrl } = user
   return (
-    <SidebarLink
-      {...props}
-      avatar={
-        <Avatar bg="none" size="xs" name={name} src={avatarUrl} />
-      }
+    <HStack
+      fontSize='sm' px='3' py='1' {...props}
     >
-      {name}
-    </SidebarLink>
+      <Avatar bg='none' size='xs' name={name} src={avatarUrl} />
+      <Text>
+        {name}
+      </Text>
+    </HStack>
   )
 }
 
