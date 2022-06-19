@@ -1,20 +1,17 @@
-import { Flex, Box, useColorModeValue as mode, Spacer, HStack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import Sidebar from '@components/sidebar/sidebar'
-import PageSpinner from '@components/page-spinner'
-
 import { useUser } from '@hooks'
+import { useSession } from 'next-auth/react'
 import { TeamProvider } from '@components/contexts/team-context'
 
-import { useSession } from 'next-auth/react'
-
-import { SearchInput } from '@components/search-input'
 import Menu from '@components/menu'
+import Sidebar from '@components/sidebar/sidebar'
+import PageSpinner from '@components/page-spinner'
+import { Login } from '../login'
+import { SearchInput } from '@components/search-input'
 import { MobileMenuButton } from '@components/mobile-menu-button'
 import { NavBreadcrumb } from '@components/nav-breadcrumb'
 import { useMobileMenuState } from '@components/use-mobile-menu-state'
-
-import { Login } from '../login'
+import { Flex, Box, useColorModeValue as mode, Spacer, HStack } from '@chakra-ui/react'
 
 export default function Layout({ children }) {
   const router = useRouter()
@@ -34,6 +31,12 @@ export default function Layout({ children }) {
   const blueBg = mode('blue.800', 'gray.800')
   const whiteBg = mode('white', 'gray.700')
 
+  if (isLoading) {
+    return (
+      <PageSpinner w="100vw" h="100vh" />
+    )
+  }
+
   if (!session) {
     return (
       <Flex direction="row" width="100vw" height="100vh" align="center" justify="center">
@@ -41,15 +44,9 @@ export default function Layout({ children }) {
       </Flex>
     )
   }
-  
-  if (isLoading) {
-    return (
-      <PageSpinner w="100vw" h="100vh"/>
-    )
-  }
 
   if (isError) {
-    console.log("LAYOUT ERROR", isError)
+    throw new Error('Error starting app')
   }
 
   return (
