@@ -20,6 +20,7 @@ export default function SidebarMenu({ teams, isTeamsLoading }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const menuItemSectionTextColor = useColorModeValue('gray.600', 'gray.100')
+  const logoutIconColor = useColorModeValue('gray.600', 'gray.100')
   
   return (
     <ChakraMenu>
@@ -98,7 +99,7 @@ export default function SidebarMenu({ teams, isTeamsLoading }) {
               p="8px"
               borderRadius="base"
               onClick={() => signOut()}
-              icon={<FiLogOut size="15px" color="#4A5568" />}
+              icon={<FiLogOut size="15px" color={logoutIconColor} />}
             >
               Logout
             </MenuItem>
