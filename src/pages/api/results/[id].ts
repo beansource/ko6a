@@ -1,6 +1,9 @@
 import { NextApiRequest } from 'next'
 import { usePrisma } from '@prismaClient'
 
+/**
+ * Ko6a test results API
+ */
 export default async function handler(req: NextApiRequest, res) {
   const { method } = req
   const { result } = usePrisma()
