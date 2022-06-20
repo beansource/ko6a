@@ -97,7 +97,7 @@ export default function Layout({ children }) {
           </Box>
         </Box>
       </Flex>
-      <Sidebar user={user}>
+      <Sidebar>
         {children}
       </Sidebar>
     </TeamProvider>

@@ -45,13 +45,15 @@ const SettingsNav = () => {
       spacing={1}
     >
       {navItems.map((item, index) => (
-        <NavItem key={item.name} {...item} />
+        <NavItem
+          key={`${item.name}-${index}`} {...item}
+        />
       ))}
     </HStack>
   )
 }
 
-const NavItem = ({ icon, name, href, ...props }) => {
+const NavItem = ({ name, href, icon, ...props }) => {
   const router = useRouter()
   const { pathname } = router
   const isActive = pathname === href || (href === '/settings/profile' && pathname === '/settings')
@@ -68,7 +70,8 @@ const NavItem = ({ icon, name, href, ...props }) => {
     >
       <Link href={href} passHref>
         <Button
-          size='sm' as='a' leftIcon={icon} w='full' justifyContent='start' bg='none'
+          as='a' size='sm' w='full' justifyContent='start' bg='none'
+          leftIcon={icon}
         >
           <Text>
             {name}

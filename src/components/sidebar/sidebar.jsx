@@ -1,29 +1,35 @@
 import { useContext } from 'react'
-import { Avatar, Box, Stack, Flex, Spacer, VStack } from '@chakra-ui/react'
+import { Box, Stack, Flex, Spacer, VStack } from '@chakra-ui/react'
 import { BsFillFolderFill } from 'react-icons/bs'
 import { SettingsIcon } from '@chakra-ui/icons'
 import { data } from '@data'
 
+import TeamPreview from './team-preview'
 import { NavSectionTitle } from '@components/nav-section-title'
 import SidebarLink from './sidebar-link'
 import SidebarMenu from './sidebar-menu'
 import { ScrollArea } from '@components/scroll-area'
 
-import { useTeammates, useTeams } from '@hooks'
+import { useTeammates, useTeams, useUser } from '@hooks'
 import { TeamContext } from '@components/contexts/team-context'
 
 import { Book, Github, Mountain, Wrench } from 'lucide-react'
 
-export default function Sidebar({ user }) {
+export default function Sidebar() {
   const { currentTeam } = useContext(TeamContext)
+  const { user } = useUser()
 
-  const { teammates, isLoading: isTeammatesLoading, isError: isTeammatesError } = useTeammates(currentTeam)
+  const { teammates, isLoading: _isTeammatesLoading, isError: isTeammatesError } = useTeammates(currentTeam)
   const { teams, isLoading: isTeamsLoading, isError: isTeamsError } = useTeams(user.ghLogin)
 
   const error = isTeammatesError || isTeamsError
+  const shouldRenderTeamPreview = !error && currentTeam !== user?.ghLogin
 
   if (error) {
-    console.error("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError, isTeamsError}", {isTeammatesError, isTeamsError})
+    // todo: what do here 🤔
+    console.error("🚀 ~ file: SideBar.jsx ~ line 35 ~ Sidebar ~ {isTeammatesError, isTeamsError}", {
+      isTeammatesError, isTeamsError
+    })
   }
 
   return (
@@ -32,7 +38,7 @@ export default function Sidebar({ user }) {
       color="gray.200" position="fixed" h="100vh"
     >
       <Flex fontSize="sm" lineHeight="tall" h="100%" flexDirection="column">
-        <SidebarMenu user={user} teams={teams} isTeamsLoading={isTeamsLoading} />
+        <SidebarMenu teams={teams} isTeamsLoading={isTeamsLoading} />
         <ScrollArea pt="5" pb="1" h="100%">
           <VStack h="full" align="left">
             <Box>
@@ -41,18 +47,9 @@ export default function Sidebar({ user }) {
                 Projects
               </SidebarLink>
             </Stack>
-            <Stack pb="6">
-              <NavSectionTitle>{currentTeam}</NavSectionTitle>
-              {teammates ? teammates.map((teammate, index) => {
-                return (teammate.login != user.ghLogin ?
-                  <SidebarLink
-                    key={index}
-                    avatar={<Avatar bg="none" size="xs" name={teammate.name} src={teammate.avatarUrl} />}
-                  >
-                    {teammate.name}
-                </SidebarLink>
-                : null)}) : null}
-            </Stack>
+            {shouldRenderTeamPreview &&
+              <TeamPreview teammates={teammates} currentTeam={currentTeam} />
+            }
             <NavSection title="Explore">
               <Stack pb="6">
                 <SidebarLink icon={<Book size={15} />}>
