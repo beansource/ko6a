@@ -1,21 +1,22 @@
-import getPrismaClient from '@prismaClient'
-import { NextApiRequest } from 'next'
+import { useDB } from '@prismaClient'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 /**
- * !todo: clean up cause it's a mess
- * !todo: add middleware to parse json body cause it's cringe that that is not done for us
+ * Ko6a projects API
  */
-export default async function handler(req: NextApiRequest, res) {
-  const prisma = getPrismaClient()
-  
-  if (req.method === 'GET') {
-    const projects = await prisma.project.findMany({ include: { repos: true } })
-    if (projects) {
-      res.json(projects)
-    } else {
-      return res.status(404).json({ error: 'No projects found' })
+export default async function projectsApi(req: NextApiRequest, res: NextApiResponse) {
+  const { project } = useDB()
+
+  switch (req.method) {
+    case 'GET': {
+      const projects = await project.findMany({ include: { repos: true } })
+      if (projects) {
+        return res.json(projects)
+      } else {
+        return res.status(404).json({ error: 'Project not found' })
+      }
     }
-  } else {
-    return res.status(405).json({ error: 'Method not allowed' })
+    default: 
+      return res.status(405).end()
   }
 }

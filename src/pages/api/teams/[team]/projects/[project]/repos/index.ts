@@ -8,7 +8,7 @@ export interface Repo {
   parentProject: string
 }
 
-// endpoint handler that returns a list of repos for a project
+// this returns a list of repos for a project under a given team
 export default async function repos(req: NextApiRequest, res: NextApiResponse) {
   const { project, team }: any = req.query
   const prisma = getPrismaClient()
@@ -28,7 +28,7 @@ export default async function repos(req: NextApiRequest, res: NextApiResponse) {
       owner, 
       repo,
       description,
-      parentProject: projectData.id
+      parentProjectId: projectData.id
     }})
     res.status(201).json({ message: 'Repo created!', repo: newRepo })
   }

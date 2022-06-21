@@ -8,3 +8,4 @@ export default function getPrismaClient(): PrismaClient {
 }
 
 export { getPrismaClient as usePrisma }
+export { getPrismaClient as useDB }

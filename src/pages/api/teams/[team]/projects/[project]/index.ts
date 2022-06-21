@@ -1,6 +1,7 @@
 import getPrismaClient from '@prismaClient'
 import { NextApiRequest, NextApiResponse } from 'next'
 
+// project API for a given team
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { team, project }: any = req.query
   const prisma = getPrismaClient()
@@ -28,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       // if project is found, delete all child repos
       if (projectToDelete) {
-        await prisma.repo.deleteMany({ where: { parentProject: projectToDelete.id } })
+        await prisma.repo.deleteMany({ where: { parentProjectId: projectToDelete.id } })
       }
       const deletedProject = await prisma.project.delete({ where: { id: projectToDelete.id } })
       if (deletedProject) {

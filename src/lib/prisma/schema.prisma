@@ -8,84 +8,85 @@ datasource db {
 }
 
 model user {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime? @default(now()) @db.Timestamptz(6)
-  ghLogin     String    @unique
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
+  ghLogin       String    @unique
   
-  name        String
-  defaultTeam String
-  bio         String?
+  name          String
+  defaultTeam   String
+  bio           String?
 
-  teams  teamMember[]
-  result result[]
+  teams         teamMember[]
+  result        result[]
 }
 
 model team {
-  id        Int          @id @default(autoincrement())
-  createdAt DateTime?    @default(now()) @db.Timestamptz(6)
-  name      String       @unique
-  avatarUrl String?
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime?    @default(now()) @db.Timestamptz(6)
+  name        String       @unique
+  avatarUrl   String?
   
-  members   teamMember[]
-  projects  project[]
+  members     teamMember[]
+  projects    project[]
 }
 
 model teamMember {
-  createdAt DateTime? @default(now()) @db.Timestamptz(6)
-  member    user      @relation(fields: [userId], references: [id])
-  team      team      @relation(fields: [teamId], references: [id])
-  userId    Int
-  teamId    Int
+  createdAt   DateTime? @default(now()) @db.Timestamptz(6)
+  member      user      @relation(fields: [userId], references: [id])
+  team        team      @relation(fields: [teamId], references: [id])
+  userId      Int
+  teamId      Int
 
   @@id([userId, teamId])
 }
 
 model project {
-  id               Int       @id @default(autoincrement())
-  createdAt        DateTime? @default(now()) @db.Timestamptz(6)
-  name             String
-  description      String?
+  id                Int       @id @default(autoincrement())
+  createdAt         DateTime? @default(now()) @db.Timestamptz(6)
+  name              String
+  description       String?
   
-  projectOwner     team      @relation(fields: [projectOwnerName], references: [name])
-  projectOwnerName String
+  projectOwner      team      @relation(fields: [projectOwnerName], references: [name])
+  projectOwnerName  String
 
+  repos             repo[]
 
-  repos repo[]
   @@unique(fields: [name, projectOwnerName], name: "name_projectOwnerName")
 }
 
 model repo {
-  id            Int       @id @default(autoincrement())
-  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
-  owner         String
-  repo          String
-  description   String?
-  parentProject Int
-  project       project?  @relation(fields: [parentProject], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  tests         test[]
+  id                Int       @id @default(autoincrement())
+  createdAt         DateTime? @default(now()) @db.Timestamptz(6)
+  owner             String
+  repo              String
+  description       String?
+  parentProjectId   Int
+  
+  tests             test[]
+  project           project?  @relation(fields: [parentProjectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@unique(fields: [repo, parentProject], name: "repo_project")
+  @@unique(fields: [repo, parentProjectId], name: "repo_project")
 }
 
 model test {
-  id      Int      @id @default(autoincrement())
-  path    String
-  name    String
-  repo    repo     @relation(fields: [repoId], references: [id])
-  repoId  Int
-  results result[]
+  id        Int      @id @default(autoincrement())
+  path      String
+  name      String
+  repo      repo     @relation(fields: [repoId], references: [id])
+  repoId    Int
+  results   result[]
 
   @@unique(fields: [path, repoId], name: "test_repo")
 }
 
 model result {
-  id        Int      @id @default(autoincrement())
-  timestamp DateTime @default(now()) @db.Timestamptz(6)
-  test      test     @relation(fields: [testId], references: [id])
-  testId    Int
-  data      String?
-  user      user     @relation(fields: [ghLogin], references: [ghLogin])
-  ghLogin   String
+  id          Int      @id @default(autoincrement())
+  timestamp   DateTime @default(now()) @db.Timestamptz(6)
+  test        test     @relation(fields: [testId], references: [id])
+  testId      Int
+  data        String?
+  user        user     @relation(fields: [ghLogin], references: [ghLogin])
+  ghLogin     String
 
   @@unique(fields: [id, testId], name: "result_test")
 }
