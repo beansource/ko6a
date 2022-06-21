@@ -55,16 +55,17 @@ model project {
 }
 
 model repo {
-  id              Int       @id @default(autoincrement())
-  createdAt       DateTime? @default(now()) @db.Timestamptz(6)
-  owner           String
-  repo            String
-  description     String?
-  parentProject   Int
-  project         project?  @relation(fields: [parentProject], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  tests           test[]
+  id                Int       @id @default(autoincrement())
+  createdAt         DateTime? @default(now()) @db.Timestamptz(6)
+  owner             String
+  repo              String
+  description       String?
+  parentProjectId   Int
+  
+  tests             test[]
+  project           project?  @relation(fields: [parentProjectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@unique(fields: [repo, parentProject], name: "repo_project")
+  @@unique(fields: [repo, parentProjectId], name: "repo_project")
 }
 
 model test {

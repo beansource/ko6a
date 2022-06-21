@@ -10,7 +10,8 @@ export default function FilePage({ ...props }) {
   const { currentTeam } = useContext(TeamContext)
   
   const canFetch = project && currentTeam && repo
-  const { data: repoData, error } = useSWR(canFetch && `/api/teams/${currentTeam}/projects/${project}/repos/${repo}`)
+  const repoQueryUrl = `/api/repos/${repo}?team=${currentTeam}&project=${project}`
+  const { data: repoData, error } = useSWR(canFetch && repoQueryUrl)
 
   if (error) {
     console.log(error)

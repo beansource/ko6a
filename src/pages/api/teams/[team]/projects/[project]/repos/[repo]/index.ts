@@ -1,6 +1,9 @@
 import getPrismaClient from '@prismaClient'
 import { NextApiRequest, NextApiResponse } from 'next'
 
+// api/teams/[team]/projects/[project]/repos/[repo]/index.ts
+// this fetches a repo for a given team and a given project
+// team > project > repo
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { team, project, repo }: any = req.query
   const prisma = getPrismaClient()

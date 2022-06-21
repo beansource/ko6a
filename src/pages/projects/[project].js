@@ -16,6 +16,9 @@ export default function Project({ ...props }) {
   const { data: project, error } = useSWR(projectName && `/api/teams/${currentTeam}/projects/${projectName}`)
   const { isOpen: newRepoModalIsOpen, onOpen: onNewRepoModalOpen, onClose: onNewRepoModalClose } = useDisclosure()
 
+  const { data, _error } = useSWR('/api/repos/ko6a?projectName=beanteam-proj')
+  // console.log("🚀 ~ file: [project].js ~ line 20 ~ Project ~ data", data)
+
   if (error) return 'scawy :('
   if (!project) return null
 
